@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NiatCMS Authorization Page</title>
+    <!-- Custom styles for this template -->
+    <link href="css/styles.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link media="all" type="text/css" rel="stylesheet" href="http://bootsnipp.com/css/fullscreen.css">
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
+
+    <![endif]-->
+</head>
+<!--Configures navigation bar-->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">NiatCMS</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li><a href="login.html">Главная страница</a></li>
+                <li><a href="archive.html">Архив</a></li>
+                <li><a href="about.html">О нас</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--<iframe lang="ru" id="snippet-preview" src="http://bootsnipp.com/iframe/k7A" frameborder='no'></iframe>-->
+
+<form action='' method="POST" >
+
+    <fieldset>
+
+            <div id="legend">
+                <legend class="">Регистрация</legend>
+            </div>
+
+            <div class="control-group" class="form-group">
+                <!-- Username -->
+                <label class="control-label" for="username">Имя пользователя:</label>
+                <div class="controls" >
+                    <input type="text" id="username" placeholder="" class="input-xlarge">
+                    <p class="help-block"> Имя пользователя может содержать любые буквы,
+                        цыфры и должны быть без пробелов</p>
+                </div>
+            </div>
+
+            <div class="control-group" >
+                <!-- E-mail -->
+                <label class="control-label" for="email">E-mail:</label>
+                <div class="controls">
+                    <input type="text" id="email" name="email" placeholder="" class="input-xlarge">
+                    <p class="help-block">Введите ваш E-mail</p>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <!-- Password -->
+                <label class="control-label" for="password">Пароль:</label>
+                <div class="controls">
+                    <input type="password" id="password" name="password" placeholder="" class="input-xlarge">
+                    <p class="help-block">Пароль должен быть не меньше 4 символов</p>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <!-- Password confirmation -->
+                <label class="control-label" for="password_confirm">Подтвержддение пароля</label>
+                <div class="controls">
+                    <input type="password" id="password_confirm" name="password_confirm" placeholder=""
+                           class="input-xlarge">
+                    <p class="help-block">Подтвердите пароль:</p>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <!-- Button -->
+                <div class="controls">
+                    <button type="submit" class="btn btn-success">Зарегестрироваться</button>
+                </div>
+            </div>
+
+
+        </fieldset>
+    </form>
+<!--<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34731274-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_trackEvent', 'sharing', 'viewed full-screen', 'snippet k7A',0,true]);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+<script type="text/javascript">
+    (function($) {
+        $('#theme_chooser').change(function(){
+            whichCSS = $(this).val();
+            document.getElementById('snippet-preview').contentWindow.changeCSS(whichCSS);
+        });
+    })(jQuery);
+</script>-->
+<script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src = "js/bootstrap.js"></script>
+</body>
+</html>
