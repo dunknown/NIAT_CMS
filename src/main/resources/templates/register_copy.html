@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/layout">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NiatCMS Authorization Page</title>
     <!-- Custom styles for this template -->
-<!--    <link href="css/styles.css" rel="stylesheet">-->
+    <link href="css/styles.css" rel="stylesheet">
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link media="all" type="text/css" rel="stylesheet" href="http://bootsnipp.com/css/fullscreen.css
-    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -37,41 +36,46 @@
     </div>
 </nav>
 
-<!--<iframe id="snippet-preview" src="http://bootsnipp.com/iframe/k7A" frameborder='no'></iframe>-->
 
-<form class="form-horizontal" action='' method="POST" >
-
-    <fieldset>
-
+<form class="form-horizontal" action='' method="post" th:action="@{/register}" th:object="${registrationForm}">
+        <fieldset>
             <div id="legend">
                 <legend class="">Регистрация</legend>
             </div>
 
-            <div class="control-group" class="form-group">
+            <div class="control-group" layout:fragment="content">
                 <!-- Username -->
-                <label class="control-label"  for="username">Имя пользователя:</label>
+                <label class="control-label" for="username">Имя пользователя</label>
                 <div class="controls">
-                    <input type="text" id="username" placeholder="" class="input-xlarge">
-                    <p class="help-block"> Имя пользователя может содержать любые буквы,
-                        цыфры и должны быть без пробелов</p>
+                    <input type="text" id="username" placeholder="" class="input-xlarge"
+                            th:field="{username}" th:errorclass="error_field">
+                    <p class="help-block"> Имя пользователя может содержать любые буквы, цыфры и должны быть
+                        без пробелов</p>
+                    <p class="error_msg" th:if="${#fields.hasErrors('username')}" th:errors="*{username}" ></p>
+
                 </div>
             </div>
 
-            <div class="control-group" >
+            <div class="control-group">
                 <!-- E-mail -->
-                <label class="control-label" for="email">E-mail:</label>
+                <label class="control-label" for="email">E-mail</label>
                 <div class="controls">
-                    <input type="text" id="email" name="email" placeholder="" class="input-xlarge">
+                    <input type="text" id="email" name="email" placeholder="" class="input-xlarge"
+                           th:field="*{email}" th:errorclass="error_field" >
                     <p class="help-block">Введите ваш E-mail</p>
+                    <p class="error_msg" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" ></p>
+
                 </div>
             </div>
 
             <div class="control-group">
                 <!-- Password -->
-                <label class="control-label" for="password">Пароль:</label>
+                <label class="control-label" for="password">Пароль</label>
                 <div class="controls">
-                    <input type="password" id="password" name="password" placeholder="" class="input-xlarge">
+                    <input type="password" id="password" name="password" placeholder="" class="input-xlarge"
+                            th:field="*{password}" th:errorclass="error_field">
                     <p class="help-block">Пароль должен быть не меньше 4 символов</p>
+                    <p class="error_msg" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" ></p>
                 </div>
             </div>
 
@@ -80,22 +84,22 @@
                 <label class="control-label" for="password_confirm">Подтвержддение пароля</label>
                 <div class="controls">
                     <input type="password" id="password_confirm" name="password_confirm" placeholder=""
-                           class="input-xlarge">
-                    <p class="help-block">Подтвердите пароль:</p>
+                           class="input-xlarge"
+                            th:field="*{password_confirm}", th:errorclass="error_field">
+                    <p class="help-block">Подтвердите пароль</p>
+                    <p class="error_msg" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" ></p>
+
                 </div>
             </div>
 
             <div class="control-group">
                 <!-- Button -->
                 <div class="controls">
-                    <button type="submit" class="btn btn-success">Зарегестрироваться</button>
+                <button type="submit" class="btn btn-success">Зарегестрироваться</button>
                 </div>
             </div>
-
-
         </fieldset>
     </form>
-<script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src = "js/bootstrap.js"></script>
+
 </body>
 </html>
