@@ -4,13 +4,51 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-
 <head>
     <meta charset="UTF-8">
-
-    <title></title>
+    <title layout:title-pattern="$CONTENT_TITLE - $DECORATOR_TITLE">NiatCMS</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="css/styles.css" rel="stylesheet">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 </head>
 <body>
-<h1>This is thymeleaf configuration</h1>
+    <div th:replace="fragments/header :: header">
+        <div class="navbar navbar-inverse" th:fragment="header">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">NiatCMS</a>
+                </div>
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#" th:href="@{/}">Главная страница</a> </li>
+                        <li><a href="#" th:href="@{/archive}">Архив</a> </li>
+                        <li><a href="#" th:href="@{/about}">О нас</a> </li>
+                    </ul>
+                    <!--Places sign in and logout on the right side-->
+                    <ul class="nav navbar-nav navbar-right">
+                        <li th:if="${#authorization.expression('!isAuthenticated()')}">
+                            <a href="/signin" th:href="@{/signin}">Sign in</a>
+                        </li>
+                        <li th:if="${#authorization.expression('isAuthenticated()')}">
+                            <a href="/logout" th:href="@{/logout}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div layout:fragment="content">
+            <p>Here should be shown a content</p>
+        </div>
+    </div>
+    <div th:fragment="footer" id="footer">
+             <footer>&copy; 2015 Niat Inc.</footer>
+    </div>
+
+
+    <script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>\
+    <script src = "js/bootstrap.js"></script>
 </body>
 </html>
