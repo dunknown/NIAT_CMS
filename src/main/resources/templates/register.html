@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NiatCMS Authorization Page</title>
     <!-- Custom styles for this template -->
-    <link href="css/styles.css" rel="stylesheet">
+<!--    <link href="css/styles.css" rel="stylesheet">-->
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link media="all" type="text/css" rel="stylesheet" href="http://bootsnipp.com/css/fullscreen.css">
+    <link media="all" type="text/css" rel="stylesheet" href="http://bootsnipp.com/css/fullscreen.css
     <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 
 
@@ -36,9 +36,9 @@
     </div>
 </nav>
 
-<!--<iframe lang="ru" id="snippet-preview" src="http://bootsnipp.com/iframe/k7A" frameborder='no'></iframe>-->
+<!--<iframe id="snippet-preview" src="http://bootsnipp.com/iframe/k7A" frameborder='no'></iframe>-->
 
-<form action='' method="POST" >
+<form class="form-horizontal" action='' method="POST" >
 
     <fieldset>
 
@@ -48,8 +48,8 @@
 
             <div class="control-group" class="form-group">
                 <!-- Username -->
-                <label class="control-label" for="username">Имя пользователя:</label>
-                <div class="controls" >
+                <label class="control-label"  for="username">Имя пользователя:</label>
+                <div class="controls">
                     <input type="text" id="username" placeholder="" class="input-xlarge">
                     <p class="help-block"> Имя пользователя может содержать любые буквы,
                         цыфры и должны быть без пробелов</p>
@@ -94,25 +94,6 @@
 
         </fieldset>
     </form>
-<!--<script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-34731274-1']);
-    _gaq.push(['_trackPageview']);
-    _gaq.push(['_trackEvent', 'sharing', 'viewed full-screen', 'snippet k7A',0,true]);
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-</script>
-<script type="text/javascript">
-    (function($) {
-        $('#theme_chooser').change(function(){
-            whichCSS = $(this).val();
-            document.getElementById('snippet-preview').contentWindow.changeCSS(whichCSS);
-        });
-    })(jQuery);
-</script>-->
 <script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src = "js/bootstrap.js"></script>
 </body>
