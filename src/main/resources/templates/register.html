@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NiatCMS Authorization Page</title>
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}" href="../static/css/styles.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+
+    <![endif]-->
+</head>
+<!--Configures navigation bar-->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">NiatCMS</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/login}">Главная страница</a></li>
+                <li><a th:href="@{/archive}">Архив</a></li>
+                <li><a th:href="@{/about}">О нас</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<form class="form-inline" role="form" action='' method="post" th:action="@{/register}" th:object="${registrationForm}">
+    <fieldset>
+        <div id="legend">
+            <legend class="">Регистрация</legend>
+        </div>
+
+        <!-- Username -->
+        <div class="form-group" layout:fragment="content">
+            <label class="control-label" for="username">Имя пользователя:</label>
+            <div class="controls">
+                <input type="text" id="username" placeholder="Enter username" class="form-control" pl
+                       th:field="{username}">
+                <p class="help-block"> Имя пользователя может содержать любые буквы, цыфры и должны быть
+                    без пробелов</p>
+                <p class="error_msg" th:if="${#fields.hasErrors('username')}" th:errors="*{username}" />
+            </div>
+        </div>
+
+        <!-- E-mail -->
+        <div class="control-group">
+            <label class="control-label" for="email">E-mail:</label>
+            <div class="controls">
+                <input type="email" class="form-control" id="email" placeholder="Enter email"
+                       th:field="*{email}">
+                <p class="help-block">Введите ваш E-mail</p>
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" ></p>
+
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="control-group">
+            <label class="control-label" for="password">Пароль:</label>
+            <div class="controls">
+                <input type="password" class="form-control" id="pwd" placeholder="Enter password"
+                       th:field="*{password}">
+                <p class="help-block">Пароль должен быть не меньше 4 символов</p>
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" ></p>
+            </div>
+        </div>
+
+        <!-- Password confirmation -->
+        <div class="control-group">
+            <label class="control-label" for="password_confirm">Подтверждение пароля:</label>
+            <div class="controls">
+                <input type="password" class="form-control" id="pwd_confirm" placeholder="Password confirmation"
+                       th:field="*{password_confirm}">
+                <p class="help-block">Подтвердите пароль</p>
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" ></p>
+
+            </div>
+        </div>
+
+        <!-- Button -->
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-success">Зарегестрироваться</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+</body>
+</html>
