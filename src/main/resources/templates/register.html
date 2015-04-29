@@ -53,7 +53,7 @@
                        th:field="{username}">
                 <p class="help-block"> Имя пользователя может содержать любые буквы, цыфры и должны быть
                     без пробелов</p>
-                <p class="error_msg" th:if="${#fields.hasErrors('username')}" th:errors="*{username}" />
+                <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" />
             </div>
         </div>
 
