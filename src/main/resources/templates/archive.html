@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NiatCMS login page</title>
+    <title>NiatCMS archive page</title>
     <!-- Custom styles for this template -->
     <link rel="stylesheet" th:href="@{css/styles.css}" href="../static/css/styles.css">
     <!-- Bootstrap core CSS -->
@@ -31,35 +31,13 @@
         </div>
         <div>
             <ul class="nav navbar-nav">
-                <li><a href=""th:href="@{/main}">Главная страница</a></li>
-                <li><a href=""th:href="@{/archive}">Архив</a></li>
-                <li><a href=""th:href="@{/about}">О нас</a></li>
+                <li><a href="main.html" th:href="@{/main}">Главная страница</a></li>
+                <li><a href="Archive.html"th:href="@{/archive}">Архив</a></li>
+                <li><a href="about.html" th:href="@{/about}">О нас</a></li>
             </ul>
         </div>
     </div>
 </nav>
 
-<div class="container" layout:fragment="content">
-    <form class="form-signin" role="form">
-        <div class="form-group">
-            <h2>Авторизация</h2>
-            <form class="form-signin" role="form" method="post" th:action="@{/signin}">
-                <input type="login" class="form-control" placeholder="Login" required autofocus>
-                <input type="password" class="form-control" placeholder="Password" required>
-        </div>
-        <div class="checkbox">
-            <label><input type="checkbox"> Remember me</label>
-        </div>
-        <button onclick="location.href='main.html'" class="btn btn-lg btn-primary btn-block"
-                type="submit">Войти</button>
-        <div class="register">
-            <a href="register.html" th:href="@{/register}" class="text-center new-account">Зарегистрироваться</a>
-        </div>
-
-    </form>
-</div>
-
-<script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src = "js/bootstrap.js"></script>
 </body>
 </html>
