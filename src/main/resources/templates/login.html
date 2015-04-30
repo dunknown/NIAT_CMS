@@ -24,14 +24,14 @@
 </head>
 <body>
 <!--Configures navigation bar-->
-<nav class="navbar navbar-inverse" th:fragment="navbar">
+<nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">NiatCMS</a>
         </div>
         <div>
             <ul class="nav navbar-nav">
-                <li><a href=""th:href="@{/main}">Главная страница</a></li>
+                <li><a href=""th:href="@{/}">Главная страница</a></li>
                 <li><a href=""th:href="@{/archive}">Архив</a></li>
                 <li><a href=""th:href="@{/about}">О нас</a></li>
             </ul>
@@ -44,14 +44,14 @@
         <div class="form-group">
             <h2>Авторизация</h2>
             <form class="form-signin" role="form" method="post" th:action="@{/signin}">
-                <input type="login" class="form-control" placeholder="Login" required autofocus>
+                <input type="login" class="form-control" placeholder="Login" required>
                 <input type="password" class="form-control" placeholder="Password" required>
         </div>
         <div class="checkbox">
             <label><input type="checkbox"> Remember me</label>
         </div>
-        <button onclick="location.href='main.html'" class="btn btn-lg btn-primary btn-block"
-                type="submit">Войти</button>
+        <button formaction="edit_main.html" class="btn btn-lg btn-primary btn-block"
+                type="submit" >Войти</button>
         <div class="register">
             <a href="register.html" th:href="@{/register}" class="text-center new-account">Зарегистрироваться</a>
         </div>

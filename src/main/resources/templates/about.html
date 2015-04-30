@@ -24,10 +24,10 @@
 </head>
 <body>
 <!--Configures navigation bar-->
-<nav class="navbar navbar-inverse" th:fragment="navbar">
+<nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">NiatCMS</a>
+            <a class="navbar-brand" href="main.html">NiatCMS</a>
         </div>
         <div>
             <ul class="nav navbar-nav">
@@ -35,9 +35,22 @@
                 <li><a href="archive.html"th:href="@{/archive}">Архив</a></li>
                 <li><a href="about.html" th:href="@{/about}">О нас</a></li>
             </ul>
+            <!--Places search on a left side-->
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Найти</button>
+            </form>
         </div>
     </div>
 </nav>
+
+<div class="container">
+    <div layout:fragment="content">
+        <h2><p>About page</p></h2>
+    </div>
+</div>
 
 </body>
 </html>
