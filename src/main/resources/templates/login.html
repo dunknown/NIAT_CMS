@@ -40,18 +40,16 @@
 </nav>
 
 <div class="container" layout:fragment="content">
-    <form class="form-signin" role="form">
+    <form class="form-signin" role="form" method="post" th:action="@{/login}">
         <div class="form-group">
             <h2>Авторизация</h2>
-            <form class="form-signin" role="form" method="post" th:action="@{/signin}">
-                <input type="login" class="form-control" placeholder="Login" required>
-                <input type="password" class="form-control" placeholder="Password" required>
+            <input type="login" class="form-control" placeholder="Login" required>
+            <input type="password" class="form-control" placeholder="Password" required>
         </div>
         <div class="checkbox">
             <label><input type="checkbox"> Remember me</label>
         </div>
-        <button formaction="edit_main.html" class="btn btn-lg btn-primary btn-block"
-                type="submit" >Войти</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" >Войти</button>
         <div class="register">
             <a href="register.html" th:href="@{/register}" class="text-center new-account">Зарегистрироваться</a>
         </div>
