@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NiatCMS main page</title>
+    <title>NiatCMS login page</title>
     <!-- Custom styles for this template -->
     <link rel="stylesheet" th:href="@{css/styles.css}" href="../static/css/styles.css">
     <!-- Bootstrap core CSS -->
@@ -27,28 +27,36 @@
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="main.html">NiatCMS</a>
+            <a class="navbar-brand" href="#">NiatCMS</a>
         </div>
         <div>
             <ul class="nav navbar-nav">
-                <li><a href="main.html" th:href="@{/}">Главная страница</a></li>
-                <li><a href="archive.html"th:href="@{/archive}">Архив</a></li>
-                <li><a href="about.html" th:href="@{/about}">О нас</a></li>
+                <li><a href=""th:href="@{/}">Главная страница</a></li>
+                <li><a href=""th:href="@{/archive}">Архив</a></li>
+                <li><a href=""th:href="@{/about}">О нас</a></li>
             </ul>
-            <!--Places search on a left side-->
-            <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
-                </div>
-            </form>
         </div>
     </div>
 </nav>
 
-<div class="container">
-    <div layout:fragment="content">
-        <h2><p>Main page</p></h2>
-    </div>
+<div class="container" layout:fragment="content">
+    <form class="form-signin" role="form">
+        <div class="form-group">
+            <h2>Авторизация</h2>
+            <form class="form-signin" role="form" method="post" th:action="@{/signin}">
+                <input type="login" class="form-control" placeholder="Login" required>
+                <input type="password" class="form-control" placeholder="Password" required>
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox"> Remember me</label>
+        </div>
+        <button formaction="edit_main.html" class="btn btn-lg btn-primary btn-block"
+                type="submit" >Войти</button>
+        <div class="register">
+            <a href="register.html" th:href="@{/register}" class="text-center new-account">Зарегистрироваться</a>
+        </div>
+
+    </form>
 </div>
 
 <script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
