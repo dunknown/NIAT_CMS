@@ -51,8 +51,13 @@ public class AuthController {
         return "redirect:/login";
     }
 
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
         return "/login";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String afterLogin() {
+        return "redirect:/editmain";
     }
 }
