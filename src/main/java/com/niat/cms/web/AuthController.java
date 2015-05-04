@@ -6,6 +6,7 @@ import com.niat.cms.web.forms.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,12 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String registrationForm(Model model) {
+        model.addAttribute("registrationForm", new RegistrationForm());
+        return "registration";
+    }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String processRegistration(@Valid RegistrationForm registrationForm, BindingResult bindingResult) {
