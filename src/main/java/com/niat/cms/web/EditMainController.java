@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 public class EditMainController {
 
-    @RequestMapping(value = "/edit_main")
+    @RequestMapping(value = "/editmain")
     public String editMain() {
-        return "/edit_main";
+        return "edit_main";
     }
 }
