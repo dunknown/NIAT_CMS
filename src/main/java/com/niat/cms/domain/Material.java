@@ -2,6 +2,8 @@ package com.niat.cms.domain;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author dunknown
@@ -27,6 +29,12 @@ public class Material {
     @Column(nullable = false)
     private boolean onMain;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "material_tag",
+               joinColumns = {@JoinColumn(name = "material_id")},
+               inverseJoinColumns = {@JoinColumn(name = "tag_id")})
+    private Set<Tag> tags;
+
     public Material() {
     }
 
@@ -36,6 +44,7 @@ public class Material {
         this.author = author;
         this.onMain = onMain;
         this.date = new Date();
+        this.tags = new HashSet<Tag>();
     }
 
     public long getId() {
@@ -84,5 +93,13 @@ public class Material {
 
     public void setOnMain(boolean onMain) {
         this.onMain = onMain;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 }
