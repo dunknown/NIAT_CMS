@@ -12,27 +12,6 @@
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" th:href="@{css/styles.css}" href="../static/css/styles.css">
-    <style type="text/css">
-        .text-indigo {
-            color: #3f51b5;
-        }
-
-        .form-control-wrapper {
-            margin-top: 20px;
-        }
-
-        .text-center {
-            text-align: center
-        }
-
-        #auth-well {
-            max-width: 350px;
-            min-width: 275px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-    </style>
 
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -53,7 +32,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/ripples.min.css">
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/material.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/ripples.min.js"></script>
-
 </head>
 <body>
     <div class="navbar navbar-material-indigo ">
@@ -83,7 +61,7 @@
 
     <div class="container" layout:fragment="content">
         <div class="well" id="auth-well">
-            <form class="form-signin" role="form" method="post" th:action="@{/login}">
+            <form role="form" method="post" th:action="@{/login}">
                 <div class="form-group-material-indigo">
                     <h2 class="text-indigo text-center">Авторизация</h2>
                     <input type="login" class="form-control floating-label" placeholder="Логин" required>
