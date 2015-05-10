@@ -42,7 +42,7 @@ public class AuthController {
             bindingResult.addError(new FieldError("registrationForm", "password", "Passwords don't match"));
         }
         if(bindingResult.hasErrors()) {
-            return "registration";
+            return "register";
         }
 
         User user = new User(registrationForm.getUsername(), passwordEncoder.encode(registrationForm.getPassword()), User.Role.AUTHOR);
@@ -53,11 +53,6 @@ public class AuthController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
-        return "/login";
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String afterLogin() {
-        return "redirect:/editmain";
+        return "login";
     }
 }
