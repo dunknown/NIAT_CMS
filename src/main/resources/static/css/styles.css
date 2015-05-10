@@ -1,20 +1,3 @@
-
-#login img{
-    margin: 10px 0;
-}
-#login .center {
-    text-align: center;
-}
-
-#login .login {
-    max-width: 300px;
-    margin: 35px auto;
-}
-
-#login .login-form{
-    padding:0px 25px;
-}
-
 .form {
     width: 300px;
     margin: 0 auto;
