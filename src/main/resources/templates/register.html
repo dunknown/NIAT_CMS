@@ -183,9 +183,15 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
             &lt;!&ndash; Password &ndash;&gt;
             <div class="control-group">
                 <label class="control-label" for="pwd"></label>
+=======
+            <!-- Password -->
+            <div class="control-group">
+                <label class="control-label" for="pwd">Пароль:</label>
+>>>>>>> 33bb384ca2e924b1d86c00dd37f14f33ce39fb65
                 <div class="controls">
                     <input type="password" class="form-control" id="pwd" placeholder="Введите пароль" required
                            th:field="*{password}">
@@ -197,8 +203,14 @@
             <div class="control-group">
                 <label class="control-label" for="password_confirm"></label>
                 <div class="controls">
+<<<<<<< HEAD
                     <input type="password" class="form-control" id="password_confirm" placeholder="Подтвердите пароль"
                            required th:field="*{password_confirm}">
+=======
+                    <input type="password" class="form-control" id="password_confirm" placeholder="Password confirmation"
+                           required th:field="*{password_confirm}">
+                    <p class="help-block">Подтвердите пароль</p>
+>>>>>>> 33bb384ca2e924b1d86c00dd37f14f33ce39fb65
                     <p th:if="${#fields.hasErrors('password_confirm')}" th:errors="*{password_confirm}" ></p>
 
                 </div>
