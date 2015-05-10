@@ -56,82 +56,53 @@
 
 </head>
 <body>
-
-<!--Configures navigation bar-->
-<!--
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
+    <div class="navbar navbar-material-indigo ">
         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a class="navbar-brand" href="#">NiatCMS</a>
         </div>
-        <div>
-             <ul class="nav navbar-nav">
-                 <li sec:authorize-url="/"><a th:href="@{/}">Главная страница</a></li>
-                 <li sec:authorize-url="/Archiv"><a th:href="@{/archive}">Архив</a></li>
-                 &lt;!&ndash;<li sec:authorize-url="/admin/material"><a th:href="@{/admin/material}">Создание материала</a></li>
-                 <li sec:authorize-url="/admin/editmain"><a th:href="@{/admin/edit_main}">Редактирование главной</a></li>
-                 <li sec:authorize-url="/admin/users"><a th:href="@{/admin/users}">Управление полльзователями</a></li>&ndash;&gt;
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
+            <ul class="nav navbar-nav">
+                <li sec:authorize-url="/"><a th:href="@{/}">Главная</a></li>
+                <li sec:authorize-url="/archive"><a th:href="@{/archive}">Архив</a></li>
             </ul>
+            <ul class="nav navbar-nav">
+                <li sec:authorize-url="/admin/newmaterial"><a th:href="@{/admin/newmaterial}">Новый материал</a></li>
+                <li sec:authorize-url="/admin/editmain"><a th:href="@{/admin/editmain}">Редактировать главную</a></li>
+                <li sec:authorize-url="/admin/users"><a th:href="@{/admin/users}">Пользователи</a></li>
+            </ul>
+            <form class="navbar-form navbar-right form-group-white">
+                <input type="text" class="form-control col-lg-8" placeholder="Поиск"></i>
+            </form>
         </div>
     </div>
-</nav>
--->
 
-<div class="navbar navbar-material-indigo ">
-
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">NiatCMS</a>
+    <div class="container" layout:fragment="content">
+        <div class="well" id="auth-well">
+            <form class="form-signin" role="form" method="post" th:action="@{/login}">
+                <div class="form-group-material-indigo">
+                    <h2 class="text-indigo text-center">Авторизация</h2>
+                    <input type="login" class="form-control floating-label" placeholder="Логин" required>
+                    <input type="password" class="form-control floating-label" placeholder="Пароль" required>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> Запомнить меня
+                    </label>
+                </div>
+                <button class="btn btn-raised btn-material-indigo btn-block" type="submit" >Войти</button>
+                <a class="btn btn-flat btn-material-indigo btn-block" href="register.html" th:href="@{/register}">Зарегистрироваться</a>
+            </form>
+        </div>
     </div>
-    <div class="navbar-collapse collapse navbar-responsive-collapse">
-        <ul class="nav navbar-nav">
-            <li sec:authorize-url="/"><a th:href="@{/}">Главная страница</a></li>
-            <li sec:authorize-url="/archive"><a th:href="@{/archive}">Архив</a></li>
-            <!--<li class="dropdown">
-                <a href="http://fezvrasta.github.io/bootstrap-material-design/bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="javascript:void(0)">Action</a></li>
-                    <li><a href="javascript:void(0)">Another action</a></li>
-                    <li><a href="javascript:void(0)">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li class="dropdown-header">Dropdown header</li>
-                    <li><a href="javascript:void(0)">Separated link</a></li>
-                    <li><a href="javascript:void(0)">One more separated link</a></li>
-                </ul>
-            </li>-->
-        </ul>
-        <form class="navbar-form navbar-right form-group-white">
-            <input type="text" class="form-control col-lg-8" placeholder="Поиск"></i>
-        </form>
-    </div>
-</div>
 
-<div class="container" layout:fragment="content">
-    <div class="well" id="auth-well">
-        <form class="form-signin" role="form" method="post" th:action="@{/login}">
-            <div class="form-group-material-indigo">
-                <h2 class="text-indigo text-center">Авторизация</h2>
-                <input type="login" class="form-control floating-label" placeholder="Логин" required>
-                <input type="password" class="form-control floating-label" placeholder="Пароль" required>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox"> Запомнить меня
-                </label>
-            </div>
-            <button class="btn btn-raised btn-material-indigo btn-block" type="submit" >Войти</button>
-            <a class="btn btn-flat btn-material-indigo btn-block" href="register.html" th:href="@{/register}">Зарегистрироваться</a>
-        </form>
-    </div>
-</div>
-
-<script>
-    $.material.init()
-</script>
+    <script>
+        $.material.init()
+    </script>
 
 </body>
 </html>

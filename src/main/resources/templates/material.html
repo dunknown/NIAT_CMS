@@ -31,38 +31,39 @@
 
 </head>
 <body>
-<!--Configures navigation bar-->
-<nav class="navbar navbar-material-indigo">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-            <a class="navbar-brand" href="main.html">NiatCMS</a>
+    <div class="navbar navbar-material-indigo ">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">NiatCMS</a>
         </div>
-        <div>
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
-                <li sec:authorize-url="/"><a th:href="@{/}">Главная страница</a></li>
-                <li sec:authorize-url="/Archiv"><a th:href="@{/archive}">Архив</a></li>
-                <li sec:authorize-url="/admin/material"><a th:href="@{/admin/material}">Создание материала</a></li>
-                <li sec:authorize-url="/admin/editmain"><a th:href="@{/admin/edit_main}">Редактирование главной</a></li>
-                <li sec:authorize-url="/admin/users"><a th:href="@{/admin/users}">Управление полльзователями</a></li>
+                <li sec:authorize-url="/"><a th:href="@{/}">Главная</a></li>
+                <li sec:authorize-url="/archive"><a th:href="@{/archive}">Архив</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li sec:authorize-url="/admin/newmaterial"><a th:href="@{/admin/newmaterial}">Новый материал</a></li>
+                <li sec:authorize-url="/admin/editmain"><a th:href="@{/admin/editmain}">Редактировать главную</a></li>
+                <li sec:authorize-url="/admin/users"><a th:href="@{/admin/users}">Пользователи</a></li>
             </ul>
             <form class="navbar-form navbar-right form-group-white">
                 <input type="text" class="form-control col-lg-8" placeholder="Поиск"></i>
             </form>
+        </div>
     </div>
-</nav>
 
-<div class="container">
-    <div layout:fragment="content">
-        <h2><p>Material creating</p></h2>
+    <div class="container">
+        <div layout:fragment="content">
+            <h2><p>Material creating</p></h2>
+        </div>
     </div>
-</div>
 
-<script>
-    $.material.init();
-</script>
+    <script>
+        $.material.init();
+    </script>
 </body>
 </html>
