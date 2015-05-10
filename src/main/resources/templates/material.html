@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>NiatCMS archive page</title>
+    <title>NiatCMS about page</title>
     <!-- Custom styles for this template -->
     <link rel="stylesheet" th:href="@{css/styles.css}" href="../static/css/styles.css"/>
     <!-- jQuery -->
@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/ripples.min.css">
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/material.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/ripples.min.js"></script>
+
 </head>
 <body>
 <!--Configures navigation bar-->
@@ -38,27 +39,30 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="main.html">NiatCMS</a>
-    </div>
-    <div>
-        <ul class="nav navbar-nav">
-            <li sec:authorize-url="/"><a th:href="@{/}">Главная страница</a></li>
-            <li sec:authorize-url="/Archiv"><a th:href="@{/archive}">Архив</a></li>
-            <li sec:authorize-url="/admin/material"><a th:href="@{/admin/material}">Создание материала</a></li>
-            <li sec:authorize-url="/admin/editmain"><a th:href="@{/admin/edit_main}">Редактирование главной</a></li>
-            <li sec:authorize-url="/admin/users"><a th:href="@{/admin/users}">Управление полльзователями</a></li>
-        </ul>
-        <form class="navbar-form navbar-right form-group-white">
-            <input type="text" class="form-control col-lg-8" placeholder="Поиск"></i>
-        </form>
+            <a class="navbar-brand" href="main.html">NiatCMS</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li sec:authorize-url="/"><a th:href="@{/}">Главная страница</a></li>
+                <li sec:authorize-url="/Archiv"><a th:href="@{/archive}">Архив</a></li>
+                <li sec:authorize-url="/admin/material"><a th:href="@{/admin/material}">Создание материала</a></li>
+                <li sec:authorize-url="/admin/editmain"><a th:href="@{/admin/edit_main}">Редактирование главной</a></li>
+                <li sec:authorize-url="/admin/users"><a th:href="@{/admin/users}">Управление полльзователями</a></li>
+            </ul>
+            <form class="navbar-form navbar-right form-group-white">
+                <input type="text" class="form-control col-lg-8" placeholder="Поиск"></i>
+            </form>
     </div>
 </nav>
 
 <div class="container">
     <div layout:fragment="content">
-        <h2><p>Archive page</p></h2>
+        <h2><p>Material creating</p></h2>
     </div>
 </div>
-<script>$.material.init();</script>
+
+<script>
+    $.material.init();
+</script>
 </body>
 </html>

@@ -1,21 +1,27 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <title layout:title-pattern="$CONTENT_TITLE - $DECORATOR_TITLE">NiatCMS</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link href="css/styles.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <link href="css/styles.css" rel="stylesheet"/>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material-fullpalette.css">
+
+
 </head>
 <body>
 <div>
     <div class="navbar navbar-inverse">
-        <div class="container-fluid">
+        <div>
+    </div>
+</div> class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">NiatCMS</a>
             </div>
@@ -23,12 +29,12 @@
                 <ul class="nav navbar-nav">
                     <li><a href="#" th:href="@{/main}">Главная страница</a> </li>
                     <li><a href="#" th:href="@{/archive}">Архив</a> </li>
-                    <li><a href="#" th:href="@{/about}">О нас</a> </li>
+                    <!--<li><a href="#" th:href="@{/about}">О нас</a> </li>-->
                 </ul>
                 <!--Places sign in and logout on the right side-->
                 <ul class="nav navbar-nav navbar-right">
                     <li th:if="${#authorization.expression('!isAuthenticated()')}">
-                        <a href="/signin" th:href="@{/signin}">Sign in</a>
+                        <a href="/signin" th:href="@{/login}">Sign in</a>
                     </li>
                     <li th:if="${#authorization.expression('isAuthenticated()')}">
                         <a href="/logout" th:href="@{/logout}">Logout</a>
@@ -45,7 +51,8 @@
     </div>
 </div>
 
-<script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src = "js/bootstrap.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/material.min.js></script>
 </body>
 </html>
