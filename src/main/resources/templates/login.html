@@ -65,12 +65,12 @@
             <form role="form" method="post" th:action="@{/login}">
                 <div class="form-group-material-indigo">
                     <h2 class="text-indigo text-center">Авторизация</h2>
-                    <input type="login" class="form-control floating-label" placeholder="Логин" required>
-                    <input type="password" class="form-control floating-label" placeholder="Пароль" required>
+                    <input type="login" name="username" class="form-control floating-label" placeholder="Логин" required>
+                    <input type="password" name="password" class="form-control floating-label" placeholder="Пароль" required>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox"> Запомнить меня
+                        <input type="checkbox" name="remember-me"> Запомнить меня
                     </label>
                 </div>
                 <button class="btn btn-raised btn-material-indigo btn-block" type="submit" >Войти</button>
