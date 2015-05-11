@@ -22,7 +22,7 @@ public class UserService {
     }
 
     public List<User> findAll() {
-        return userRepository.findAllOrderByUsernameAsc();
+        return userRepository.findAllByOrderByUsernameAsc();
     }
 
     public User findByUsername(String username) {

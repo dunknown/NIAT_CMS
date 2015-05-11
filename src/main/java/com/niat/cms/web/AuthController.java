@@ -30,16 +30,16 @@ public class AuthController {
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String registrationForm(Model model) {
         model.addAttribute("registrationForm", new RegistrationForm());
-        return "registration";
+        return "register";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String processRegistration(@Valid RegistrationForm registrationForm, BindingResult bindingResult) {
         if (userService.findByUsername(registrationForm.getUsername()) != null) {
-            bindingResult.addError(new FieldError("registrationForm", "username", "Username already in use"));
+            bindingResult.addError(new FieldError("registrationForm", "username", "Такой логин уже занят"));
         }
-        if (!registrationForm.getPassword().equals(registrationForm.getRepassword())) {
-            bindingResult.addError(new FieldError("registrationForm", "password", "Passwords don't match"));
+        if (!registrationForm.getPassword().equals(registrationForm.getPasswordConfirm())) {
+            bindingResult.addError(new FieldError("registrationForm", "passwordConfirm", "Пароли не совпадают"));
         }
         if(bindingResult.hasErrors()) {
             return "register";

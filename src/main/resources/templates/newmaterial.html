@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    <title>Главная</title>
+    <title>Новый материал</title>
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" th:href="@{css/styles.css}" href="../static/css/styles.css"/>
@@ -33,7 +33,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/ripples.min.css"/>
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/material.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/ripples.min.js"></script>
-
 
 </head>
 <body>
@@ -65,16 +64,15 @@
     <div class="container">
         <div layout:fragment="content">
             <script type="text/javascript">
-                $("#nav_item_main").addClass("active");
+                $("#nav_item_newmaterial").addClass("active");
             </script>
 
-            <h2><p>Main page</p></h2>
+            <h2><p>Material creating</p></h2>
         </div>
     </div>
 
     <script>
         $.material.init();
     </script>
-
 </body>
 </html>

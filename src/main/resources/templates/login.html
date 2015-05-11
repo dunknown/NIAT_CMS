@@ -2,62 +2,87 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       layout:decorator="layouts/layout">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NiatCMS login page</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Авторизация</title>
+
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" th:href="@{css/styles.css}" href="../static/css/styles.css">
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{css/styles.css}" href="../static/css/styles.css"/>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
     <![endif]-->
 
+    <!-- Material Design -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/roboto.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/material.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/ripples.min.css"/>
+    <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/material.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/ripples.min.js"></script>
 </head>
 <body>
-<!--Configures navigation bar-->
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
+    <div class="navbar navbar-material-indigo ">
         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a class="navbar-brand" href="#">NiatCMS</a>
         </div>
-        <div>
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
-                <li><a href=""th:href="@{/}">Главная страница</a></li>
-                <li><a href=""th:href="@{/archive}">Архив</a></li>
-                <li><a href=""th:href="@{/about}">О нас</a></li>
+                <li id="nav_item_main" sec:authorize-url="/"><a th:href="@{/}">Главная</a></li>
+                <li id="nav_item_archive" sec:authorize-url="/archive"><a th:href="@{/archive}">Архив</a></li>
             </ul>
+            <ul class="nav navbar-nav">
+                <li id="nav_item_newmaterial" sec:authorize-url="/admin/newmaterial"><a th:href="@{/admin/newmaterial}">Новый материал</a></li>
+                <li id="nav_item_editmain" sec:authorize-url="/admin/editmain"><a th:href="@{/admin/editmain}">Редактировать главную</a></li>
+                <li id="nav_item_users" sec:authorize-url="/admin/users"><a th:href="@{/admin/users}">Пользователи</a></li>
+            </ul>
+            <form class="navbar-form navbar-right form-group-white">
+                <input type="text" class="form-control col-lg-8" placeholder="Поиск"/>
+            </form>
         </div>
     </div>
-</nav>
 
-<div class="container" layout:fragment="content">
-    <form class="form-signin" role="form" method="post" th:action="@{/login}">
-        <div class="form-group">
-            <h2>Авторизация</h2>
-            <input type="login" class="form-control" placeholder="Login" required>
-            <input type="password" class="form-control" placeholder="Password" required>
+    <div class="container" layout:fragment="content">
+        <div class="well" id="auth-well">
+            <form role="form" method="post" th:action="@{/login}" autocomplete="off">
+                <div class="form-group-material-indigo">
+                    <h2 class="text-indigo text-center">Авторизация</h2>
+                    <p style="margin-top: 10px" class="text-danger" th:if="${param.error}">Неверный логин или пароль. Попробуйте еще раз.</p>
+                    <input type="login" name="username" class="form-control floating-label" placeholder="Логин" required="true"  autocomplete="off"/>
+                    <input type="password" name="password" class="form-control floating-label" placeholder="Пароль" required="true" autocomplete="off"/>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="remember-me"/> Запомнить меня
+                    </label>
+                </div>
+                <button class="btn btn-raised btn-material-indigo btn-block" type="submit" >Войти</button>
+                <a class="btn btn-flat btn-material-indigo btn-block" href="register.html" th:href="@{/register}">Зарегистрироваться</a>
+            </form>
         </div>
-        <div class="checkbox">
-            <label><input type="checkbox"> Remember me</label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" >Войти</button>
-        <div class="register">
-            <a href="register.html" th:href="@{/register}" class="text-center new-account">Зарегистрироваться</a>
-        </div>
+    </div>
 
-    </form>
-</div>
+    <script>
+        $.material.init()
+    </script>
 
-<script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src = "js/bootstrap.js"></script>
 </body>
 </html>

@@ -1,11 +1,17 @@
+.form {
+    width: 300px;
+    margin: 0 auto;
+}
 .form input[type=submit]:focus {
     background-color: #30ca00;
     outline: none;
 }
 
+
 .form input[type=checkbox] {
     margin-right: 5px;
 }
+
 
 .form-signin
 {
@@ -227,4 +233,33 @@ a:focus {
 
 .new_material_btn:hover {
     background-color: #30ca00;
+}
+
+
+.text-indigo {
+    color: #3f51b5;
+}
+
+.form-control-wrapper {
+    margin-top: 20px;
+}
+
+.text-center {
+    text-align: center
+}
+
+#auth-well, #reg-well {
+    max-width: 350px;
+    min-width: 275px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#snippet-preview {
+    text-align: center;
+}
+
+input:-webkit-autofill, input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: rgba(0, 0, 0, 0.843137) !important;
 }

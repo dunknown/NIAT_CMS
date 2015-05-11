@@ -2,101 +2,107 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       layout:decorator="layouts/layout">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NiatCMS registration page</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Регистрация</title>
+
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" th:href="@{/css/styles.css}" href="../static/css/styles.css">
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{css/styles.css}" href="../static/css/styles.css"/>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-
     <![endif]-->
+
+    <!-- Material Design -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/roboto.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/material.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/ripples.min.css"/>
+    <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/material.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/ripples.min.js"></script>
 </head>
-<!--Configures navigation bar-->
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
+<body>
+    <div class="navbar navbar-material-indigo ">
         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a class="navbar-brand" href="#">NiatCMS</a>
         </div>
-        <div>
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
-                <li><a th:href="@{/}">Главная страница</a></li>
-                <li><a th:href="@{/archive}">Архив</a></li>
-                <li><a th:href="@{/about}">О нас</a></li>
+                <li id="nav_item_main" sec:authorize-url="/"><a th:href="@{/}">Главная</a></li>
+                <li id="nav_item_archive" sec:authorize-url="/archive"><a th:href="@{/archive}">Архив</a></li>
             </ul>
+            <ul class="nav navbar-nav">
+                <li id="nav_item_newmaterial" sec:authorize-url="/admin/newmaterial"><a th:href="@{/admin/newmaterial}">Новый материал</a></li>
+                <li id="nav_item_editmain" sec:authorize-url="/admin/editmain"><a th:href="@{/admin/editmain}">Редактировать главную</a></li>
+                <li id="nav_item_users" sec:authorize-url="/admin/users"><a th:href="@{/admin/users}">Пользователи</a></li>
+            </ul>
+            <form class="navbar-form navbar-right form-group-white">
+                <input type="text" class="form-control col-lg-8" placeholder="Поиск"/>
+            </form>
         </div>
     </div>
-</nav>
 
-<div layout:fragment="content">
-    <form class="form-inline" role="form" action='' method="post" th:action="@{/register}" th:object="${registrationForm}">
-        <fieldset>
-            <div id="legend">
-                <legend class="">Регистрация</legend>
-            </div>
+    <div class="container" layout:fragment="content">
+        <div class="well" id="reg-well">
+            <form role="form" method="post" th:action="@{/register}" th:object="${registrationForm}">
+                <div class="form-group-material-indigo">
+                    <h2 class="text-indigo text-center">Регистрация</h2>
+                    <!--Username-->
+                    <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? has-error">
+                        <input type="text" class="form-control floating-label" id="username" th:field="*{username}" placeholder="Введите логин" required="true" autocomplete="off"/>
+                        <p style="margin-top: 10px" class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}" />
+                    </div>
 
-            <!-- Username -->
-            <div class="form-group">
-                <label class="control-label" for="username">Имя пользователя:</label>
-                <div class="controls">
-                    <input type="text" id="username" placeholder="Enter username" class="form-control" required
-                           th:field="{username}">
-                    <p class="help-block"> Имя пользователя может содержать любые буквы, цыфры и должны быть
-                        без пробелов</p>
-                    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" />
+                    <!--Password-->
+                    <div class="form-group" th:classappend="${#fields.hasErrors('password')} ? has-error">
+                        <input type="password" class="form-control floating-label" id="password" th:field="*{password}" placeholder="Введите пароль" required="true" autocomplete="off"/>
+                        <p style="margin-top: 10px" class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" ></p>
+                    </div>
+
+                    <!--Password confirmation-->
+                    <div class="form-group" th:classappend="${#fields.hasErrors('passwordConfirm')} ? has-error">
+                        <input type="password" class="form-control floating-label" id="passwordConfirm" th:field="*{passwordConfirm}" placeholder="Подтвердите пароль" required="true" autocomplete="off"/>
+                        <p style="margin-top: 10px" class="text-danger" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" ></p>
+                    </div>
+
+                    <!--Button-->
+                    <div class="control-group">
+                        <div class="controls">
+                            <button class="btn btn-raised btn-material-indigo btn-block" type="submit" >Зарегистрироваться</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <p id="snippet-preview">Уже зарегистрированы?
+                                <a class="btn btn-flat btn-material-indigo btn-block" href="login.html" th:href="@{/login}">Войти</a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </form>
+        </div>
+    </div>
 
-            <!-- Password -->
-            <div class="control-group">
-                <label class="control-label" for="pwd">Пароль:</label>
-                <div class="controls">
-                    <input type="password" class="form-control" id="pwd" placeholder="Enter password" required
-                           th:field="*{password}">
-                    <p class="help-block">Пароль должен быть не меньше 4 символов</p>
-                    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" ></p>
-                </div>
-            </div>
-
-            <!-- Password confirmation -->
-            <div class="control-group">
-                <label class="control-label" for="password_confirm">Подтверждение пароля:</label>
-                <div class="controls">
-                    <input type="password" class="form-control" id="password_confirm" placeholder="Password confirmation"
-                           required th:field="*{password_confirm}">
-                    <p class="help-block">Подтвердите пароль</p>
-                    <p th:if="${#fields.hasErrors('password_confirm')}" th:errors="*{password_confirm}" ></p>
-
-                </div>
-            </div>
-
-            <!-- Button -->
-            <div class="control-group">
-                <div class="controls">
-                    <button type="submit" class="btn btn-success">Зарегистрироваться</button>
-                </div>
-            </div>
-            <div class="form-group">
-                <div>
-                    <p>Уже зарегистрированы? <a href="login.html" th:href="@{/login}">Войти</a></p>
-                </div>
-            </div>
-        </fieldset>
-    </form>
-</div>
-
-<script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src = "js/bootstrap.js"></script>
+    <script>
+        $.material.init()
+    </script>
 </body>
 </html>

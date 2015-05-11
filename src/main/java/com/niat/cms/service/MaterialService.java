@@ -31,7 +31,7 @@ public class MaterialService {
     }
 
     public List<Material> findMaterialsOnMain() {
-        return materialRepository.findByOnMainTrue();
+        return materialRepository.findByOnMainTrueOrderByDateDesc();
     }
 
     public List<Material> findMaterialsInArchive() {
@@ -39,6 +39,6 @@ public class MaterialService {
     }
 
     public List<Material> findMaterialsWithTag(Tag tag) {
-        return materialRepository.findByTagOrderByDateDesc(tag);
+        return materialRepository.findByTagsContainingOrderByDateDesc(tag);
     }
 }
