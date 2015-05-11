@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface MaterialRepository extends JpaRepository<Material, Long> {
     Material findById(long id);
-    List<Material> findByOnMainTrue();
+    List<Material> findByOnMainTrueOrderByDateDesc();
     List<Material> findByOnMainFalseOrderByDateDesc();
-    List<Material> findByTagOrderByDateDesc(Tag tag);
+    List<Material> findByTagsContainingOrderByDateDesc(Tag tag);
 }
