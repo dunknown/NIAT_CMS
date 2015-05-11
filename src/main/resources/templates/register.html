@@ -66,21 +66,21 @@
                 <div class="form-group-material-indigo">
                     <h2 class="text-indigo text-center">Регистрация</h2>
                     <!--Username-->
-                    <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? has-errors">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? has-error">
                         <input type="text" class="form-control floating-label" id="username" th:field="*{username}" placeholder="Введите логин" required="true" autocomplete="off"/>
-                        <p class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}" />
+                        <p style="margin-top: 10px" class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}" />
                     </div>
 
                     <!--Password-->
-                    <div class="form-group" th:classappend="${#fields.hasErrors('password')} ? has-errors">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('password')} ? has-error">
                         <input type="password" class="form-control floating-label" id="password" th:field="*{password}" placeholder="Введите пароль" required="true" autocomplete="off"/>
-                        <p class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" ></p>
+                        <p style="margin-top: 10px" class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" ></p>
                     </div>
 
                     <!--Password confirmation-->
-                    <div class="form-group" th:classappend="${#fields.hasErrors('passwordConfirm')} ? has-errors">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('passwordConfirm')} ? has-error">
                         <input type="password" class="form-control floating-label" id="passwordConfirm" th:field="*{passwordConfirm}" placeholder="Подтвердите пароль" required="true" autocomplete="off"/>
-                        <p class="text-danger" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" ></p>
+                        <p style="margin-top: 10px" class="text-danger" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" ></p>
                     </div>
 
                     <!--Button-->

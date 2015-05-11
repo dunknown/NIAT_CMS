@@ -65,6 +65,7 @@
             <form role="form" method="post" th:action="@{/login}" autocomplete="off">
                 <div class="form-group-material-indigo">
                     <h2 class="text-indigo text-center">Авторизация</h2>
+                    <p style="margin-top: 10px" class="text-danger" th:if="${param.error}">Неверный логин или пароль. Попробуйте еще раз.</p>
                     <input type="login" name="username" class="form-control floating-label" placeholder="Логин" required="true"  autocomplete="off"/>
                     <input type="password" name="password" class="form-control floating-label" placeholder="Пароль" required="true" autocomplete="off"/>
                 </div>

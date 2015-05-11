@@ -9,15 +9,14 @@ import javax.validation.constraints.Size;
 public class RegistrationForm {
 
     @NotNull
-    @Size(min = 4, max = 30, message = "Username must be between {min} and {max} characters long")
+    @Size(min = 4, max = 30, message = "Логин должен быть от {min} до {max} символов в длину")
     private String username;
 
     @NotNull
-    @Size(min = 4, max = 30, message = "Password must be between {min} and {max} characters long")
+    @Size(min = 4, max = 30, message = "Пароль должен быть от {min} до {max} символов в длину")
     private String password;
 
     @NotNull
-    @Size(min = 4, max = 30)
     private String passwordConfirm;
 
     public String getUsername() {
