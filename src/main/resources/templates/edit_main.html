@@ -46,13 +46,13 @@
         </div>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
-                <li sec:authorize-url="/"><a th:href="@{/}">Главная</a></li>
-                <li sec:authorize-url="/archive"><a th:href="@{/archive}">Архив</a></li>
+                <li id="nav_item_main" sec:authorize-url="/"><a th:href="@{/}">Главная</a></li>
+                <li id="nav_item_archive" sec:authorize-url="/archive"><a th:href="@{/archive}">Архив</a></li>
             </ul>
             <ul class="nav navbar-nav">
-                <li sec:authorize-url="/admin/newmaterial"><a th:href="@{/admin/newmaterial}">Новый материал</a></li>
-                <li sec:authorize-url="/admin/editmain"><a th:href="@{/admin/editmain}">Редактировать главную</a></li>
-                <li sec:authorize-url="/admin/users"><a th:href="@{/admin/users}">Пользователи</a></li>
+                <li id="nav_item_newmaterial" sec:authorize-url="/admin/newmaterial"><a th:href="@{/admin/newmaterial}">Новый материал</a></li>
+                <li id="nav_item_editmain" sec:authorize-url="/admin/editmain"><a th:href="@{/admin/editmain}">Редактировать главную</a></li>
+                <li id="nav_item_users" sec:authorize-url="/admin/users"><a th:href="@{/admin/users}">Пользователи</a></li>
             </ul>
             <form class="navbar-form navbar-right form-group-white">
                 <input type="text" class="form-control col-lg-8" placeholder="Поиск"/>
@@ -62,6 +62,10 @@
 
     <div class="container">
         <div layout:fragment="content">
+            <script type="text/javascript">
+                $("#nav_item_editmain").addClass("active");
+            </script>
+            
             <h2><p>Main page editing</p></h2>
         </div>
     </div>
