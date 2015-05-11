@@ -62,11 +62,11 @@
 
     <div class="container" layout:fragment="content">
         <div class="well" id="auth-well">
-            <form role="form" method="post" th:action="@{/login}">
+            <form role="form" method="post" th:action="@{/login}" autocomplete="off">
                 <div class="form-group-material-indigo">
                     <h2 class="text-indigo text-center">Авторизация</h2>
-                    <input type="login" name="username" class="form-control floating-label" placeholder="Логин" required="true"/>
-                    <input type="password" name="password" class="form-control floating-label" placeholder="Пароль" required="true"/>
+                    <input type="login" name="username" class="form-control floating-label" placeholder="Логин" required="true"  autocomplete="off"/>
+                    <input type="password" name="password" class="form-control floating-label" placeholder="Пароль" required="true" autocomplete="off"/>
                 </div>
                 <div class="checkbox">
                     <label>

@@ -30,7 +30,7 @@ public class AuthController {
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String registrationForm(Model model) {
         model.addAttribute("registrationForm", new RegistrationForm());
-        return "registration";
+        return "register";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -38,7 +38,7 @@ public class AuthController {
         if (userService.findByUsername(registrationForm.getUsername()) != null) {
             bindingResult.addError(new FieldError("registrationForm", "username", "Username already in use"));
         }
-        if (!registrationForm.getPassword().equals(registrationForm.getRepassword())) {
+        if (!registrationForm.getPassword().equals(registrationForm.getPasswordConfirm())) {
             bindingResult.addError(new FieldError("registrationForm", "password", "Passwords don't match"));
         }
         if(bindingResult.hasErrors()) {
