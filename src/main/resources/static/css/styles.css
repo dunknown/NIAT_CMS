@@ -254,7 +254,12 @@ a:focus {
     margin-left: auto;
     margin-right: auto;
 }
-
+#material-well, #matlist-well {
+    max-width: 700px;
+    min-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
 #snippet-preview {
     text-align: center;
 }
