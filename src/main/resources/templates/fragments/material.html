@@ -13,7 +13,14 @@
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" th:href="@{css/styles.css}" href="../static/css/styles.css"/>
-
+    <style>
+        #material-well {
+            max-width: 700px;
+            min-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
@@ -67,10 +74,10 @@
         <div class="well" id="material-well">
             <h2><p>Material</p></h2>
             <div layout:fragment="content">
-                <script type="text/javascript">
-                    $("#nav_item_newmateria").addClass("active");
-                </script>
-
+                <div th:title="${material.title}></div>
+                <div th:text="${material.text}></div>
+                <div th:title="${material.author.username}></div>
+                <div th:title="${material.date}></div>
             </div>
         </div>
     </div>
