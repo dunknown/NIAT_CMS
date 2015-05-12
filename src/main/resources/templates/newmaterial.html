@@ -34,6 +34,10 @@
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/material.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/ripples.min.js"></script>
 
+    <!-- WYSYWYG -->
+    <script th:src="@{js/jquery.hotkeys.js}" src="../static/js/jquery.hotkeys.js"></script>
+    <script th:src="@{js/bootstrap-wysiwyg.js}" src="../static/js/bootstrap-wysiwyg.js"></script>
+
 </head>
 <body>
     <div class="navbar navbar-material-indigo ">
@@ -61,14 +65,147 @@
         </div>
     </div>
 
-    <div class="container">
-        <div layout:fragment="content">
-            <script type="text/javascript">
-                $("#nav_item_newmaterial").addClass("active");
-            </script>
+    <div class="container" layout:fragment="content">
+        <script type="text/javascript">
+            $("#nav_item_newmaterial").addClass("active");
+        </script>
 
-            <h2><p>Material creating</p></h2>
+        <div class="well">
+            <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+                <div class="btn-group">
+                    <a class="btn btn-xs btn-material-indigo dropdown-toggle" data-toggle="dropdown" rel="tooltip" data-placement="top" title="" data-original-title="Шрифт">
+                        <i class="mdi-editor-format-color-text"></i> <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontName Arial" style="font-family:'Arial'">Arial</a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontName Arial Black" style="font-family:'Arial Black'">Arial Black</a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontName Comic Sans MS" style="font-family:'Comic Sans MS'">Comic Sans MS</a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontName Courier New" style="font-family:'Courier New'">Courier New</a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontName Franklin Gothic Medium" style="font-family:'Franklin Gothic Medium'">Franklin Gothic Medium</a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontName Georgia" style="font-family:'Georgia'">Georgia</a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontName Helvetica" style="font-family:'Helvetica'">Helvetica</a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontName Impact" style="font-family:'Impact'">Impact</a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontName Lucida Console" style="font-family:'Lucida Console'">Lucida Console</a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontName Lucida Sans" style="font-family:'Lucida Sans'">Lucida Sans</a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontName Roboto" style="font-family:'Roboto'">Roboto</a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontName Tahoma" style="font-family:'Tahoma'">Tahoma</a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontName Times New Roman" style="font-family:'Times New Roman'">Times New Roman</a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontName Verdana" style="font-family:'Verdana'">Verdana</a></li>
+                    </ul>
+                </div>
+
+                <div class="btn-group">
+                    <a class="btn btn-xs btn-material-indigo dropdown-toggle" data-toggle="dropdown" rel="tooltip" data-placement="top" title="" data-original-title="Размер шрифта">
+                        <i class="mdi-editor-format-size"></i> <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontSize 6"><font size="6">Размер 6</font></a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontSize 5"><font size="5">Размер 5</font></a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontSize 4"><font size="4">Размер 4</font></a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontSize 3"><font size="3">Размер 3</font></a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontSize 2"><font size="2">Размер 2</font></a></li>
+                        <li><a class="btn btn-flat btn-material-indigo" data-edit="fontSize 1"><font size="1">Размер 1</font></a></li>
+                    </ul>
+                </div>
+
+                <div class="btn-group">
+                    <a class="btn btn-xs btn-material-indigo" data-edit="bold" rel="tooltip" data-placement="top" title="" data-original-title="Полужирный (Ctrl/Cmd+B)">
+                        <i class="mdi-editor-format-bold"></i>
+                    </a>
+                    <a class="btn btn-xs btn-material-indigo" data-edit="italic" rel="tooltip" data-placement="top" title="" data-original-title="Курсив (Ctrl/Cmd+I)">
+                        <i class="mdi-editor-format-italic"></i>
+                    </a>
+                    <a class="btn btn-xs btn-material-indigo" data-edit="strikethrough" rel="tooltip" data-placement="top" title="" data-original-title="Зачеркнутый">
+                        <i class="mdi-editor-format-strikethrough"></i>
+                    </a>
+                    <a class="btn btn-xs btn-material-indigo" data-edit="underline" rel="tooltip" data-placement="top" title="" data-original-title="Подчеркнутый (Ctrl/Cmd+U)">
+                        <i class="mdi-editor-format-underline"></i>
+                    </a>
+                </div>
+
+                <div class="btn-group">
+                    <a class="btn btn-xs btn-material-indigo" data-edit="insertunorderedlist" rel="tooltip" data-placement="top" title="" data-original-title="Маркированный список">
+                        <i class="mdi-editor-format-list-bulleted"></i>
+                    </a>
+                    <a class="btn btn-xs btn-material-indigo" data-edit="insertorderedlist" rel="tooltip" data-placement="top" title="" data-original-title="Нумированный список">
+                        <i class="mdi-editor-format-list-numbered"></i>
+                    </a>
+                    <a class="btn btn-xs btn-material-indigo" data-edit="outdent" rel="tooltip" data-placement="top" title="" data-original-title="Уменьшить отступ (Shift+Tab)">
+                        <i class="mdi-editor-format-indent-decrease"></i>
+                    </a>
+                    <a class="btn btn-xs btn-material-indigo" data-edit="indent" rel="tooltip" data-placement="top" title="" data-original-title="Увеличить отступ (Tab)">
+                        <i class="mdi-editor-format-indent-increase"></i>
+                    </a>
+                </div>
+
+                <div class="btn-group">
+                    <a class="btn btn-xs btn-material-indigo" data-edit="justifyleft" rel="tooltip" data-placement="top" title="" data-original-title="По левому краю (Ctrl/Cmd+L)">
+                        <i class="mdi-editor-format-align-left"></i>
+                    </a>
+                    <a class="btn btn-xs btn-material-indigo" data-edit="justifycenter" rel="tooltip" data-placement="top" title="" data-original-title="По центру (Ctrl/Cmd+E)">
+                        <i class="mdi-editor-format-align-center"></i>
+                    </a>
+                    <a class="btn btn-xs btn-material-indigo" data-edit="justifyright" rel="tooltip" data-placement="top" title="" data-original-title="По правому краю (Ctrl/Cmd+R)">
+                        <i class="mdi-editor-format-align-right"></i>
+                    </a>
+                    <a class="btn btn-xs btn-material-indigo" data-edit="justifyfull" rel="tooltip" data-placement="top" title="" data-original-title="По ширине (Ctrl/Cmd+J)">
+                        <i class="mdi-editor-format-align-justify"></i>
+                    </a>
+                </div>
+
+                <div class="btn-group">
+                    <a class="btn btn-xs btn-material-indigo dropdown-toggle" data-toggle="dropdown" rel="tooltip" data-placement="top" title="" data-original-title="Вставить ссылку">
+                        <i class="mdi-editor-insert-link"></i>
+                    </a>
+                    <ul class="dropdown-menu input-append">
+                        <li><form style="margin: 5px" class="form-group-material-indigo"><input class="form-control" placeholder="URL" type="text" data-edit="createLink"/></form></li>
+                        <li><a class="btn btn-flat btn-material-indigo" type="button">Вставить</a></li>
+                    </ul>
+                    <a class="btn btn-xs btn-material-indigo" data-edit="unlink" rel="tooltip" data-placement="top" title="" data-original-title="Убрать ссылку">
+                        <i class="mdi-content-content-cut"></i>
+                    </a>
+                </div>
+
+                <div class="btn-group">
+                    <a class="btn btn-xs btn-material-indigo" id="pictureBtn" rel="tooltip" data-placement="top" title="" data-original-title="Вставить изображение">
+                        <i class="mdi-editor-insert-photo"></i>
+                    </a>
+                    <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage">
+                </div>
+
+                <div class="btn-group">
+                    <a class="btn btn-xs btn-material-indigo" data-edit="undo" rel="tooltip" data-placement="top" title="" data-original-title="Отменить (Ctrl/Cmd+Z)">
+                        <i class="mdi-content-undo"></i>
+                    </a>
+                    <a class="btn btn-xs btn-material-indigo" data-edit="redo" rel="tooltip" data-placement="top" title="" data-original-title="Вернуть (Ctrl/Cmd+Y)">
+                        <i class="mdi-content-redo"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="well" style="overflow:scroll; min-height:400px; max-height:400px" id="editor">
+                Введите текст материала здесь&hellip;
+            </div>
         </div>
+
+        <script>
+            $('#editor').wysiwyg();
+
+            $('.dropdown-menu').find('form').click(function (e) {
+                e.stopPropagation();
+            });
+
+            $('[rel="tooltip"]').tooltip();
+
+            $('[data-role=magic-overlay]').each(function () {
+                var overlay = $(this), target = $(overlay.data('target'));
+                overlay.css('opacity', 0)
+                       .css('position', 'absolute')
+                       .offset(target.offset())
+                       .width(target.outerWidth())
+                       .height(target.outerHeight());
+            });
+        </script>
     </div>
 
     <script>
