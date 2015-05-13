@@ -1,4 +1,4 @@
-.form {
+/*.form {
     width: 300px;
     margin: 0 auto;
 }
@@ -235,7 +235,7 @@ a:focus {
     background-color: #30ca00;
 }
 
-
+*/
 .text-indigo {
     color: #3f51b5;
 }
@@ -262,4 +262,8 @@ a:focus {
 input:-webkit-autofill, input:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0 1000px white inset !important;
     -webkit-text-fill-color: rgba(0, 0, 0, 0.843137) !important;
+}
+
+a, a:focus, a:hover {
+    color: #3f51b5;
 }

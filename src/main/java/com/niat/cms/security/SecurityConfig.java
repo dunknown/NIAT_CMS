@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers("/admin/users").hasRole("ADMIN")
                 .antMatchers("/admin/editmain").hasAnyRole("ADMIN", "EDITOR")
-                .antMatchers("/admin/newmaterial").hasAnyRole("ADMIN", "EDITOR", "AUTHOR")
+                .antMatchers("/admin/addmaterial").hasAnyRole("ADMIN", "EDITOR", "AUTHOR")
                 .anyRequest().permitAll();
     }
 }
