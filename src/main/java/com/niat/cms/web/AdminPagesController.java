@@ -21,8 +21,8 @@ public class AdminPagesController {
         return "users";
     }
 
-    @RequestMapping(value = "/newmaterial")
-    public String newMaterial() {
-        return "newmaterial";
+    @RequestMapping(value = "/addmaterial")
+    public String addMaterial() {
+        return "addmaterial";
     }
 }

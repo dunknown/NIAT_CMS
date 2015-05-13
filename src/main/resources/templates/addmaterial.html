@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    <title>Новый материал</title>
+    <title>Добавить материал</title>
 
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -50,7 +50,7 @@
                 <li id="nav_item_archive" sec:authorize-url="/archive"><a th:href="@{/archive}">Архив</a></li>
             </ul>
             <ul class="nav navbar-nav">
-                <li id="nav_item_newmaterial" sec:authorize-url="/admin/newmaterial"><a th:href="@{/admin/newmaterial}">Новый материал</a></li>
+                <li id="nav_item_addmaterial" sec:authorize-url="/admin/addmaterial"><a th:href="@{/admin/addmaterial}">Добавить материал</a></li>
                 <li id="nav_item_editmain" sec:authorize-url="/admin/editmain"><a th:href="@{/admin/editmain}">Редактировать главную</a></li>
                 <li id="nav_item_users" sec:authorize-url="/admin/users"><a th:href="@{/admin/users}">Пользователи</a></li>
             </ul>
@@ -62,19 +62,19 @@
 
     <div class="container" layout:fragment="content">
         <script type="text/javascript">
-            $("#nav_item_newmaterial").addClass("active");
+            $("#nav_item_addmaterial").addClass("active");
         </script>
         <!-- WYSYWYG -->
         <script th:src="@{js/jquery.hotkeys.js}" src="../static/js/jquery.hotkeys.js"></script>
         <script th:src="@{js/bootstrap-wysiwyg.js}" src="../static/js/bootstrap-wysiwyg.js"></script>
 
         <div class="well">
-            <form id="mat_form" role="form" method="post" th:action="@{/register}" th:object="${materialForm}">
+            <form id="mat_form" role="form" method="post" th:action="@{/addmaterial}" th:object="${materialForm}">
                 <div class="form-group-material-indigo">
                     <h2 class="text-indigo text-center">Добавить материал</h2>
 
                     <!--Title-->
-                    <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? has-error">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('title')} ? has-error">
                         <h4 class="text-indigo">Введите заголовок материала:</h4>
                         <input type="text" class="form-control input-lg" id="title" th:field="*{title}" placeholder="Заголовок" required="true"/>
                         <p style="margin-top: 10px" class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />
@@ -138,7 +138,7 @@
                             <a class="btn btn-xs btn-material-indigo" data-edit="insertunorderedlist" rel="tooltip" data-placement="top" title="" data-original-title="Маркированный список">
                                 <i class="mdi-editor-format-list-bulleted"></i>
                             </a>
-                            <a class="btn btn-xs btn-material-indigo" data-edit="insertorderedlist" rel="tooltip" data-placement="top" title="" data-original-title="Нумированный список">
+                            <a class="btn btn-xs btn-material-indigo" data-edit="insertorderedlist" rel="tooltip" data-placement="top" title="" data-original-title="Нумерованный список">
                                 <i class="mdi-editor-format-list-numbered"></i>
                             </a>
                             <a class="btn btn-xs btn-material-indigo" data-edit="outdent" rel="tooltip" data-placement="top" title="" data-original-title="Уменьшить отступ (Shift+Tab)">
@@ -181,7 +181,7 @@
                             <a class="btn btn-xs btn-material-indigo" id="pictureBtn" rel="tooltip" data-placement="top" title="" data-original-title="Вставить изображение">
                                 <i class="mdi-editor-insert-photo"></i>
                             </a>
-                            <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage">
+                            <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage"/>
                         </div>
 
                         <div class="btn-group">
@@ -197,12 +197,19 @@
                     <div class="well" style="overflow:scroll; min-height:500px; max-height:500px" id="editor">
                         Введите текст материала здесь&hellip;
                     </div>
+                    <p style="margin-top: 10px" class="text-danger" th:if="${#fields.hasErrors('text')}" th:errors="*{text}" />
 
                     <!--Tags-->
                     <div class="form-group" th:classappend="${#fields.hasErrors('tags')} ? has-error">
                         <h4 class="text-indigo">Введите теги через запятую:</h4>
                         <input type="text" class="form-control input-lg" id="tags" th:field="*{tags}" placeholder="Теги" required="true"/>
                         <p style="margin-top: 10px" class="text-danger" th:if="${#fields.hasErrors('tags')}" th:errors="*{tags}" />
+                    </div>
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" th:field="*{onMain}"/> Отображать на главной
+                        </label>
                     </div>
 
                     <!--Submit-->
@@ -238,7 +245,7 @@
             //put text from wysiwyg to hidden textarea for submitting in the form
             $(function() {
                 $('#mat_form').submit(function() {
-                    $('#hidden_textarea').val($('#editor').cleanHtml())
+                    $('#hidden_textarea').val($('#editor').cleanHtml());
                     return true;
                 });
             });
