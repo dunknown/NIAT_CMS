@@ -65,7 +65,7 @@
             <script type="text/javascript">
                 $("#nav_item_editmain").addClass("active");
             </script>
-            <div th:replace="fragments/materiallist :: materiallist">
+            <div th:replace="fragments/materialList :: materialList(${materialList})"/>
             <h2><p>Main page editing</p></h2>
         </div>
     </div>

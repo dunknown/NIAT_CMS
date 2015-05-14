@@ -13,14 +13,7 @@
 
     <!-- Custom styles for this tаemplate -->
     <link rel="stylesheet" th:href="@{css/styles.css}" href="../static/css/styles.css"/>
-    <style>
-        #matlist-well {
-            max-width: 700px;
-            min-width: 300px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
+
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
@@ -68,21 +61,15 @@
         </div>
     </div>
 
-
-    <div th:fragment="material(matList)">
-        <div class="well" id="matlist-well">
-            <h2><p>Materials list</p></h2>
-            <div layout:fragment="content">
-                <div th:each="mat : ${matList}">
-                    <div th:replace="fragments/material :: material(${user})"/>
-                </div>
-            </div>
+    <div th:fragment="material(materialList)">
+        <div th:each="material : ${materialList}">
+            <div th:replace="fragments/material :: material(${materialList})"/>
         </div>
     </div>
 
-<script>
-    $.material.init();
-</script>
+    <script>
+        $.material.init();
+    </script>
 
 </body>
 </html>

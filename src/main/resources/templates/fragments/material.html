@@ -13,14 +13,7 @@
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" th:href="@{css/styles.css}" href="../static/css/styles.css"/>
-    <style>
-        #material-well {
-            max-width: 700px;
-            min-width: 300px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
+
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
@@ -68,23 +61,18 @@
         </div>
     </div>
 
-
-
-    <div th:fragment="material(mat)">
+    <div th:fragment="material(material)">
         <div class="well" id="material-well">
-            <h2><p>Material</p></h2>
-            <div layout:fragment="content">
-                <div th:title="${material.title}></div>
-                <div th:text="${material.text}></div>
-                <div th:title="${material.author.username}></div>
-                <div th:title="${material.date}></div>
-            </div>
+            <div th:text="${material.title}" style="color: #3F51B5"></div>
+            <div th:text="${material.text}"></div>
+            <div th:text="${material.author.username}" style="color: #607D8B"></div>
+            <div th:text="${material.date}" style="color: #607D8B"></div>
         </div>
     </div>
 
-<script>
-    $.material.init();
-</script>
+    <script>
+        $.material.init();
+    </script>
 
 </body>
 </html>
