@@ -63,10 +63,10 @@
 
     <div th:fragment="material(material)">
         <div class="well" id="material-well">
-            <div th:text="${material.title}" style="color: #3F51B5"></div>
+            <div th:text="${material.title}" class="text-info"></div>
             <div th:text="${material.text}"></div>
-            <div th:text="${material.author.username}" style="color: #607D8B"></div>
-            <div th:text="${material.date}" style="color: #607D8B"></div>
+            <div th:text="${material.author.username}" class="text-muted"></div>
+            <div th:text="${material.date}" class="text-muted"></div>
         </div>
     </div>
 
