@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    <div th:fragment="material(materialList)">
+    <div th:fragment="materialList(materialList)">
         <div th:each="material : ${materialList}">
             <div th:replace="fragments/material :: material(${material})"/>
         </div>
