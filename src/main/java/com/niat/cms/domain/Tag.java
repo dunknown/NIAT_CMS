@@ -57,13 +57,13 @@ public class Tag {
 
         Tag tag = (Tag) o;
 
-        if (id != tag.id) return false;
+        if (!text.equals(tag.text)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        return text.hashCode();
     }
 }
