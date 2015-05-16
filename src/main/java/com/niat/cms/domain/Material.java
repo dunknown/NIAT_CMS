@@ -29,7 +29,7 @@ public class Material {
     @Column(nullable = false)
     private boolean onMain;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "material_tag",
                joinColumns = {@JoinColumn(name = "material_id")},
                inverseJoinColumns = {@JoinColumn(name = "tag_id")})

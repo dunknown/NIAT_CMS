@@ -27,3 +27,7 @@ input:-webkit-autofill, input:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0 1000px white inset !important;
     -webkit-text-fill-color: rgba(0, 0, 0, 0.843137) !important;
 }
+
+a, a:focus, a:hover {
+    color: #3f51b5;
+}
