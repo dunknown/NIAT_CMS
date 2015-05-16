@@ -42,7 +42,7 @@
         <script th:src="@{/js/bootstrap-wysiwyg.js}" src="../static/js/bootstrap-wysiwyg.js"></script>
 
         <div class="well">
-            <form id="mat_form" role="form" method="post" th:action="@{/addmaterial}" th:object="${materialForm}">
+            <form id="mat_form" role="form" method="post" th:action="@{/admin/addmaterial}" th:object="${materialForm}">
                 <div class="form-group-material-indigo">
                     <h2 class="text-indigo text-center">Добавить материал</h2>
 
@@ -218,7 +218,7 @@
             //put text from wysiwyg to hidden textarea for submitting in the form
             $(function() {
                 $('#mat_form').submit(function() {
-                    $('#hidden_textarea').val($('#editor').cleanHtml());
+                    $('#text').val($('#editor').cleanHtml());
                     return true;
                 });
             });
