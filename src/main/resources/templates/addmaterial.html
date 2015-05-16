@@ -169,7 +169,7 @@
                                 <i class="mdi-editor-insert-link"></i>
                             </a>
                             <ul class="dropdown-menu input-append">
-                                <li><form style="margin: 5px" class="form-group-material-indigo"><input class="form-control" placeholder="URL" type="text" data-edit="createLink"/></form></li>
+                                <li><div id="url" style="margin: 5px" class="form-group-material-indigo"><input class="form-control" placeholder="URL" type="text" data-edit="createLink"/></div></li>
                                 <li><a class="btn btn-flat btn-material-indigo" type="button">Вставить</a></li>
                             </ul>
                             <a class="btn btn-xs btn-material-indigo" data-edit="unlink" rel="tooltip" data-placement="top" title="" data-original-title="Убрать ссылку">
@@ -208,14 +208,14 @@
 
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" th:field="*{onMain}"/> Отображать на главной
+                            <input id="onMain" type="checkbox" th:field="*{onMain}"/> Отображать на главной
                         </label>
                     </div>
 
                     <!--Submit-->
                     <button type="submit" class="btn btn-lg btn-raised btn-material-indigo">Добавить</button>
 
-                    <textarea id="hidden_textarea" style="display: none" th:field="*{text}"></textarea>
+                    <textarea id="text" style="display: none" th:field="*{text}"></textarea>
                 </div>
             </form>
         </div>
@@ -225,7 +225,7 @@
             $('#editor').wysiwyg();
 
             //"insert url" dropdown fix
-            $('.dropdown-menu').find('form').click(function (e) {
+            $('#url').click(function (e) {
                 e.stopPropagation();
             });
 
