@@ -167,8 +167,8 @@
                         </div>
                     </div>
 
-                    <div class="well" style="overflow:scroll; min-height:500px; max-height:500px" id="editor">
-                        Введите текст материала здесь&hellip;
+                    <div class="well" style="overflow:scroll; min-height:500px; max-height:500px" id="editor"
+                         th:utext="${#fields.hasErrors('*')} ? *{text} : 'Введите текст материала здесь&hellip;'">
                     </div>
                     <p style="margin-top: 10px" class="text-danger" th:if="${#fields.hasErrors('text')}" th:errors="*{text}" />
 
