@@ -65,6 +65,7 @@
         <div th:each="material : ${materialList}">
             <div th:replace="fragments/material :: material(${material})"/>
         </div>
+        <h3 th:if="${#lists.isEmpty(materialList)}"></h3>
     </div>
 
     <script>
