@@ -12,7 +12,7 @@
     <title>Материал</title>
 
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" th:href="@{css/styles.css}" href="../static/css/styles.css"/>
+    <link rel="stylesheet" th:href="@{css/styles.css}" href="../../static/css/styles.css"/>
 
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -63,10 +63,12 @@
 
     <div th:fragment="material(material)">
         <div class="well" id="material-well">
-            <div th:text="${material.title}" class="text-indigo"></div>
-            <div th:text="${material.text}"></div>
-            <div th:text="${material.author.username}" class="text-muted"></div>
-            <div th:text="${material.date}" class="text-muted"></div>
+            <small>
+                <span style="float:left" class="text-muted">Автор: <span th:text="${material.author.username}">имя_автора</span></span>
+                <span style="float:right" class="text-muted" th:text="${#dates.format(material.date, 'dd-MM-yyyy HH:mm')}">Дата</span>
+            </small>
+            <h2 th:text="${material.title}" class="text-indigo">Заголовок</h2>
+            <p th:text="${material.text}">Текст</div>
         </div>
     </div>
 
