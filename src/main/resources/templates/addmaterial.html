@@ -65,8 +65,8 @@
             $("#nav_item_addmaterial").addClass("active");
         </script>
         <!-- WYSYWYG -->
-        <script th:src="@{js/jquery.hotkeys.js}" src="../static/js/jquery.hotkeys.js"></script>
-        <script th:src="@{js/bootstrap-wysiwyg.js}" src="../static/js/bootstrap-wysiwyg.js"></script>
+        <script th:src="@{/js/jquery.hotkeys.js}" src="../static/js/jquery.hotkeys.js"></script>
+        <script th:src="@{/js/bootstrap-wysiwyg.js}" src="../static/js/bootstrap-wysiwyg.js"></script>
 
         <div class="well">
             <form id="mat_form" role="form" method="post" th:action="@{/addmaterial}" th:object="${materialForm}">
