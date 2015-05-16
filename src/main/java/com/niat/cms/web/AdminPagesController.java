@@ -4,7 +4,7 @@ import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
 import com.niat.cms.service.MaterialService;
-import com.niat.cms.web.forms.AddMaterialForm;
+import com.niat.cms.web.forms.MaterialForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -41,12 +41,12 @@ public class AdminPagesController {
 
     @RequestMapping(value = "/addmaterial", method = RequestMethod.GET)
     public String addMaterialForm(Model model) {
-        model.addAttribute("materialForm", new AddMaterialForm());
+        model.addAttribute("materialForm", new MaterialForm());
         return "addmaterial";
     }
 
     @RequestMapping(value = "/addmaterial", method = RequestMethod.POST)
-    public String submitMaterial(@Valid AddMaterialForm materialForm, BindingResult bindingResult, @AuthenticationPrincipal User currentUser) {
+    public String submitMaterial(@Valid MaterialForm materialForm, BindingResult bindingResult, @AuthenticationPrincipal User currentUser) {
         Material material = new Material(materialForm.getTitle(), materialForm.getText(), currentUser, materialForm.isOnMain());
 
         String[] tags = materialForm.getTags().split("\\s*,[,\\s]*");

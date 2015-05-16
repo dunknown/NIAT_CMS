@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 /**
  * @author gtament
  */
-public class AddMaterialForm {
+public class MaterialForm {
 
     @NotNull
     @Size(min = 4, max = 100, message = "Заголовок должен быть от {min} до {max} символов в длину")
