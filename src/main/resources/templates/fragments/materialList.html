@@ -9,9 +9,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    <title>Главная</title>
+    <title>Список материалов</title>
 
-    <!-- Custom styles for this template -->
+    <!-- Custom styles for this tаemplate -->
     <link rel="stylesheet" th:href="@{css/styles.css}" href="../static/css/styles.css"/>
 
     <!-- jQuery -->
@@ -34,7 +34,6 @@
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/material.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/ripples.min.js"></script>
 
-
 </head>
 <body>
     <div class="navbar navbar-material-indigo ">
@@ -52,7 +51,7 @@
                 <li id="nav_item_archive" sec:authorize-url="/archive"><a th:href="@{/archive}">Архив</a></li>
             </ul>
             <ul class="nav navbar-nav">
-                <li id="nav_item_addmaterial" sec:authorize-url="/admin/addmaterial"><a th:href="@{/admin/addmaterial}">Добавить материал</a></li>
+                <li id="nav_item_newmaterial" sec:authorize-url="/admin/newmaterial"><a th:href="@{/admin/newmaterial}">Новый материал</a></li>
                 <li id="nav_item_editmain" sec:authorize-url="/admin/editmain"><a th:href="@{/admin/editmain}">Редактировать главную</a></li>
                 <li id="nav_item_users" sec:authorize-url="/admin/users"><a th:href="@{/admin/users}">Пользователи</a></li>
             </ul>
@@ -62,13 +61,11 @@
         </div>
     </div>
 
-    <div class="container">
-        <div layout:fragment="content">
-            <script type="text/javascript">
-                $("#nav_item_main").addClass("active");
-            </script>
-            <div th:replace="fragments/materialList :: materialList(${materials})"/>
+    <div th:fragment="materialList(materialList)">
+        <div th:each="material : ${materialList}">
+            <div th:replace="fragments/material :: material(${material})"/>
         </div>
+        <h3 th:if="${#lists.isEmpty(materialList)}"></h3>
     </div>
 
     <script>
@@ -76,4 +73,5 @@
     </script>
 
 </body>
+</html>
 </html>
