@@ -47,10 +47,11 @@ public class AdminPagesController {
     @RequestMapping(value = "/addmaterial", method = RequestMethod.POST)
     public String submitMaterial(@Valid AddMaterialForm addMaterialForm, BindingResult bindingResult, @AuthenticationPrincipal User currentUser) {
         Material material = new Material(addMaterialForm.getTitle(), addMaterialForm.getText(), currentUser, addMaterialForm.isOnMain());
-        String[] tags = addMaterialForm.getTags().split("(?:[^\",]+|\"[^\"]*\")++");
+        String[] tags = addMaterialForm.getTags().split("\\s*,[,\\s]*");
         Set<Tag> tagsSet =new HashSet<>();
         for(String tag : tags)
-            tagsSet.add(new Tag(tag));
+            if (tag.length() != 0)
+                tagsSet.add(new Tag(tag));
         materailService.save(material);
         return "redirect:/";
     }
