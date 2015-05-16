@@ -9,15 +9,15 @@ import javax.validation.constraints.Size;
 public class AddMaterialForm {
 
     @NotNull
-    @Size(min = 4, max = 30)
+    @Size(min = 4, max = 100, message = "Заголовок должен быть от {min} до {max} символов в длину")
     private String title;
 
     @NotNull
-    @Size(min = 4)
+    @Size(min = 4, message = "Текст должен быть не менее {min} символов в длину")
     private String text;
 
     @NotNull
-    @Size(min = 4)
+    @Size(min = 4, message = "Теги должен быть не менее {min} символов в длину")
     private String tags;
 
     private boolean onMain;

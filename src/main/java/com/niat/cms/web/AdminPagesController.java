@@ -10,6 +10,7 @@ import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -47,11 +48,21 @@ public class AdminPagesController {
     @RequestMapping(value = "/addmaterial", method = RequestMethod.POST)
     public String submitMaterial(@Valid AddMaterialForm addMaterialForm, BindingResult bindingResult, @AuthenticationPrincipal User currentUser) {
         Material material = new Material(addMaterialForm.getTitle(), addMaterialForm.getText(), currentUser, addMaterialForm.isOnMain());
+
         String[] tags = addMaterialForm.getTags().split("\\s*,[,\\s]*");
         Set<Tag> tagsSet =new HashSet<>();
         for(String tag : tags)
             if (tag.length() != 0)
                 tagsSet.add(new Tag(tag));
+
+        if(tagsSet.isEmpty()) {
+            bindingResult.addError(new FieldError("materialForm", "tags", "Введите хотя бы один тег"));
+        }
+        if(bindingResult.hasErrors()) {
+            return "addmaterial";
+        }
+
+        material.setTags(tagsSet);
         materailService.save(material);
         return "redirect:/";
     }
