@@ -16,6 +16,7 @@ public class Material {
     @Column(nullable = false, length = 100)
     private String title;
 
+    @Lob
     @Column(nullable = false)
     private String text;
 
