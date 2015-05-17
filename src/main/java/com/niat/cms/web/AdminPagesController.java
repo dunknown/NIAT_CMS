@@ -4,6 +4,7 @@ import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
 import com.niat.cms.service.MaterialService;
+import com.niat.cms.service.TagService;
 import com.niat.cms.web.forms.MaterialForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
@@ -27,7 +28,9 @@ import java.util.Set;
 public class AdminPagesController {
 
     @Autowired
-    private MaterialService materailService;
+    private MaterialService materialService;
+    @Autowired
+    private TagService tagService;
 
     @RequestMapping(value = "/editmain")
     public String editMain() {
@@ -51,9 +54,16 @@ public class AdminPagesController {
 
         String[] tags = materialForm.getTags().split("\\s*,[,\\s]*");
         Set<Tag> tagsSet = new HashSet<>();
-        for(String tag : tags)
-            if (tag.length() != 0)
-                tagsSet.add(new Tag(tag));
+        for(String tag : tags) {
+            if (tag.length() != 0) {
+                Tag t = tagService.findByText(tag);
+                if (t == null) {
+                    tagsSet.add(new Tag(tag));
+                } else {
+                    tagsSet.add(t);
+                }
+            }
+        }
 
         if(tagsSet.isEmpty()) {
             bindingResult.addError(new FieldError("materialForm", "tags", "Введите хотя бы один тег"));
@@ -63,7 +73,7 @@ public class AdminPagesController {
         }
 
         material.setTags(tagsSet);
-        materailService.save(material);
+        materialService.save(material);
         return "redirect:/";
     }
 }
