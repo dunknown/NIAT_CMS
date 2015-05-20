@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      layout:decorator="layouts/layout">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Материал</title>
+    <style type="text/css">
+        <style>
+        .tagCloud a:link, .tagCloud a:visited {
+            text-decoration: none;
+            text-transform: uppercase;
+            display: inline-block;
+            margin: 0 3px 14px 0;
+            padding: 7px;
+            border-radius: 2px;
+            line-height: 1em;
+
+        }
+        .tagCloud a:link, .tagCloud a:visited {
+            background-color: #fff;
+            color: #ccc;
+            border:1px solid #eee;
+        }
+        .tagCloud a:hover {
+            background-color: #EB7F37 ;
+            color: #FFF;
+        }
+
+        .tagCloud a.w1 { background-color: #333; }
+        .tagCloud a.w2 { background-color: #777; }
+        .tagCloud a.w3 { background-color: #bbb; }
+        .tagCloud a.w0 { background-color: #EB7F37; }	/* active */
+        .tagCloud a.selected { border-left: 5px solid #EB7F37 !important; border-right: 5px solid #EB7F37 !important; }
+        .tagCloud a:link, .tagCloud a:visited { text-transform: capitalize; font-size:11px; margin: 0 3px 8px 0; color:#fff; }
+
+        #disqus_thread {
+            margin-top: 30px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="navbar navbar-material-indigo ">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">NiatCMS</a>
+        </div>
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
+            <ul class="nav navbar-nav">
+                <li id="nav_item_main" sec:authorize-url="/"><a th:href="@{/}">Главная</a></li>
+                <li id="nav_item_archive" sec:authorize-url="/archive"><a th:href="@{/archive}">Архив</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li id="nav_item_newmaterial" sec:authorize-url="/admin/newmaterial"><a th:href="@{/admin/newmaterial}">Новый материал</a></li>
+                <li id="nav_item_editmain" sec:authorize-url="/admin/editmain"><a th:href="@{/admin/editmain}">Редактировать главную</a></li>
+                <li id="nav_item_users" sec:authorize-url="/admin/users"><a th:href="@{/admin/users}">Пользователи</a></li>
+            </ul>
+            <form class="navbar-form navbar-right form-group-white">
+                <input type="text" class="form-control col-lg-8" placeholder="Поиск"/>
+            </form>
+        </div>
+    </div>
+
+    <div th:fragment="material(material)">
+        <div class="well" id="material-well">
+            <small>
+                <span style="float:left" class="text-muted">Автор: <span th:text="${material.author.username}">имя_автора</span></span>
+                <span style="float:right" class="text-muted" th:text="${#dates.format(material.date, 'dd-MM-yyyy HH:mm')}">Дата</span>
+            </small>
+            <h2 th:text="${material.title}" class="text-indigo">Заголовок</h2>
+            <p th:utext="${material.text}">Текст</p>
+        </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2 col-sm-3 hidden-xs">
+        <div class="tag-search-container">
+            <form class="tags-search-form" method="get" action="">
+                <input value="" id="search-input" class="form-control"
+                       data-url="" placeholder="Tag filter"/>
+            </form>
+            <br/>
+            <section class="widget tagCloud">
+                <h3>Search by Tag</h3>
+                <div th:each="material : ${material.tag}">
+                    <a th:href="@{/tag/} + ${tag.text}" class="w3" title="1 occurances">Tag is here</a>
+                </div>
+            </section>
+            <div class="tag-container"></div>
+        </div>
+    </div>
+
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<example>'; // Required - Replace '<example>' with your forum shortname
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    Child(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</body>
+</html>
