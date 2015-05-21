@@ -43,9 +43,9 @@ public class AdminPagesController {
     }
 
     @RequestMapping(value = "/users/{userId}/setrole", method = RequestMethod.POST)
-    public @ResponseBody String setRole(@PathVariable(value="userId") Long id, @RequestParam String role, @AuthenticationPrincipal User currentUser) {
+    public @ResponseBody void setRole(@PathVariable(value="userId") Long id, @RequestParam String role, @AuthenticationPrincipal User currentUser) {
         if (currentUser.getId() == id.longValue())
-            return "redirect:/admin/users";
+            return;
         switch (role) {
             case "ROLE_READER":
                 //userService.setRole(id, User.Role.READER);
@@ -63,7 +63,7 @@ public class AdminPagesController {
                 userService.setRole(id, User.Role.ADMIN);
                 break;
         }
-        return "redirect:/admin/users";
+        return;
     }
 
     @RequestMapping(value = "/addmaterial", method = RequestMethod.GET)
