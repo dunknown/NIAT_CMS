@@ -17,19 +17,25 @@ import java.util.Set;
 public class User implements UserDetails {
 
     public static enum Role {
-        ADMIN("ROLE_ADMIN"),
-        EDITOR("ROLE_EDITOR"),
-        AUTHOR("ROLE_AUTHOR"),
-        CORRECTOR("ROLE_CORRECTOR");
+        ADMIN("ROLE_ADMIN", "Администратор"),
+        EDITOR("ROLE_EDITOR", "Редактор"),
+        AUTHOR("ROLE_AUTHOR", "Автор"),
+        CORRECTOR("ROLE_CORRECTOR", "Корректор");
 
         private String roleName;
+        private String roleText;
 
-        Role(String roleName) {
+        Role(String roleName, String roleText) {
             this.roleName = roleName;
+            this.roleText = roleText;
         }
 
         public String getRoleName() {
             return roleName;
+        }
+
+        public String getRoleText() {
+            return roleText;
         }
     }
 
