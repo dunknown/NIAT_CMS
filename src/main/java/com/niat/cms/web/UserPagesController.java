@@ -32,7 +32,7 @@ public class UserPagesController {
     }
 
     @RequestMapping(value = "/material/{matId}")
-    public String materialPage(Model model, @PathVariable(value="userId") Long matId) {
+    public String materialPage(Model model, @PathVariable(value="matId") Long matId) {
         Material material = materialService.findById(matId);
         if (material == null)
             throw new MaterialNotFoundException();
