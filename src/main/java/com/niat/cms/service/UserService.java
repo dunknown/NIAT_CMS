@@ -29,7 +29,7 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public void setRole(String username, User.Role role) {
-        findByUsername(username).setRole(role);
+    public void setRole(long id, User.Role role) {
+        userRepository.findOne(id).setRole(role);
     }
 }
