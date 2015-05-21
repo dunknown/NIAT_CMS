@@ -4,16 +4,14 @@ import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
 import com.niat.cms.service.MaterialService;
-import com.niat.cms.service.TagService;
+import com.niat.cms.service.UserService;
 import com.niat.cms.web.forms.MaterialForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -28,52 +26,62 @@ import java.util.Set;
 public class AdminPagesController {
 
     @Autowired
-    private MaterialService materialService;
+    private MaterialService materailService;
+
     @Autowired
-    private TagService tagService;
+    private UserService userService;
 
     @RequestMapping(value = "/editmain")
     public String editMain() {
         return "edit_main";
     }
 
-    @RequestMapping(value = "/users")
-    public String users() {
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public String users(Model model) {
+        model.addAttribute("users", userService.findAll());
         return "users";
     }
 
+    @RequestMapping(value = "/users/{userId}/setrole", method = RequestMethod.POST)
+    public @ResponseBody String setRole(@PathVariable(value="userId") String userId, @RequestParam String role, @AuthenticationPrincipal User currentUser) {
+        Long id = new Long(userId);
+        if (currentUser.getId() == id.longValue())
+            return "redirect:/admin/users";
+        switch (role) {
+            case "ROLE_READER":
+                //userService.setRole(id, User.Role.READER);
+                break;
+            case "ROLE_AUTHOR":
+                userService.setRole(id, User.Role.AUTHOR);
+                break;
+            case "ROLE_CORRECTOR":
+                userService.setRole(id, User.Role.CORRECTOR);
+                break;
+            case "ROLE_EDITOR":
+                userService.setRole(id, User.Role.EDITOR);
+                break;
+            case "ROLE_ADMIN":
+                userService.setRole(id, User.Role.ADMIN);
+                break;
+        }
+        return "redirect:/admin/users";
+    }
+
     @RequestMapping(value = "/addmaterial", method = RequestMethod.GET)
-    public String addMaterialForm(Model model) {
+    public String MaterialForm(Model model) {
         model.addAttribute("materialForm", new MaterialForm());
         return "addmaterial";
     }
 
     @RequestMapping(value = "/addmaterial", method = RequestMethod.POST)
-    public String submitMaterial(@Valid MaterialForm materialForm, BindingResult bindingResult, @AuthenticationPrincipal User currentUser) {
-        Material material = new Material(materialForm.getTitle(), materialForm.getText(), currentUser, materialForm.isOnMain());
-
-        String[] tags = materialForm.getTags().split("\\s*,[,\\s]*");
-        Set<Tag> tagsSet = new HashSet<>();
-        for(String tag : tags) {
-            if (tag.length() != 0) {
-                Tag t = tagService.findByText(tag);
-                if (t == null) {
-                    tagsSet.add(new Tag(tag));
-                } else {
-                    tagsSet.add(t);
-                }
-            }
-        }
-
-        if(tagsSet.isEmpty()) {
-            bindingResult.addError(new FieldError("materialForm", "tags", "Введите хотя бы один тег"));
-        }
-        if(bindingResult.hasErrors()) {
-            return "addmaterial";
-        }
-
-        material.setTags(tagsSet);
-        materialService.save(material);
+    public String submitMaterial(@Valid MaterialForm MaterialForm, BindingResult bindingResult, @AuthenticationPrincipal User currentUser) {
+        Material material = new Material(MaterialForm.getTitle(), MaterialForm.getText(), currentUser, MaterialForm.isOnMain());
+        String[] tags = MaterialForm.getTags().split("\\s*,[,\\s]*");
+        Set<Tag> tagsSet =new HashSet<>();
+        for(String tag : tags)
+            if (tag.length() != 0)
+                tagsSet.add(new Tag(tag));
+        materailService.save(material);
         return "redirect:/";
     }
 }
