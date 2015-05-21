@@ -45,7 +45,7 @@ public class AuthController {
             return "register";
         }
 
-        User user = new User(registrationForm.getUsername(), passwordEncoder.encode(registrationForm.getPassword()), User.Role.AUTHOR);
+        User user = new User(registrationForm.getUsername(), passwordEncoder.encode(registrationForm.getPassword()), User.Role.READER);
         userService.save(user);
 
         return "redirect:/login";

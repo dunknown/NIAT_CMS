@@ -3,6 +3,7 @@ package com.niat.cms.web;
 import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
+import com.niat.cms.exceptions.UserChangedOwnRole;
 import com.niat.cms.service.MaterialService;
 import com.niat.cms.service.UserService;
 import com.niat.cms.web.forms.MaterialForm;
@@ -45,10 +46,10 @@ public class AdminPagesController {
     @RequestMapping(value = "/users/{userId}/setrole", method = RequestMethod.POST)
     public @ResponseBody void setRole(@PathVariable(value="userId") Long id, @RequestParam String role, @AuthenticationPrincipal User currentUser) {
         if (currentUser.getId() == id.longValue())
-            return;
+            throw new UserChangedOwnRole();
         switch (role) {
             case "ROLE_READER":
-                //userService.setRole(id, User.Role.READER);
+                userService.setRole(id, User.Role.READER);
                 break;
             case "ROLE_AUTHOR":
                 userService.setRole(id, User.Role.AUTHOR);
