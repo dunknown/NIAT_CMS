@@ -43,8 +43,7 @@ public class AdminPagesController {
     }
 
     @RequestMapping(value = "/users/{userId}/setrole", method = RequestMethod.POST)
-    public @ResponseBody String setRole(@PathVariable(value="userId") String userId, @RequestParam String role, @AuthenticationPrincipal User currentUser) {
-        Long id = new Long(userId);
+    public @ResponseBody String setRole(@PathVariable(value="userId") Long id, @RequestParam String role, @AuthenticationPrincipal User currentUser) {
         if (currentUser.getId() == id.longValue())
             return "redirect:/admin/users";
         switch (role) {
