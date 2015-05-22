@@ -17,7 +17,6 @@
             padding: 7px;
             border-radius: 2px;
             line-height: 1em;
-
         }
         .tagCloud a:link, .tagCloud a:visited {
             background-color: #fff;
@@ -28,18 +27,12 @@
             background-color: #EB7F37 ;
             color: #FFF;
         }
-
-        .tagCloud a.w1 { background-color: #333; }
-        .tagCloud a.w2 { background-color: #777; }
-        .tagCloud a.w3 { background-color: #bbb; }
-        .tagCloud a.w0 { background-color: #EB7F37; }	/* active */
         .tagCloud a.selected { border-left: 5px solid #EB7F37 !important; border-right: 5px solid #EB7F37 !important; }
         .tagCloud a:link, .tagCloud a:visited { text-transform: capitalize; font-size:11px; margin: 0 3px 8px 0; color:#fff; }
 
         #disqus_thread {
             margin-top: 30px;
         }
-
     </style>
 </head>
 
@@ -69,34 +62,27 @@
         </div>
     </div>
 
-    <div th:fragment="material(material)">
-        <div class="well" id="material-well">
-            <small>
-                <span style="float:left" class="text-muted">Автор: <span th:text="${material.author.username}">имя_автора</span></span>
-                <span style="float:right" class="text-muted" th:text="${#dates.format(material.date, 'dd-MM-yyyy HH:mm')}">Дата</span>
-            </small>
-            <h2 th:text="${material.title}" class="text-indigo">Заголовок</h2>
-            <p th:utext="${material.text}">Текст</p>
+    <div class="container">
+        <div layout:fragment="content">
+            <script type="text/javascript">
+                $("#nav_item_editmain").addClass("active");
+            </script>
+            <div th:replace="fragments/materialList :: materialList(${materials})"/>
         </div>
     </div>
 
     <div class="col-lg-2 col-md-2 col-sm-3 hidden-xs">
-        <div class="tag-search-container">
-            <form class="tags-search-form" method="get" action="">
-                <input value="" id="search-input" class="form-control"
-                       data-url="" placeholder="Tag filter"/>
-            </form>
-            <br/>
             <section class="widget tagCloud">
                 <h3>Search by Tag</h3>
-                <div th:each="material : ${material.tag}">
-                    <a th:href="@{/tag/} + ${tag.text}" class="w3" title="1 occurances">Tag is here</a>
+                <div th:each="tag : ${material.tags}">
+                    <!--<a th:href="@{/tag/} + ${tag.text}">Tag is here</a>-->
+                    <button class="" type="success"> <a th:href="@{/tag/} + ${tag.text}">Tag is here</a></button>
                 </div>
             </section>
             <div class="tag-container"></div>
         </div>
     </div>
-
+    <!--th:href="@{/material/} + ${material.id}"-->
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
