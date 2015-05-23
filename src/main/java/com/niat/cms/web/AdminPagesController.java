@@ -46,11 +46,11 @@ public class AdminPagesController {
         return "users";
     }
 
-    @RequestMapping(value = "/users/{userId}/setrole", method = RequestMethod.POST)
-    public void setRole(@PathVariable(value="userId") long id, @RequestParam String role, @AuthenticationPrincipal User currentUser) {
+    @RequestMapping(value = "/users/{userId}/setrole/{roleName}", method = RequestMethod.GET)
+    public @ResponseBody void setRole(@PathVariable(value="userId") long id, @PathVariable String roleName, @AuthenticationPrincipal User currentUser) {
         if (currentUser.getId() == id)
             throw new UserChangedOwnRoleException();
-        switch (role) {
+        switch (roleName) {
             case "ROLE_READER":
                 userService.setRole(id, User.Role.READER);
                 break;
@@ -67,7 +67,6 @@ public class AdminPagesController {
                 userService.setRole(id, User.Role.ADMIN);
                 break;
         }
-        return;
     }
 
     @RequestMapping(value = "/addmaterial", method = RequestMethod.GET)

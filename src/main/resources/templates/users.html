@@ -74,9 +74,8 @@
             <script>
                 function setRole(userId) {
                     $.ajax({
-                        type: "POST",
-                        url : "/admin/users/" + userId + "/setrole",
-                        data: $("#select_" + userId).val(),
+                        type: "GET",
+                        url : "/admin/users/" + userId + "/setrole/" + $("#select_" + userId).val(),
                         success : function() {
                             $("#save_" + userId).addClass("btn-success");
                             $("#save_" + userId).removeClass("btn-warning");
