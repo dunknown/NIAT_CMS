@@ -79,6 +79,13 @@
                         success : function() {
                             $("#save_" + userId).addClass("btn-success");
                             $("#save_" + userId).removeClass("btn-warning");
+                        },
+                        error : function() {
+                            $.snackbar({
+                                content: "Не удалось сохранить изменение роли",
+                                style: "toast",
+                                timeout: 3000
+                            });
                         }
                     });
                 }
