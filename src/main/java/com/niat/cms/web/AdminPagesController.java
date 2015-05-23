@@ -3,8 +3,11 @@ package com.niat.cms.web;
 import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
+import com.niat.cms.exceptions.NoSuchRoleException;
+import com.niat.cms.exceptions.UserChangedOwnRoleException;
 import com.niat.cms.service.MaterialService;
 import com.niat.cms.service.TagService;
+import com.niat.cms.service.UserService;
 import com.niat.cms.web.forms.MaterialForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
@@ -12,8 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -31,19 +33,47 @@ public class AdminPagesController {
     private MaterialService materialService;
     @Autowired
     private TagService tagService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/editmain")
     public String editMain() {
         return "edit_main";
     }
 
-    @RequestMapping(value = "/users")
-    public String users() {
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public String users(Model model) {
+        model.addAttribute("users", userService.findAll());
         return "users";
     }
 
+    @RequestMapping(value = "/users/{userId}/setrole/{roleName}", method = RequestMethod.GET)
+    public @ResponseBody void setRole(@PathVariable(value="userId") long id, @PathVariable String roleName, @AuthenticationPrincipal User currentUser) {
+        if (currentUser.getId() == id)
+            throw new UserChangedOwnRoleException();
+        switch (roleName) {
+            case "ROLE_READER":
+                userService.setRole(id, User.Role.READER);
+                break;
+            case "ROLE_AUTHOR":
+                userService.setRole(id, User.Role.AUTHOR);
+                break;
+            case "ROLE_CORRECTOR":
+                userService.setRole(id, User.Role.CORRECTOR);
+                break;
+            case "ROLE_EDITOR":
+                userService.setRole(id, User.Role.EDITOR);
+                break;
+            case "ROLE_ADMIN":
+                userService.setRole(id, User.Role.ADMIN);
+                break;
+            default:
+                throw new NoSuchRoleException();
+        }
+    }
+
     @RequestMapping(value = "/addmaterial", method = RequestMethod.GET)
-    public String addMaterialForm(Model model) {
+    public String MaterialForm(Model model) {
         model.addAttribute("materialForm", new MaterialForm());
         return "addmaterial";
     }
