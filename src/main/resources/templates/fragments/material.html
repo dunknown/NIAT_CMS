@@ -71,16 +71,6 @@
             <p th:utext="${material.text}">Текст</p>
         </div>
     </div>
-    <div class="col-lg-2 col-md-2 col-sm-3 hidden-xs">
-        <section class="widget tagCloud">
-            <h3>Search by Tag</h3>
-            <div th:each="tag : ${material.tags}">
-                <button class="btn btn-lg btn-raised btn-material-default"><a th:href="@{/tag/} + ${tag.text}">Tag is here</a></button>
-            </div>
-        </section>
-        <div class="tag-container"></div>
-    </div>
-    </div>
 
     <script>
         $.material.init();
