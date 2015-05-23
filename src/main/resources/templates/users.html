@@ -54,7 +54,7 @@
                         <td th:text="${user.id}">1</td>
                         <td th:text="${user.username}">username</td>
                         <td>
-                            <select th:id="'select_' + ${user.id}" class="form-control" th:field="*{role}">
+                            <select th:id="'select_' + ${user.id}" class="form-control">
                                 <option th:each="role : ${T(com.niat.cms.domain.User$Role).values()}" th:value="${role.roleName}" th:text="${role.roleText}" th:selected="${role == user.role}">Автор</option>
                             </select>
                         </td>
@@ -63,28 +63,28 @@
                     </tbody>
                 </table>
             </div>
-        </div>
 
-        <script>
-            $("select").change(function() {
-                var id = '#save_' + $(this).attr('id').substring(7);
-                $(id).addClass("btn-warning");
-                $(id).removeClass("btn-success");
-            });
-        </script>
-        <script>
-            function setRole(userId) {
-                $.ajax({
-                    type: "POST",
-                    url : "/admin/users/" + userId + "/setrole",
-                    data: $("#select_" + userId).val(),
-                    success : function() {
-                        $("#save_" + userId).addClass("btn-success");
-                        $("#save_" + userId).removeClass("btn-warning");
-                    }
+            <script>
+                $("select").change(function() {
+                    var id = '#save_' + $(this).attr('id').substring(7);
+                    $(id).addClass("btn-warning");
+                    $(id).removeClass("btn-success");
                 });
-            }
-        </script>
+            </script>
+            <script>
+                function setRole(userId) {
+                    $.ajax({
+                        type: "POST",
+                        url : "/admin/users/" + userId + "/setrole",
+                        data: $("#select_" + userId).val(),
+                        success : function() {
+                            $("#save_" + userId).addClass("btn-success");
+                            $("#save_" + userId).removeClass("btn-warning");
+                        }
+                    });
+                }
+            </script>
+        </div>
     </div>
 
     <script>
