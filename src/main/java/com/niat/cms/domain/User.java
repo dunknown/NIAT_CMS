@@ -20,7 +20,8 @@ public class User implements UserDetails {
         ADMIN("ROLE_ADMIN", "Администратор"),
         EDITOR("ROLE_EDITOR", "Редактор"),
         AUTHOR("ROLE_AUTHOR", "Автор"),
-        CORRECTOR("ROLE_CORRECTOR", "Корректор");
+        CORRECTOR("ROLE_CORRECTOR", "Корректор"),
+        READER("ROLE_READER","Читатель");
 
         private String roleName;
         private String roleText;
