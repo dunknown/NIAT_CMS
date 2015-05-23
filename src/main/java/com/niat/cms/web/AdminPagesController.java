@@ -3,6 +3,7 @@ package com.niat.cms.web;
 import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
+import com.niat.cms.exceptions.NoSuchRoleException;
 import com.niat.cms.exceptions.UserChangedOwnRoleException;
 import com.niat.cms.service.MaterialService;
 import com.niat.cms.service.TagService;
@@ -66,6 +67,8 @@ public class AdminPagesController {
             case "ROLE_ADMIN":
                 userService.setRole(id, User.Role.ADMIN);
                 break;
+            default:
+                throw new NoSuchRoleException();
         }
     }
 
