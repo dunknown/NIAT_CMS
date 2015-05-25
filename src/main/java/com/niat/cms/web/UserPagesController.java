@@ -1,7 +1,9 @@
 package com.niat.cms.web;
 
 import com.niat.cms.domain.Material;
+import com.niat.cms.domain.Tag;
 import com.niat.cms.exceptions.MaterialNotFoundException;
+import com.niat.cms.exceptions.TagNotFoundException;
 import com.niat.cms.service.MaterialService;
 import com.niat.cms.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +50,10 @@ public class UserPagesController {
 
     @RequestMapping(value = "/tag/{tagText}")
     public String materialsWithTagPage(Model model, @PathVariable String tagText) {
-        List<Material> materials = materialService.findMaterialsWithTag(tagService.findByText(tagText));
+        Tag tag = tagService.findByText(tagText);
+        if (tag == null)
+            throw new TagNotFoundException();
+        List<Material> materials = materialService.findMaterialsWithTag(tag);
         model.addAttribute("materialswithtag", materials);
         return "materailswtag";
     }
