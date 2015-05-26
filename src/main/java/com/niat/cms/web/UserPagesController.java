@@ -45,7 +45,7 @@ public class UserPagesController {
         if (material == null)
             throw new MaterialNotFoundException();
         model.addAttribute("material", material);
-        return "material";
+        return "material_page";
     }
 
     @RequestMapping(value = "/tag/{tagText}")
@@ -55,6 +55,6 @@ public class UserPagesController {
             throw new TagNotFoundException();
         List<Material> materials = materialService.findMaterialsWithTag(tag);
         model.addAttribute("materialswithtag", materials);
-        return "materailswtag";
+        return "tag_page";
     }
 }
