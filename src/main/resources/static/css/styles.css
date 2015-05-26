@@ -35,3 +35,7 @@ a, a:focus, a:hover {
 .material-text img {
     max-width: 100%;
 }
+
+#disqus_thread {
+    margin-top: 30px;
+}

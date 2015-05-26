@@ -6,28 +6,6 @@
       layout:decorator="layouts/layout">
 <head lang="en">
     <title th:text="'Материал #' + ${material.id}"></title>
-    <style>
-        .tagCloud a:link, .tagCloud a:visited {
-            text-decoration: none;
-            text-transform: uppercase;
-            display: inline-block;
-            margin: 0 3px 14px 0;
-            padding: 7px;
-            border-radius: 2px;
-            line-height: 1em;
-        }
-        .tagCloud a:link, .tagCloud a:visited {
-            background-color: #fff;
-            color: #ccc;
-            border:1px solid #eee;
-        }
-        .tagCloud a.selected { border-left: 5px solid #EB7F37 !important; border-right: 5px solid #EB7F37 !important; }
-        .tagCloud a:link, .tagCloud a:visited { text-transform: capitalize; font-size:11px; margin: 0 3px 8px 0; color:#fff; }
-
-        #disqus_thread {
-            margin-top: 30px;
-        }
-    </style>
 </head>
 <body>
     <div class="navbar navbar-material-indigo ">
