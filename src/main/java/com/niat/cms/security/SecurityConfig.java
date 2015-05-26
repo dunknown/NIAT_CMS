@@ -50,10 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .key("niat_cms_key")
             .and()
             .authorizeRequests()
-                .antMatchers("/admin/users").hasRole("ADMIN")
-                .antMatchers("/admin/users/*/setrole/*").hasRole("ADMIN")
-                .antMatchers("/admin/editmain").hasAnyRole("ADMIN", "EDITOR")
-                .antMatchers("/admin/addmaterial").hasAnyRole("ADMIN", "EDITOR", "AUTHOR")
+                .antMatchers("/users").hasRole("ADMIN")
+                .antMatchers("/users/*/setrole/*").hasRole("ADMIN")
+                .antMatchers("/editmain").hasAnyRole("ADMIN", "EDITOR")
+                .antMatchers("/addmaterial").hasAnyRole("ADMIN", "EDITOR", "AUTHOR")
                 .anyRequest().permitAll();
     }
 }
