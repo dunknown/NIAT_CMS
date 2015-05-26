@@ -3,8 +3,10 @@ package com.niat.cms.web;
 import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
+import com.niat.cms.exceptions.NoSuchRoleException;
 import com.niat.cms.exceptions.UserChangedOwnRoleException;
 import com.niat.cms.service.MaterialService;
+import com.niat.cms.service.TagService;
 import com.niat.cms.service.UserService;
 import com.niat.cms.web.forms.MaterialForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,8 +30,9 @@ import java.util.Set;
 public class AdminPagesController {
 
     @Autowired
-    private MaterialService materailService;
-
+    private MaterialService materialService;
+    @Autowired
+    private TagService tagService;
     @Autowired
     private UserService userService;
 
@@ -43,11 +47,11 @@ public class AdminPagesController {
         return "users";
     }
 
-    @RequestMapping(value = "/users/{userId}/setrole", method = RequestMethod.POST)
-    public @ResponseBody void setRole(@PathVariable(value="userId") Long id, @RequestParam String role, @AuthenticationPrincipal User currentUser) {
-        if (currentUser.getId() == id.longValue())
+    @RequestMapping(value = "/users/{userId}/setrole/{roleName}", method = RequestMethod.GET)
+    public @ResponseBody void setRole(@PathVariable(value="userId") long id, @PathVariable String roleName, @AuthenticationPrincipal User currentUser) {
+        if (currentUser.getId() == id)
             throw new UserChangedOwnRoleException();
-        switch (role) {
+        switch (roleName) {
             case "ROLE_READER":
                 userService.setRole(id, User.Role.READER);
                 break;
@@ -63,8 +67,9 @@ public class AdminPagesController {
             case "ROLE_ADMIN":
                 userService.setRole(id, User.Role.ADMIN);
                 break;
+            default:
+                throw new NoSuchRoleException();
         }
-        return;
     }
 
     @RequestMapping(value = "/addmaterial", method = RequestMethod.GET)
@@ -74,14 +79,31 @@ public class AdminPagesController {
     }
 
     @RequestMapping(value = "/addmaterial", method = RequestMethod.POST)
-    public String submitMaterial(@Valid MaterialForm MaterialForm, BindingResult bindingResult, @AuthenticationPrincipal User currentUser) {
-        Material material = new Material(MaterialForm.getTitle(), MaterialForm.getText(), currentUser, MaterialForm.isOnMain());
-        String[] tags = MaterialForm.getTags().split("\\s*,[,\\s]*");
-        Set<Tag> tagsSet =new HashSet<>();
-        for(String tag : tags)
-            if (tag.length() != 0)
-                tagsSet.add(new Tag(tag));
-        materailService.save(material);
+    public String submitMaterial(@Valid MaterialForm materialForm, BindingResult bindingResult, @AuthenticationPrincipal User currentUser) {
+        Material material = new Material(materialForm.getTitle(), materialForm.getText(), currentUser, materialForm.isOnMain());
+
+        String[] tags = materialForm.getTags().split("\\s*,[,\\s]*");
+        Set<Tag> tagsSet = new HashSet<>();
+        for(String tag : tags) {
+            if (tag.length() != 0) {
+                Tag t = tagService.findByText(tag);
+                if (t == null) {
+                    tagsSet.add(new Tag(tag));
+                } else {
+                    tagsSet.add(t);
+                }
+            }
+        }
+
+        if(tagsSet.isEmpty()) {
+            bindingResult.addError(new FieldError("materialForm", "tags", "Введите хотя бы один тег"));
+        }
+        if(bindingResult.hasErrors()) {
+            return "addmaterial";
+        }
+
+        material.setTags(tagsSet);
+        materialService.save(material);
         return "redirect:/";
     }
 }
