@@ -20,7 +20,8 @@ public class User implements UserDetails {
         ADMIN("ROLE_ADMIN"),
         EDITOR("ROLE_EDITOR"),
         AUTHOR("ROLE_AUTHOR"),
-        CORRECTOR("ROLE_CORRECTOR");
+        CORRECTOR("ROLE_CORRECTOR"),
+        READER("ROLE_READER");
 
         private String roleName;
 
