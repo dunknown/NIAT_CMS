@@ -26,7 +26,6 @@ import java.util.Set;
  */
 
 @Controller
-@RequestMapping(value = "/admin")
 public class AdminPagesController {
 
     @Autowired

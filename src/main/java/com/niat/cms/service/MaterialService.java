@@ -39,6 +39,6 @@ public class MaterialService {
     }
 
     public List<Material> findMaterialsWithTag(Tag tag) {
-        return materialRepository.findByTagsContainingOrderByDateDesc(tag);
+        return materialRepository.findByTagOrderByDateDesc(tag);
     }
 }
