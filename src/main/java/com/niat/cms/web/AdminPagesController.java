@@ -103,9 +103,6 @@ public class AdminPagesController {
 
         material.setTags(tagsSet);
         materialService.save(material);
-        StringBuilder redirect =  new StringBuilder("redirect:/material/");
-        redirect.append(material.getId());
-        redirect.append("/");
-        return redirect.toString();
+        return "redirect:/material" + material.getId();
     }
 }
