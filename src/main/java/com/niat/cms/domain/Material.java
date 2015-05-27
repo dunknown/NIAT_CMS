@@ -18,7 +18,11 @@ public class Material {
 
     @Lob
     @Column(nullable = false)
-    private String text;
+    private String shortText;
+
+    @Lob
+    @Column(nullable = false)
+    private String mainText;
 
     @ManyToOne
     private User author;
@@ -39,9 +43,10 @@ public class Material {
     public Material() {
     }
 
-    public Material(String title, String text, User author, boolean onMain) {
+    public Material(String title, String shortText, String mainText, User author, boolean onMain) {
         this.title = title;
-        this.text = text;
+        this.shortText = shortText;
+        this.mainText = mainText;
         this.author = author;
         this.onMain = onMain;
         this.date = new Date();
@@ -64,12 +69,20 @@ public class Material {
         this.title = title;
     }
 
-    public String getText() {
-        return text;
+    public String getShortText() {
+        return shortText;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setShortText(String shortText) {
+        this.shortText = shortText;
+    }
+
+    public String getMainText() {
+        return mainText;
+    }
+
+    public void setMainText(String mainText) {
+        this.mainText = mainText;
     }
 
     public User getAuthor() {
