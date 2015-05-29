@@ -54,4 +54,11 @@ public class MaterialService {
     public List<Material> findMaterialsWithTag(Tag tag) {
         return materialRepository.findByTagOrderByDateDesc(tag);
     }
+
+    public void setMaterialStatus(long id, Material.Status status) {
+        Material m = materialRepository.findById(id);
+        if(m != null) {
+            m.setStatus(status);
+        }
+    }
 }
