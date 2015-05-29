@@ -10,6 +10,15 @@ import java.util.Set;
  */
 @Entity
 public class Material {
+
+    public static enum Status {
+        DRAFT,
+        MODERATION_TASK,
+        UNDER_MODERATION,
+        ARCHIVE,
+        MAIN
+    }
+
     @Id @GeneratedValue
     private long id;
 
@@ -28,7 +37,8 @@ public class Material {
     private Date date;
 
     @Column(nullable = false)
-    private boolean onMain;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "material_tag",
@@ -39,11 +49,11 @@ public class Material {
     public Material() {
     }
 
-    public Material(String title, String text, User author, boolean onMain) {
+    public Material(String title, String text, User author, Status status) {
         this.title = title;
         this.text = text;
         this.author = author;
-        this.onMain = onMain;
+        this.status = status;
         this.date = new Date();
         this.tags = new HashSet<Tag>();
     }
@@ -88,12 +98,12 @@ public class Material {
         this.date = date;
     }
 
-    public boolean isOnMain() {
-        return onMain;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setOnMain(boolean onMain) {
-        this.onMain = onMain;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public Set<Tag> getTags() {
