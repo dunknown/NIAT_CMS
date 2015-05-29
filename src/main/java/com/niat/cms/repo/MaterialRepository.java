@@ -2,6 +2,7 @@ package com.niat.cms.repo;
 
 import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
+import com.niat.cms.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,8 +18,8 @@ import java.util.List;
 @Repository
 public interface MaterialRepository extends JpaRepository<Material, Long> {
     Material findById(long id);
-    List<Material> findByOnMainTrueOrderByDateDesc();
-    List<Material> findByOnMainFalseOrderByDateDesc();
+    List<Material> findByStatusOrderByDateDesc(Material.Status status);
+    List<Material> findByStatusAndAuthorOrderByDateDesc(Material.Status status, User author);
 
     @Query("select m from Material m where :tag member m.tags order by m.date desc")
     List<Material> findByTagOrderByDateDesc(@Param("tag") Tag tag);
