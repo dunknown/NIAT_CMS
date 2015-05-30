@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author dunknown
@@ -59,6 +60,34 @@ public class MaterialService {
         Material m = materialRepository.findById(id);
         if(m != null) {
             m.setStatus(status);
+        }
+    }
+
+    public void setMaterialTitle(long id, String title) {
+        Material m = materialRepository.findById(id);
+        if(m != null) {
+            m.setTitle(title);
+        }
+    }
+
+    public void setMaterialTags(long id, Set<Tag> tags) {
+        Material m = materialRepository.findById(id);
+        if(m != null) {
+            m.setTags(tags);
+        }
+    }
+
+    public void setMaterialShortText(long id, String shortText) {
+        Material m = materialRepository.findById(id);
+        if(m != null) {
+            m.setShortText(shortText);
+        }
+    }
+
+    public void setMaterialMainText(long id, String mainText) {
+        Material m = materialRepository.findById(id);
+        if(m != null) {
+            m.setMainText(mainText);
         }
     }
 }
