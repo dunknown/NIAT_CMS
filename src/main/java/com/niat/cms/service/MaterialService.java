@@ -44,7 +44,7 @@ public class MaterialService {
     }
 
     public List<Material> findUserModerationTasks(User user) {
-        return materialRepository.findByStatusAndAuthorOrderByDateDesc(Material.Status.UNDER_MODERATION, user);
+        return materialRepository.findByStatusAndModeratorOrderByDateDesc(Material.Status.UNDER_MODERATION, user);
     }
 
     public List<Material> findUserDrafts(User user) {

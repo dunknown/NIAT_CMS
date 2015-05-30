@@ -32,6 +32,8 @@ public class Material {
     @ManyToOne
     private User author;
 
+    private User moderator;
+
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
@@ -88,6 +90,14 @@ public class Material {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public User getModerator() {
+        return moderator;
+    }
+
+    public void setModerator(User moderator) {
+        this.moderator = moderator;
     }
 
     public Date getDate() {
