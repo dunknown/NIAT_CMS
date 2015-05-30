@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      layout:decorator="layouts/layout">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Материал</title>
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" th:href="@{css/styles.css}" href="../../static/css/styles.css"/>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Material Design -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/roboto.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/material.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/ripples.min.css"/>
+    <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/material.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/ripples.min.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-material-indigo ">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">NiatCMS</a>
+    </div>
+    <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+            <li id="nav_i       tem_main" sec:authorize-url="/"><a th:href="@{/}">Главная</a></li>
+            <li id="nav_item_archive" sec:authorize-url="/archive"><a th:href="@{/archive}">Архив</a></li>
+        </ul>
+        <ul class="nav navbar-nav">
+            <li id="nav_item_newmaterial" sec:authorize-url="/admin/newmaterial"><a th:href="@{/admin/newmaterial}">Новый материал</a></li>
+            <li id="nav_item_editmain" sec:authorize-url="/admin/editmain"><a th:href="@{/admin/editmain}">Редактировать главную</a></li>
+            <li id="nav_item_users" sec:authorize-url="/admin/users"><a th:href="@{/admin/users}">Пользователи</a></li>
+        </ul>
+        <form class="navbar-form navbar-right form-group-white">
+            <input type="text" class="form-control col-lg-8" placeholder="Поиск"/>
+        </form>
+    </div>
+</div>
+
+<div th:fragment="materialControls(material)">
+    <div th:if="${material.status == T(com.niat.cms.domain.User$Role).DRAFT}">
+        <a class="btn btn-sm btn-material-indigo" th:href="@{/material/} + ${material.id} + '/edit'">Редактировать</a>
+    </div>
+    <div th:if="${material.status == T(com.niat.cms.domain.User$Role).MODERATION_TASK}">
+        <a class="btn btn-sm btn-material-indigo" th:href="@{/material/} + ${material.id} + '/taketask'">Взять в работу</a>
+    </div>
+    <div th:if="${material.status == T(com.niat.cms.domain.User$Role).UNDER_MODERATION}">
+        <a class="btn btn-sm btn-material-indigo" th:href="@{/material/} + ${material.id} + '/edit'">Редактировать</a>
+        <a class="btn btn-sm btn-success" th:href="@{/material/} + ${material.id} + '/accept'">Одобрить</a>
+        <a class="btn btn-sm btn-danger" th:href="@{/material/} + ${material.id} + '/decline'">Отклонить</a>
+    </div>
+    <div th:if="${material.status == T(com.niat.cms.domain.User$Role).ARCHIVE}">
+        <a class="btn btn-sm btn-material-indigo"
+           th:href="@{/material/} + ${material.id} + '/edit'"
+           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">Редактировать</a>
+        <a class="btn btn-sm btn-danger"
+           th:href="@{/material/} + ${material.id} + '/delete'"
+           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">Удалить</a>
+        <a class="btn btn-sm btn-material-indigo"
+           th:href="@{/material/} + ${material.id} + '/tomain'"
+           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">На главную</a>
+        <a class="btn btn-sm btn-material-indigo"
+           th:href="@{/material/} + ${material.id} + '/fav'"
+           sec:authorize="isAuthenticated()"
+           th:if="${!#lists.contains(currentUser.favourites, material)}">В избранное</a>
+        <a class="btn btn-sm btn-material-indigo"
+           th:href="@{/material/} + ${material.id} + '/unfav'"
+           sec:authorize="isAuthenticated()"
+           th:if="${#lists.contains(currentUser.favourites, material)}">Из избранного</a>
+    </div>
+    <div th:if="${material.status == T(com.niat.cms.domain.User$Role).MAIN}">
+        <a class="btn btn-sm btn-material-indigo"
+           th:href="@{/material/} + ${material.id} + '/edit'"
+           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">Редактировать</a>
+        <a class="btn btn-sm btn-danger"
+           th:href="@{/material/} + ${material.id} + '/delete'"
+           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">Удалить</a>
+        <a class="btn btn-sm btn-material-indigo"
+           th:href="@{/material/} + ${material.id} + '/toarchive'"
+           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">В архив</a>
+        <a class="btn btn-sm btn-material-indigo"
+           th:href="@{/material/} + ${material.id} + '/feature'"
+           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"
+                th:if="${!material.featured}">Зафичерить</a>
+        <a class="btn btn-sm btn-material-indigo"
+           th:href="@{/material/} + ${material.id} + '/unfeature'"
+           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"
+           th:if="${material.featured}">Расфичерить</a>
+        <a class="btn btn-sm btn-material-indigo"
+           th:href="@{/material/} + ${material.id} + '/fav'"
+           sec:authorize="isAuthenticated()"
+           th:if="${!#lists.contains(currentUser.favourites, material)}">В избранное</a>
+        <a class="btn btn-sm btn-material-indigo"
+           th:href="@{/material/} + ${material.id} + '/unfav'"
+           sec:authorize="isAuthenticated()"
+           th:if="${#lists.contains(currentUser.favourites, material)}">Из избранного</a>
+    </div>
+</div>
+
+<script>
+    $.material.init();
+</script>
+</body>
+</html>
