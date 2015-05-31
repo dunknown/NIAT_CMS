@@ -35,7 +35,7 @@
 
     <div class="container">
         <div layout:fragment="content">
-            <div th:replace="fragments/material :: material(${material})"/>
+            <div th:replace="fragments/fullMaterial :: fullMaterial(${material})"/>
 
             <div>
                 <a th:each="tag : ${material.tags}"
