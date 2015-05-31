@@ -17,7 +17,6 @@ public class MaterialForm {
     private String text;
 
     @NotNull
-    @Size(min = 4, message = "Теги должен быть не менее {min} символов в длину")
     private String tags;
 
     private boolean onMain;
