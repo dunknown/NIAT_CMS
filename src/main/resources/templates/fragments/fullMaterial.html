@@ -68,7 +68,8 @@
             <span style="float:right" class="text-muted" th:text="${#dates.format(material.date, 'dd-MM-yyyy HH:mm')}">Дата</span>
         </small>
         <h2><a th:text="${material.title}" th:href="@{/material/} + ${material.id}" class="text-indigo">Заголовок</a></h2>
-        <p class="material-text" th:utext="${material.shortText} + ${material.mainText}">Текст</p>
+        <div th:if="${material.mainText == null}" th:utext="${material.shortText}" class="material-text">Текст</div>
+        <div th:if="${material.mainText != null}" th:utext="${material.shortText + material.mainText}" class="material-text">Текст</div>
     </div>
 </div>
 
