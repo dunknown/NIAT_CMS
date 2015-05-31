@@ -21,7 +21,7 @@ public class Material {
     private String shortText;
 
     @Lob
-    @Column(nullable = false)
+    @Column
     private String mainText;
 
     @ManyToOne

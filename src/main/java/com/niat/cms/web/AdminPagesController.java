@@ -80,7 +80,12 @@ public class AdminPagesController {
     @RequestMapping(value = "/addmaterial", method = RequestMethod.POST)
     public String submitMaterial(@Valid MaterialForm materialForm, BindingResult bindingResult, @AuthenticationPrincipal User currentUser) {
         String[] texts = materialForm.getText().split("&lt;cut&gt;", 2);
-        Material material = new Material(materialForm.getTitle(), texts[0], texts[1], currentUser, materialForm.isOnMain());
+        String mainText;
+        if (texts.length < 2)
+            mainText = "";
+        else
+            mainText = texts[1];
+        Material material = new Material(materialForm.getTitle(), texts[0], mainText, currentUser, materialForm.isOnMain());
 
         String[] tags = materialForm.getTags().split("\\s*,[,\\s]*");
         Set<Tag> tagsSet = new HashSet<>();
