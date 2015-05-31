@@ -39,3 +39,7 @@ a, a:focus, a:hover {
 #disqus_thread {
     margin-top: 30px;
 }
+
+.btn-toolbar .btn i {
+    font-size: 16pt;
+}
