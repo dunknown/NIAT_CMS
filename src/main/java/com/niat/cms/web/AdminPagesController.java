@@ -34,7 +34,7 @@ public class AdminPagesController {
 
     @Autowired
     private TagService tagService;
-    
+
     @Autowired
     private UserService userService;
 
@@ -113,7 +113,7 @@ public class AdminPagesController {
             throw new MaterialNotFoundException();
         MaterialForm form = new MaterialForm();
         form.setTitle(material.getTitle());
-        form.setText(material.getShortText() + material.getMainText());
+        form.setText(material.getShortText() + "<cut>" + material.getMainText());
         form.setTags(material.getTags().toString());
         model.addAttribute("materialForm", form);
         return "edit_page";
