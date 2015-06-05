@@ -3,6 +3,7 @@ package com.niat.cms.web;
 import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
+import com.niat.cms.exceptions.MaterialNotFoundException;
 import com.niat.cms.exceptions.NoSuchRoleException;
 import com.niat.cms.exceptions.UserChangedOwnRoleException;
 import com.niat.cms.service.MaterialService;
@@ -30,8 +31,10 @@ public class AdminPagesController {
 
     @Autowired
     private MaterialService materialService;
+
     @Autowired
     private TagService tagService;
+    
     @Autowired
     private UserService userService;
 
@@ -72,7 +75,7 @@ public class AdminPagesController {
     }
 
     @RequestMapping(value = "/addmaterial", method = RequestMethod.GET)
-    public String MaterialForm(Model model) {
+    public String materialForm(Model model) {
         model.addAttribute("materialForm", new MaterialForm());
         return "addmaterial";
     }
@@ -85,21 +88,9 @@ public class AdminPagesController {
             mainText = "";
         else
             mainText = texts[1];
-        Material material = new Material(materialForm.getTitle(), texts[0], mainText, currentUser, materialForm.isOnMain());
+        Material material = new Material(materialForm.getTitle(), texts[0], mainText, currentUser, Material.Status.MODERATION_TASK);
 
-        String[] tags = materialForm.getTags().split("\\s*,[,\\s]*");
-        Set<Tag> tagsSet = new HashSet<>();
-        for(String tag : tags) {
-            if (tag.length() != 0) {
-                Tag t = tagService.findByText(tag);
-                if (t == null) {
-                    tagsSet.add(new Tag(tag));
-                } else {
-                    tagsSet.add(t);
-                }
-            }
-        }
-
+        Set<Tag> tagsSet = getTagsFromString(materialForm.getTags());
         if(tagsSet.isEmpty()) {
             bindingResult.addError(new FieldError("materialForm", "tags", "Введите хотя бы один тег"));
         }
@@ -111,4 +102,55 @@ public class AdminPagesController {
         materialService.save(material);
         return "redirect:/material/" + material.getId();
     }
+
+    @RequestMapping(value = "/material/{id}/edit", method = RequestMethod.GET)
+    public String editMaterialForm(Model model, Long id, @AuthenticationPrincipal User currentUser) {
+        Material material = materialService.findById(id);
+        if (material == null || (material.getStatus() == Material.Status.DRAFT && !material.getAuthor().equals(currentUser))
+                || (material.getStatus() == Material.Status.UNDER_MODERATION && !material.getModerator().equals(currentUser))
+                || (material.getStatus() == Material.Status.ARCHIVE || material.getStatus() == Material.Status.MAIN
+                    && (currentUser.getRole() != User.Role.ADMIN || currentUser.getRole() != User.Role.EDITOR)))
+            throw new MaterialNotFoundException();
+        MaterialForm form = new MaterialForm();
+        form.setTitle(material.getTitle());
+        form.setText(material.getShortText() + material.getMainText());
+        form.setTags(material.getTags().toString());
+        model.addAttribute("materialForm", form);
+        return "edit_page";
+    }
+
+    @RequestMapping(value = "/material/{id}/edit", method = RequestMethod.POST)
+    public String editMaterial(@Valid MaterialForm materialForm, BindingResult bindingResult, Long id, @AuthenticationPrincipal User currentUser) {
+        Material material = materialService.findById(id);
+        if (material == null)
+            throw new MaterialNotFoundException();
+        material.setTitle(materialForm.getTitle());
+        String[] texts = materialForm.getText().split("&lt;cut&gt;", 2);
+        String mainText;
+        if (texts.length < 2)
+            mainText = "";
+        else
+            mainText = texts[1];
+        material.setShortText(texts[0]);
+        material.setMainText(mainText);
+        material.setTags(getTagsFromString(materialForm.getTags()));
+        return "redirect:/material/" + id;
+    }
+
+    private Set<Tag> getTagsFromString(String tagsText) {
+        String[] tags = tagsText.split("\\s*,[,\\s]*");
+        Set<Tag> tagsSet = new HashSet<>();
+        for(String tag : tags) {
+            if (tag.length() != 0) {
+                Tag t = tagService.findByText(tag);
+                if (t == null) {
+                    tagsSet.add(new Tag(tag));
+                } else {
+                    tagsSet.add(t);
+                }
+            }
+        }
+        return tagsSet;
+    }
+
 }
