@@ -3,8 +3,8 @@ package com.niat.cms.web;
 import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
-import com.niat.cms.exceptions.MaterialNotFoundException;
 import com.niat.cms.exceptions.NoSuchRoleException;
+import com.niat.cms.exceptions.UnauthorisedMEditException;
 import com.niat.cms.exceptions.UserChangedOwnRoleException;
 import com.niat.cms.service.MaterialService;
 import com.niat.cms.service.TagService;
@@ -16,7 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -110,7 +113,7 @@ public class AdminPagesController {
                 || (material.getStatus() == Material.Status.UNDER_MODERATION && !material.getModerator().equals(currentUser))
                 || (material.getStatus() == Material.Status.ARCHIVE || material.getStatus() == Material.Status.MAIN
                     && (currentUser.getRole() != User.Role.ADMIN || currentUser.getRole() != User.Role.EDITOR)))
-            throw new MaterialNotFoundException();
+            throw new UnauthorisedMEditException();
         MaterialForm form = new MaterialForm();
         form.setTitle(material.getTitle());
         form.setText(material.getShortText() + "<cut>" + material.getMainText());
@@ -123,7 +126,7 @@ public class AdminPagesController {
     public String editMaterial(@Valid MaterialForm materialForm, BindingResult bindingResult, @PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
         if (material == null)
-            throw new MaterialNotFoundException();
+            throw new UnauthorisedMEditException();
         material.setTitle(materialForm.getTitle());
         String[] texts = materialForm.getText().split("&lt;cut&gt;", 2);
         String mainText;

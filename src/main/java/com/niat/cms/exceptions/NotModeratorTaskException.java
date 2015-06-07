@@ -6,7 +6,7 @@ package com.niat.cms.exceptions;
 /**
  * @author dunknown
  */
-@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "No such role")
+@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "This material doesn't awaits for moderation")
 public class NotModeratorTaskException extends RuntimeException {
 }
 
