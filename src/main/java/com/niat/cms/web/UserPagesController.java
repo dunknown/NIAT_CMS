@@ -63,4 +63,10 @@ public class UserPagesController {
         model.addAttribute("materialswithtag", materials);
         return "tag_page";
     }
+
+    @RequestMapping(value = "/drafts")
+    public String drafts(Model model, @AuthenticationPrincipal User currentUser) {
+        model.addAttribute("materials", materialService.findUserDrafts(currentUser));
+        return "drafts";
+    }
 }
