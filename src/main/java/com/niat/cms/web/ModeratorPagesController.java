@@ -41,8 +41,8 @@ public class ModeratorPagesController {
         Material material = materialService.findById(id);
         if (material.getStatus() == Material.Status.MODERATION_TASK
                 && (currentUser.getRole() == User.Role.EDITOR || currentUser.getRole() == User.Role.CORRECTOR)) {
-            material.setStatus(Material.Status.UNDER_MODERATION);
-            material.setModerator(currentUser);
+            materialService.setMaterialStatus(id, Material.Status.UNDER_MODERATION);
+            materialService.setMaterialModerator(id, currentUser);
         }
         else
             throw new NotModeratorTaskException();
@@ -58,8 +58,8 @@ public class ModeratorPagesController {
     public void acceptMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
         if (material.getStatus() == Material.Status.UNDER_MODERATION && material.getModerator().equals(currentUser)) {
-            material.setStatus(Material.Status.ARCHIVE);
-            material.setModerator(null);
+            materialService.setMaterialStatus(id, Material.Status.ARCHIVE);
+            materialService.setMaterialModerator(id, null);
         }
         else
             throw new NotModeratorTaskException();
@@ -69,8 +69,8 @@ public class ModeratorPagesController {
     public void declineMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
         if (material.getStatus() == Material.Status.UNDER_MODERATION && material.getModerator().equals(currentUser)) {
-            material.setStatus(Material.Status.DRAFT);
-            material.setModerator(null);
+            materialService.setMaterialStatus(id, Material.Status.DRAFT);
+            materialService.setMaterialModerator(id, null);
         }
         else
             throw new NotModeratorTaskException();

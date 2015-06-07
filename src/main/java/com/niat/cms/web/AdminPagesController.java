@@ -106,6 +106,29 @@ public class AdminPagesController {
         return "redirect:/material/" + material.getId();
     }
 
+    @RequestMapping(value = "/todrafts", method = RequestMethod.POST)
+    public String submitMaterialToDrafts(@Valid MaterialForm materialForm, BindingResult bindingResult, @AuthenticationPrincipal User currentUser) {
+        String[] texts = materialForm.getText().split("&lt;cut&gt;", 2);
+        String mainText;
+        if (texts.length < 2)
+            mainText = "";
+        else
+            mainText = texts[1];
+        Material material = new Material(materialForm.getTitle(), texts[0], mainText, currentUser, Material.Status.DRAFT);
+
+        Set<Tag> tagsSet = getTagsFromString(materialForm.getTags());
+        if(tagsSet.isEmpty()) {
+            bindingResult.addError(new FieldError("materialForm", "tags", "Введите хотя бы один тег"));
+        }
+        if(bindingResult.hasErrors()) {
+            return "addmaterial";
+        }
+
+        material.setTags(tagsSet);
+        materialService.save(material);
+        return "redirect:/material/" + material.getId();
+    }
+
     @RequestMapping(value = "/material/{id}/edit", method = RequestMethod.GET)
     public String editMaterialForm(Model model, @PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
