@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public class UserPagesController {
     }
 
     @RequestMapping(value = "/material/{matId}")
-    public String materialPage(Model model, Long matId, @AuthenticationPrincipal User currentUser) {
+    public String materialPage(Model model, @PathVariable Long matId, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(matId);
         if (material == null || (material.getStatus() == Material.Status.DRAFT && !material.getAuthor().equals(currentUser))
                 || (material.getStatus() == Material.Status.UNDER_MODERATION && !material.getModerator().equals(currentUser))
@@ -54,7 +55,7 @@ public class UserPagesController {
     }
 
     @RequestMapping(value = "/tag/{tagText}")
-    public String materialsWithTagPage(Model model, String tagText) {
+    public String materialsWithTagPage(Model model, @PathVariable String tagText) {
         Tag tag = tagService.findByText(tagText);
         if (tag == null)
             throw new TagNotFoundException();

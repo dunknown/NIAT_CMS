@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -36,7 +37,7 @@ public class ModeratorPagesController {
     }
 
     @RequestMapping(value = "/material/{id}/taketask", method = RequestMethod.GET)
-    public void takeTask(Long id, @AuthenticationPrincipal User currentUser) {
+    public void takeTask(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
         if (material.getStatus() == Material.Status.MODERATION_TASK) {
             material.setStatus(Material.Status.UNDER_MODERATION);
@@ -53,7 +54,7 @@ public class ModeratorPagesController {
     }
 
     @RequestMapping(value = "/material/{id}/accept", method = RequestMethod.GET)
-    public void acceptMaterial(Long id, @AuthenticationPrincipal User currentUser) {
+    public void acceptMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
         if (material.getStatus() == Material.Status.UNDER_MODERATION && material.getModerator().equals(currentUser)) {
             material.setStatus(Material.Status.ARCHIVE);
@@ -64,7 +65,7 @@ public class ModeratorPagesController {
     }
 
     @RequestMapping(value = "/material/{id}/decline", method = RequestMethod.GET)
-    public void declineMaterial(Long id, @AuthenticationPrincipal User currentUser) {
+    public void declineMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
         if (material.getStatus() == Material.Status.UNDER_MODERATION && material.getModerator().equals(currentUser)) {
             material.setStatus(Material.Status.DRAFT);

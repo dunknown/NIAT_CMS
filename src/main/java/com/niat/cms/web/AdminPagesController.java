@@ -104,7 +104,7 @@ public class AdminPagesController {
     }
 
     @RequestMapping(value = "/material/{id}/edit", method = RequestMethod.GET)
-    public String editMaterialForm(Model model, Long id, @AuthenticationPrincipal User currentUser) {
+    public String editMaterialForm(Model model, @PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
         if (material == null || (material.getStatus() == Material.Status.DRAFT && !material.getAuthor().equals(currentUser))
                 || (material.getStatus() == Material.Status.UNDER_MODERATION && !material.getModerator().equals(currentUser))
@@ -120,7 +120,7 @@ public class AdminPagesController {
     }
 
     @RequestMapping(value = "/material/{id}/edit", method = RequestMethod.POST)
-    public String editMaterial(@Valid MaterialForm materialForm, BindingResult bindingResult, Long id, @AuthenticationPrincipal User currentUser) {
+    public String editMaterial(@Valid MaterialForm materialForm, BindingResult bindingResult, @PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
         if (material == null)
             throw new MaterialNotFoundException();
