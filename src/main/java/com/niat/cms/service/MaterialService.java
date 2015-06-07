@@ -63,6 +63,13 @@ public class MaterialService {
         }
     }
 
+    public void setMaterialModerator(long id, User moderator) {
+        Material m = materialRepository.findById(id);
+        if(m != null) {
+            m.setModerator(moderator);
+        }
+    }
+
     public void setMaterialTitle(long id, String title) {
         Material m = materialRepository.findById(id);
         if(m != null) {
