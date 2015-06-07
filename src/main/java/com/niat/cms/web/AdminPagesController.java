@@ -127,16 +127,16 @@ public class AdminPagesController {
         Material material = materialService.findById(id);
         if (material == null)
             throw new UnauthorisedMEditException();
-        material.setTitle(materialForm.getTitle());
+        materialService.setMaterialTitle(id, materialForm.getTitle());
         String[] texts = materialForm.getText().split("&lt;cut&gt;", 2);
         String mainText;
         if (texts.length < 2)
             mainText = "";
         else
             mainText = texts[1];
-        material.setShortText(texts[0]);
-        material.setMainText(mainText);
-        material.setTags(getTagsFromString(materialForm.getTags()));
+        materialService.setMaterialShortText(id, texts[0]);
+        materialService.setMaterialMainText(id, mainText);
+        materialService.setMaterialTags(id, getTagsFromString(materialForm.getTags()));
         return "redirect:/material/" + id;
     }
 
