@@ -64,8 +64,8 @@
                 <li class="dropdown">
                     <a href="index.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Модерация<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li id="nav_item_addmaterial" sec:authorize-url="/moderate"><a th:href="@{/moderate}">Модерировать</a></li>
-                        <li id="nav_item_drafts" sec:authorize-url="/modertasks"><a th:href="@{/modertasks}">Ожидают модерацию</a></li>
+                        <li id="nav_item_moderate" sec:authorize-url="/moderate"><a th:href="@{/moderate}">Модерировать</a></li>
+                        <li id="nav_item_modertasks" sec:authorize-url="/modertasks"><a th:href="@{/modertasks}">Ожидают модерацию</a></li>
                     </ul>
                 </li>
                 <li id="nav_item_users" sec:authorize-url="/users"><a th:href="@{/users}">Пользователи</a></li>

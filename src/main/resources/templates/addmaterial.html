@@ -25,6 +25,20 @@
             <ul class="nav navbar-nav">
                 <li id="nav_item_addmaterial" sec:authorize-url="/admin/addmaterial"><a th:href="@{/admin/addmaterial}">Добавить материал</a></li>
                 <li id="nav_item_editmain" sec:authorize-url="/admin/editmain"><a th:href="@{/admin/editmain}">Редактировать главную</a></li>
+                <li class="dropdown" id="nav_item_dropdown" sec:authorize-url="/dropdown">
+                    <a href="#" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Добавить материал<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li id="nav_item_addmaterial" sec:authorize-url="/addmaterial"><a th:href="@{/addmaterial}">Новый материал</a></li>
+                        <li id="nav_item_drafts" sec:authorize-url="/drafts"><a th:href="@{/drafts}">Черновики</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown" id="nav_item_dropdown" sec:authorize-url="/dropdown">
+                    <a href="#" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Модерация<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li id="nav_item_moderate" sec:authorize-url="/moderate"><a th:href="@{/moderate}">Модерировать</a></li>
+                        <li id="nav_item_modertasks" sec:authorize-url="/modertasks"><a th:href="@{/modertasks}">Ожидают модерации</a></li>
+                    </ul>
+                </li>
                 <li id="nav_item_users" sec:authorize-url="/admin/users"><a th:href="@{/admin/users}">Пользователи</a></li>
             </ul>
             <form class="navbar-form navbar-right form-group-white">
@@ -36,6 +50,7 @@
     <div class="container" layout:fragment="content">
         <script type="text/javascript">
             $("#nav_item_addmaterial").addClass("active");
+            $("#nav_item_dropdown").addClass("active");
         </script>
         <!-- WYSYWYG -->
         <script th:src="@{/js/jquery.hotkeys.js}" src="../static/js/jquery.hotkeys.js"></script>
