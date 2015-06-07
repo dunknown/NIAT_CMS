@@ -129,13 +129,17 @@ public class AdminPagesController {
         return "redirect:/material/" + material.getId();
     }
 
+    private boolean canEdit(Material material, User currentUser){
+        return (material == null || (material.getStatus() == Material.Status.DRAFT && !material.getAuthor().equals(currentUser))
+                || (material.getStatus() == Material.Status.UNDER_MODERATION && !material.getModerator().equals(currentUser))
+                || (material.getStatus() == Material.Status.ARCHIVE || material.getStatus() == Material.Status.MAIN
+                && (currentUser.getRole() != User.Role.ADMIN || currentUser.getRole() != User.Role.EDITOR)));
+    }
+
     @RequestMapping(value = "/material/{id}/edit", method = RequestMethod.GET)
     public String editMaterialForm(Model model, @PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
-        if (material == null || (material.getStatus() == Material.Status.DRAFT && !material.getAuthor().equals(currentUser))
-                || (material.getStatus() == Material.Status.UNDER_MODERATION && !material.getModerator().equals(currentUser))
-                || (material.getStatus() == Material.Status.ARCHIVE || material.getStatus() == Material.Status.MAIN
-                    && (currentUser.getRole() != User.Role.ADMIN || currentUser.getRole() != User.Role.EDITOR)))
+        if (canEdit(material, currentUser))
             throw new UnauthorisedMEditException();
         MaterialForm form = new MaterialForm();
         form.setTitle(material.getTitle());
@@ -148,10 +152,7 @@ public class AdminPagesController {
     @RequestMapping(value = "/material/{id}/edit", method = RequestMethod.POST)
     public String editMaterial(@Valid MaterialForm materialForm, BindingResult bindingResult, @PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
-        if (material == null || (material.getStatus() == Material.Status.DRAFT && !material.getAuthor().equals(currentUser))
-                || (material.getStatus() == Material.Status.UNDER_MODERATION && !material.getModerator().equals(currentUser))
-                || (material.getStatus() == Material.Status.ARCHIVE || material.getStatus() == Material.Status.MAIN
-                && (currentUser.getRole() != User.Role.ADMIN || currentUser.getRole() != User.Role.EDITOR)))
+        if (canEdit(material, currentUser))
             throw new UnauthorisedMEditException();
         materialService.setMaterialTitle(id, materialForm.getTitle());
         String[] texts = materialForm.getText().split("&lt;cut&gt;", 2);
@@ -163,6 +164,25 @@ public class AdminPagesController {
         materialService.setMaterialShortText(id, texts[0]);
         materialService.setMaterialMainText(id, mainText);
         materialService.setMaterialTags(id, getTagsFromString(materialForm.getTags()));
+        return "redirect:/material/" + id;
+    }
+
+    @RequestMapping(value = "/material/{id}/tomoderation", method = RequestMethod.POST)
+    public String editMaterialAndSendToModeration(@Valid MaterialForm materialForm, BindingResult bindingResult, @PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        Material material = materialService.findById(id);
+        if (canEdit(material, currentUser))
+            throw new UnauthorisedMEditException();
+        materialService.setMaterialTitle(id, materialForm.getTitle());
+        String[] texts = materialForm.getText().split("&lt;cut&gt;", 2);
+        String mainText;
+        if (texts.length < 2)
+            mainText = "";
+        else
+            mainText = texts[1];
+        materialService.setMaterialShortText(id, texts[0]);
+        materialService.setMaterialMainText(id, mainText);
+        materialService.setMaterialTags(id, getTagsFromString(materialForm.getTags()));
+        materialService.setMaterialStatus(id, Material.Status.MODERATION_TASK);
         return "redirect:/material/" + id;
     }
 
