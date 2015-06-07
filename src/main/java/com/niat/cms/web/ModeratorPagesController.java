@@ -39,7 +39,8 @@ public class ModeratorPagesController {
     @RequestMapping(value = "/material/{id}/taketask", method = RequestMethod.GET)
     public void takeTask(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
-        if (material.getStatus() == Material.Status.MODERATION_TASK) {
+        if (material.getStatus() == Material.Status.MODERATION_TASK
+                && (currentUser.getRole() == User.Role.EDITOR || currentUser.getRole() == User.Role.CORRECTOR)) {
             material.setStatus(Material.Status.UNDER_MODERATION);
             material.setModerator(currentUser);
         }
