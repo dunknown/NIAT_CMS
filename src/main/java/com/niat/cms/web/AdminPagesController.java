@@ -148,7 +148,10 @@ public class AdminPagesController {
     @RequestMapping(value = "/material/{id}/edit", method = RequestMethod.POST)
     public String editMaterial(@Valid MaterialForm materialForm, BindingResult bindingResult, @PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
-        if (material == null)
+        if (material == null || (material.getStatus() == Material.Status.DRAFT && !material.getAuthor().equals(currentUser))
+                || (material.getStatus() == Material.Status.UNDER_MODERATION && !material.getModerator().equals(currentUser))
+                || (material.getStatus() == Material.Status.ARCHIVE || material.getStatus() == Material.Status.MAIN
+                && (currentUser.getRole() != User.Role.ADMIN || currentUser.getRole() != User.Role.EDITOR)))
             throw new UnauthorisedMEditException();
         materialService.setMaterialTitle(id, materialForm.getTitle());
         String[] texts = materialForm.getText().split("&lt;cut&gt;", 2);
