@@ -44,12 +44,6 @@ public class UserPagesController {
     @RequestMapping(value = "/material/{matId}")
     public String materialPage(Model model, @PathVariable Long matId, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(matId);
-//        if (material == null || (material.getStatus() == Material.Status.DRAFT && !material.getAuthor().equals(currentUser))
-//                || (material.getStatus() == Material.Status.UNDER_MODERATION && !material.getModerator().equals(currentUser))
-//                || (material.getStatus() == Material.Status.MODERATION_TASK
-//                    && (currentUser.getRole() != User.Role.CORRECTOR || currentUser.getRole() != User.Role.ADMIN
-//                        || currentUser.getRole() != User.Role.EDITOR)))
-//            throw new MaterialNotFoundException();
         if(!canSee(material, currentUser)) {
             throw new MaterialNotFoundException();
         }

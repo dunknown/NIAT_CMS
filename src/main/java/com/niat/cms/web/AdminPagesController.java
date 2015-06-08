@@ -185,7 +185,12 @@ public class AdminPagesController {
         materialService.setMaterialShortText(id, texts[0]);
         materialService.setMaterialMainText(id, mainText);
         materialService.setMaterialTags(id, getTagsFromString(materialForm.getTags()));
-        return "redirect:/material/" + id;
+
+        if(canEdit(material, currentUser)) {
+            return "redirect:/material/" + id;
+        } else {
+            return "redirect:/";
+        }
     }
 
     @RequestMapping(value = "/material/{id}/tomoderation", method = RequestMethod.POST)
@@ -204,7 +209,12 @@ public class AdminPagesController {
         materialService.setMaterialMainText(id, mainText);
         materialService.setMaterialTags(id, getTagsFromString(materialForm.getTags()));
         materialService.setMaterialStatus(id, Material.Status.MODERATION_TASK);
-        return "redirect:/material/" + id;
+
+        if(canEdit(material, currentUser)) {
+            return "redirect:/material/" + id;
+        } else {
+            return "redirect:/";
+        }
     }
 
     private Set<Tag> getTagsFromString(String tagsText) {

@@ -12,14 +12,23 @@ function deleteMat(matId) {
         }
     });
 }
+
 function takeTask(matId) {
+    $("#taketask_" + matId).addClass("disabled");
+
     $.ajax({
         type: "GET",
         url : "/material/" + matId + "/taketask",
         success : function() {
-            $("#taketask_" + matId).addClass("disabled");
+            $.snackbar({
+                content: "Задание получено",
+                style: "toast",
+                timeout: 3000
+            });
         },
         error : function() {
+            $("#taketask_" + matId).removeClass("disabled");
+
             $.snackbar({
                 content: "Не удалось взять задание на модерацию",
                 style: "toast",
@@ -28,15 +37,27 @@ function takeTask(matId) {
         }
     });
 }
+
 function accept(matId) {
+    $("#accept_" + matId).addClass("disabled");
+    $("#decline_" + matId).addClass("disabled");
+    $("#edit_" + matId).addClass("disabled");
+
     $.ajax({
         type: "GET",
         url : "/material/" + matId + "/accept",
         success : function() {
-            $("#accept_" + matId).addClass("disabled");
-            $("#decline_" + matId).addClass("disabled");
+            $.snackbar({
+                content: "Материал одобрен",
+                style: "toast",
+                timeout: 3000
+            });
         },
         error : function() {
+            $("#accept_" + matId).removeClass("disabled");
+            $("#decline_" + matId).removeClass("disabled");
+            $("#edit_" + matId).removeClass("disabled");
+
             $.snackbar({
                 content: "Не удалось одобрить материал",
                 style: "toast",
@@ -45,15 +66,27 @@ function accept(matId) {
         }
     });
 }
+
 function decline(matId) {
+    $("#accept_" + matId).addClass("disabled");
+    $("#decline_" + matId).addClass("disabled");
+    $("#edit_" + matId).addClass("disabled");
+
     $.ajax({
         type: "GET",
         url : "/material/" + matId + "/decline",
         success : function() {
-            $("#accept_" + matId).addClass("disabled");
-            $("#decline_" + matId).addClass("disabled");
+            $.snackbar({
+                content: "Материал отклонен",
+                style: "toast",
+                timeout: 3000
+            });
         },
         error : function() {
+            $("#accept_" + matId).removeClass("disabled");
+            $("#decline_" + matId).removeClass("disabled");
+            $("#edit_" + matId).removeClass("disabled");
+
             $.snackbar({
                 content: "Не удалось отклонить материал",
                 style: "toast",
@@ -62,6 +95,7 @@ function decline(matId) {
         }
     });
 }
+
 function toMain(matId) {
     $.ajax({
         type: "GET",
@@ -78,6 +112,7 @@ function toMain(matId) {
         }
     });
 }
+
 function toArchive(matId) {
     $.ajax({
         type: "GET",
@@ -94,6 +129,7 @@ function toArchive(matId) {
         }
     });
 }
+
 function fav(matId) {
     $.ajax({
         type: "GET",
@@ -109,6 +145,7 @@ function fav(matId) {
         }
     });
 }
+
 function unfav(matId) {
     $.ajax({
         type: "GET",
@@ -124,6 +161,7 @@ function unfav(matId) {
         }
     });
 }
+
 function feature(matId) {
     $.ajax({
         type: "GET",
@@ -139,6 +177,7 @@ function feature(matId) {
         }
     });
 }
+
 function unfeature(matId) {
     $.ajax({
         type: "GET",

@@ -63,7 +63,9 @@
 
 <div th:fragment="materialControls(material)">
     <div th:if="${material.status == T(com.niat.cms.domain.Material$Status).DRAFT}">
-        <a class="btn btn-sm btn-material-indigo" th:href="@{/material/} + ${material.id} + '/edit'">Редактировать</a>
+        <a class="btn btn-sm btn-material-indigo"
+           th:href="@{/material/} + ${material.id} + '/edit'"
+           th:id="'edit_' + ${material.id}">Редактировать</a>
     </div>
 
     <div th:if="${material.status == T(com.niat.cms.domain.Material$Status).MODERATION_TASK}">
@@ -73,7 +75,9 @@
     </div>
 
     <div th:if="${material.status == T(com.niat.cms.domain.Material$Status).UNDER_MODERATION}">
-        <a class="btn btn-sm btn-material-indigo" th:href="@{/material/} + ${material.id} + '/edit'">Редактировать</a>
+        <a class="btn btn-sm btn-material-indigo"
+           th:href="@{/material/} + ${material.id} + '/edit'"
+           th:id="'edit_' + ${material.id}">Редактировать</a>
 
         <a class="btn btn-sm btn-success"
            th:id="'accept_' + ${material.id}"
@@ -87,7 +91,8 @@
     <div th:if="${material.status == T(com.niat.cms.domain.Material$Status).ARCHIVE}">
         <a class="btn btn-sm btn-material-indigo"
            th:href="@{/material/} + ${material.id} + '/edit'"
-           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">Редактировать</a>
+           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"
+           th:id="'edit_' + ${material.id}">Редактировать</a>
 
         <a class="btn btn-sm btn-danger disabled"
            th:id="'delete_' + ${material.id}"
@@ -115,7 +120,8 @@
     <div th:if="${material.status == T(com.niat.cms.domain.Material$Status).MAIN}">
         <a class="btn btn-sm btn-material-indigo"
            th:href="@{/material/} + ${material.id} + '/edit'"
-           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">Редактировать</a>
+           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"
+           th:id="'edit_' + ${material.id}">Редактировать</a>
 
         <a class="btn btn-sm btn-danger disabled"
            th:id="'delete_' + ${material.id}"
