@@ -62,17 +62,17 @@
 </div>
 
 <div th:fragment="materialControls(material)">
-    <div th:if="${material.status == T(com.niat.cms.domain.User$Role).DRAFT}">
+    <div th:if="${material.status == T(com.niat.cms.domain.Material$Status).DRAFT}">
         <a class="btn btn-sm btn-material-indigo" th:href="@{/material/} + ${material.id} + '/edit'">Редактировать</a>
     </div>
 
-    <div th:if="${material.status == T(com.niat.cms.domain.User$Role).MODERATION_TASK}">
+    <div th:if="${material.status == T(com.niat.cms.domain.Material$Status).MODERATION_TASK}">
         <a class="btn btn-sm btn-material-indigo"
            th:id="'taketask_' + ${material.id}"
            th:onclick="'takeTask(' + ${material.id} + ')'">Взять в работу</a>
     </div>
 
-    <div th:if="${material.status == T(com.niat.cms.domain.User$Role).UNDER_MODERATION}">
+    <div th:if="${material.status == T(com.niat.cms.domain.Material$Status).UNDER_MODERATION}">
         <a class="btn btn-sm btn-material-indigo" th:href="@{/material/} + ${material.id} + '/edit'">Редактировать</a>
 
         <a class="btn btn-sm btn-success"
@@ -84,7 +84,7 @@
            th:onclick="'decline(' + ${material.id} + ')'">Отклонить</a>
     </div>
 
-    <div th:if="${material.status == T(com.niat.cms.domain.User$Role).ARCHIVE}">
+    <div th:if="${material.status == T(com.niat.cms.domain.Material$Status).ARCHIVE}">
         <a class="btn btn-sm btn-material-indigo"
            th:href="@{/material/} + ${material.id} + '/edit'"
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">Редактировать</a>
@@ -112,7 +112,7 @@
            <!--th:if="${#lists.contains(currentUser.favourites, material)}">Из избранного</a>-->
     </div>
 
-    <div th:if="${material.status == T(com.niat.cms.domain.User$Role).MAIN}">
+    <div th:if="${material.status == T(com.niat.cms.domain.Material$Status).MAIN}">
         <a class="btn btn-sm btn-material-indigo"
            th:href="@{/material/} + ${material.id} + '/edit'"
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">Редактировать</a>
