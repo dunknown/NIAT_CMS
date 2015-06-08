@@ -72,6 +72,7 @@
         <div th:if="${material.mainText != null}" th:utext="${material.shortText + material.mainText}" class="material-text">Текст</div>
         <div th:replace="fragments/materialControls :: materialControls(${material})"></div>
     </div>
+    <script th:src="@{/js/material-controls-fullmat.js}" src="../static/js/material-controls-fullmat.js"></script>
 </div>
 
 <script>

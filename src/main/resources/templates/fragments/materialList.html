@@ -66,6 +66,7 @@
             <div th:replace="fragments/shortMaterial :: shortMaterial(${material})"/>
         </div>
         <h3 th:if="${#lists.isEmpty(materialList)}">Здесь пока нет материалов</h3>
+        <script th:src="@{/js/material-controls-shortmat.js}" src="../static/js/material-controls-shortmat.js"></script>
     </div>
 
     <script>
