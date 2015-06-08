@@ -72,6 +72,7 @@
         <div>
             <a th:href="@{/material/} + ${material.id}" class="btn btn-sm btn-material-indigo">Читать далее</a>
         </div>
+        <div th:replace="fragments/materialControls :: materialControls(${material})"></div>
     </div>
 </div>
 
