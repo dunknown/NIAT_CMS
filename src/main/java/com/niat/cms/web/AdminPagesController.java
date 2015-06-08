@@ -4,6 +4,7 @@ import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
 import com.niat.cms.exceptions.NoSuchRoleException;
+import com.niat.cms.exceptions.UnauthorisedMEditException;
 import com.niat.cms.exceptions.UserChangedOwnRoleException;
 import com.niat.cms.service.MaterialService;
 import com.niat.cms.service.TagService;
@@ -15,7 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -30,8 +34,10 @@ public class AdminPagesController {
 
     @Autowired
     private MaterialService materialService;
+
     @Autowired
     private TagService tagService;
+
     @Autowired
     private UserService userService;
 
@@ -72,7 +78,7 @@ public class AdminPagesController {
     }
 
     @RequestMapping(value = "/addmaterial", method = RequestMethod.GET)
-    public String MaterialForm(Model model) {
+    public String materialForm(Model model) {
         model.addAttribute("materialForm", new MaterialForm());
         return "addmaterial";
     }
@@ -85,21 +91,9 @@ public class AdminPagesController {
             mainText = "";
         else
             mainText = texts[1];
-        Material material = new Material(materialForm.getTitle(), texts[0], mainText, currentUser, materialForm.isOnMain());
+        Material material = new Material(materialForm.getTitle(), texts[0], mainText, currentUser, Material.Status.MODERATION_TASK);
 
-        String[] tags = materialForm.getTags().split("\\s*,[,\\s]*");
-        Set<Tag> tagsSet = new HashSet<>();
-        for(String tag : tags) {
-            if (tag.length() != 0) {
-                Tag t = tagService.findByText(tag);
-                if (t == null) {
-                    tagsSet.add(new Tag(tag));
-                } else {
-                    tagsSet.add(t);
-                }
-            }
-        }
-
+        Set<Tag> tagsSet = getTagsFromString(materialForm.getTags());
         if(tagsSet.isEmpty()) {
             bindingResult.addError(new FieldError("materialForm", "tags", "Введите хотя бы один тег"));
         }
@@ -111,4 +105,101 @@ public class AdminPagesController {
         materialService.save(material);
         return "redirect:/material/" + material.getId();
     }
+
+    @RequestMapping(value = "/todrafts", method = RequestMethod.POST)
+    public String submitMaterialToDrafts(@Valid MaterialForm materialForm, BindingResult bindingResult, @AuthenticationPrincipal User currentUser) {
+        String[] texts = materialForm.getText().split("&lt;cut&gt;", 2);
+        String mainText;
+        if (texts.length < 2)
+            mainText = "";
+        else
+            mainText = texts[1];
+        Material material = new Material(materialForm.getTitle(), texts[0], mainText, currentUser, Material.Status.DRAFT);
+
+        Set<Tag> tagsSet = getTagsFromString(materialForm.getTags());
+        if(tagsSet.isEmpty()) {
+            bindingResult.addError(new FieldError("materialForm", "tags", "Введите хотя бы один тег"));
+        }
+        if(bindingResult.hasErrors()) {
+            return "addmaterial";
+        }
+
+        material.setTags(tagsSet);
+        materialService.save(material);
+        return "redirect:/material/" + material.getId();
+    }
+
+    private boolean canEdit(Material material, User currentUser){
+        return (material == null || (material.getStatus() == Material.Status.DRAFT && !material.getAuthor().equals(currentUser))
+                || (material.getStatus() == Material.Status.UNDER_MODERATION && !material.getModerator().equals(currentUser))
+                || (material.getStatus() == Material.Status.ARCHIVE || material.getStatus() == Material.Status.MAIN
+                && (currentUser.getRole() != User.Role.ADMIN || currentUser.getRole() != User.Role.EDITOR)));
+    }
+
+    @RequestMapping(value = "/material/{id}/edit", method = RequestMethod.GET)
+    public String editMaterialForm(Model model, @PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        Material material = materialService.findById(id);
+        if (canEdit(material, currentUser))
+            throw new UnauthorisedMEditException();
+        MaterialForm form = new MaterialForm();
+        form.setTitle(material.getTitle());
+        form.setText(material.getShortText() + "<cut>" + material.getMainText());
+        form.setTags(material.getTags().toString());
+        model.addAttribute("materialForm", form);
+        return "edit_page";
+    }
+
+    @RequestMapping(value = "/material/{id}/edit", method = RequestMethod.POST)
+    public String editMaterial(@Valid MaterialForm materialForm, BindingResult bindingResult, @PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        Material material = materialService.findById(id);
+        if (canEdit(material, currentUser))
+            throw new UnauthorisedMEditException();
+        materialService.setMaterialTitle(id, materialForm.getTitle());
+        String[] texts = materialForm.getText().split("&lt;cut&gt;", 2);
+        String mainText;
+        if (texts.length < 2)
+            mainText = "";
+        else
+            mainText = texts[1];
+        materialService.setMaterialShortText(id, texts[0]);
+        materialService.setMaterialMainText(id, mainText);
+        materialService.setMaterialTags(id, getTagsFromString(materialForm.getTags()));
+        return "redirect:/material/" + id;
+    }
+
+    @RequestMapping(value = "/material/{id}/tomoderation", method = RequestMethod.POST)
+    public String editMaterialAndSendToModeration(@Valid MaterialForm materialForm, BindingResult bindingResult, @PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        Material material = materialService.findById(id);
+        if (canEdit(material, currentUser))
+            throw new UnauthorisedMEditException();
+        materialService.setMaterialTitle(id, materialForm.getTitle());
+        String[] texts = materialForm.getText().split("&lt;cut&gt;", 2);
+        String mainText;
+        if (texts.length < 2)
+            mainText = "";
+        else
+            mainText = texts[1];
+        materialService.setMaterialShortText(id, texts[0]);
+        materialService.setMaterialMainText(id, mainText);
+        materialService.setMaterialTags(id, getTagsFromString(materialForm.getTags()));
+        materialService.setMaterialStatus(id, Material.Status.MODERATION_TASK);
+        return "redirect:/material/" + id;
+    }
+
+    private Set<Tag> getTagsFromString(String tagsText) {
+        String[] tags = tagsText.split("\\s*,[,\\s]*");
+        Set<Tag> tagsSet = new HashSet<>();
+        for(String tag : tags) {
+            if (tag.length() != 0) {
+                Tag t = tagService.findByText(tag);
+                if (t == null) {
+                    tagsSet.add(new Tag(tag));
+                } else {
+                    tagsSet.add(t);
+                }
+            }
+        }
+        return tagsSet;
+    }
+
 }

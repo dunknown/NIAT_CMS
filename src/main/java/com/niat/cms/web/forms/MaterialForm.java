@@ -19,8 +19,6 @@ public class MaterialForm {
     @NotNull
     private String tags;
 
-    private boolean onMain;
-
     public String getTitle() {
         return title;
     }
@@ -43,13 +41,5 @@ public class MaterialForm {
 
     public void setTags(String tags) {
         this.tags = tags;
-    }
-
-    public boolean isOnMain() {
-        return onMain;
-    }
-
-    public void setOnMain(boolean onMain) {
-        this.onMain = onMain;
     }
 }
