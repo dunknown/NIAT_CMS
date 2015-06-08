@@ -94,7 +94,7 @@
            th:onclick="'delete(' + ${material.id} + ')'"
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">Удалить</a>
 
-        <a class="btn btn-sm btn-material-indigo"
+        <a class="btn btn-sm btn-material-indigo disabled"
            th:id="'tomain_' + ${material.id}"
            th:onclick="'tomain(' + ${material.id} + ')'"
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">На главную</a>
@@ -122,7 +122,7 @@
            th:onclick="'delete(' + ${material.id} + ')'"
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">Удалить</a>
 
-        <a class="btn btn-sm btn-material-indigo"
+        <a class="btn btn-sm btn-material-indigo disabled"
            th:id="'toArchive_' + ${material.id}"
            th:onclick="'toArchive(' + ${material.id} + ')'"
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">В архив</a>
