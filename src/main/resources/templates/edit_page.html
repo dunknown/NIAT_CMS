@@ -5,7 +5,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       layout:decorator="layouts/layout">
 <head>
-    <title>Добавить материал</title>
+    <title>Редактировать материал</title>
 </head>
 <body>
     <div class="navbar navbar-material-indigo ">
@@ -57,9 +57,9 @@
         <script th:src="@{/js/bootstrap-wysiwyg.js}" src="../static/js/bootstrap-wysiwyg.js"></script>
 
         <div class="well">
-            <form id="mat_form" role="form" method="post" th:action="@{/addmaterial}" th:object="${materialForm}">
+            <form id="mat_form" role="form" method="post" th:object="${materialForm}">
                 <div class="form-group-material-indigo">
-                    <h2 class="text-indigo text-center">Добавить материал</h2>
+                    <h2 class="text-indigo text-center">Редактировать материал</h2>
 
                     <!--Title-->
                     <div class="form-group" th:classappend="${#fields.hasErrors('title')} ? has-error">
@@ -201,8 +201,7 @@
                     </div>
 
                     <!--Submit-->
-                    <button type="submit" class="btn btn-lg btn-raised btn-material-indigo">Добавить</button>
-                    <button type="submit" formmethod="post" th:formaction="@{/todrafts}" class="btn btn-lg btn-flat btn-material-indigo">Сохранить в черновики</button>
+                    <button type="submit" class="btn btn-lg btn-raised btn-material-indigo">Сохранить</button>
 
                     <textarea id="text" style="display: none" th:field="*{text}"></textarea>
                 </div>
