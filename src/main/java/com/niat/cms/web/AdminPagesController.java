@@ -130,29 +130,50 @@ public class AdminPagesController {
     }
 
     private boolean canEdit(Material material, User currentUser){
-        return (material == null || (material.getStatus() == Material.Status.DRAFT && !material.getAuthor().equals(currentUser))
-                || (material.getStatus() == Material.Status.UNDER_MODERATION && !material.getModerator().equals(currentUser))
-                || (material.getStatus() == Material.Status.ARCHIVE || material.getStatus() == Material.Status.MAIN
-                && (currentUser.getRole() != User.Role.ADMIN || currentUser.getRole() != User.Role.EDITOR)));
+        if(material == null || currentUser == null) {
+            return false;
+        }
+        switch (material.getStatus()) {
+            case DRAFT:
+                return material.getAuthor().equals(currentUser);
+            case UNDER_MODERATION:
+                return material.getModerator().equals(currentUser);
+            case MAIN:
+            case ARCHIVE:
+                return currentUser.getRole() == User.Role.ADMIN || currentUser.getRole() == User.Role.EDITOR;
+            case MODERATION_TASK:
+            default:
+                return false;
+        }
     }
 
     @RequestMapping(value = "/material/{id}/edit", method = RequestMethod.GET)
     public String editMaterialForm(Model model, @PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
-        if (canEdit(material, currentUser))
+        if (!canEdit(material, currentUser))
             throw new UnauthorisedMEditException();
         MaterialForm form = new MaterialForm();
         form.setTitle(material.getTitle());
-        form.setText(material.getShortText() + "<cut>" + material.getMainText());
-        form.setTags(material.getTags().toString());
+        if(material.getMainText() == null) {
+            form.setText(material.getShortText());
+        } else {
+            form.setText(material.getShortText() + "<cut>" + material.getMainText());
+        }
+        StringBuilder tags = new StringBuilder();
+        for (Tag t : material.getTags()) {
+            tags.append(t.getText() + ", ");
+        }
+        form.setTags(tags.toString());
         model.addAttribute("materialForm", form);
+        model.addAttribute("matId", id);
+        model.addAttribute("matStatus", material.getStatus());
         return "edit_page";
     }
 
     @RequestMapping(value = "/material/{id}/edit", method = RequestMethod.POST)
     public String editMaterial(@Valid MaterialForm materialForm, BindingResult bindingResult, @PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
-        if (canEdit(material, currentUser))
+        if (!canEdit(material, currentUser))
             throw new UnauthorisedMEditException();
         materialService.setMaterialTitle(id, materialForm.getTitle());
         String[] texts = materialForm.getText().split("&lt;cut&gt;", 2);
@@ -170,7 +191,7 @@ public class AdminPagesController {
     @RequestMapping(value = "/material/{id}/tomoderation", method = RequestMethod.POST)
     public String editMaterialAndSendToModeration(@Valid MaterialForm materialForm, BindingResult bindingResult, @PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
-        if (canEdit(material, currentUser))
+        if (!canEdit(material, currentUser))
             throw new UnauthorisedMEditException();
         materialService.setMaterialTitle(id, materialForm.getTitle());
         String[] texts = materialForm.getText().split("&lt;cut&gt;", 2);

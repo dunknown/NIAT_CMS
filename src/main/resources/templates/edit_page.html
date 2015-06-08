@@ -53,7 +53,7 @@
         <script th:src="@{/js/bootstrap-wysiwyg.js}" src="../static/js/bootstrap-wysiwyg.js"></script>
 
         <div class="well">
-            <form id="mat_form" role="form" method="post" th:object="${materialForm}">
+            <form id="mat_form" role="form" method="post" th:action="@{/material/} + ${matId} + '/edit'" th:object="${materialForm}">
                 <div class="form-group-material-indigo">
                     <h2 class="text-indigo text-center">Редактировать материал</h2>
 
@@ -185,7 +185,7 @@
                     </div>
 
                     <div class="well" style="overflow:scroll; min-height:500px; max-height:500px" id="editor"
-                         th:utext="${#fields.hasErrors('*')} ? *{text} : 'Введите текст материала здесь&hellip;'">
+                         th:utext="*{text}">
                     </div>
                     <p style="margin-top: 10px" class="text-danger" th:if="${#fields.hasErrors('text')}" th:errors="*{text}" />
 
@@ -198,6 +198,9 @@
 
                     <!--Submit-->
                     <button type="submit" class="btn btn-lg btn-raised btn-material-indigo">Сохранить</button>
+                    <button th:if="${matStatus == T(com.niat.cms.domain.Material$Status).DRAFT}"
+                            type="submit" formmethod="post" th:formaction="@{/material/} + ${matId} + '/tomoderation'"
+                            class="btn btn-lg btn-raised btn-material-indigo">Отправить на модерацию</button>
 
                     <textarea id="text" style="display: none" th:field="*{text}"></textarea>
                 </div>

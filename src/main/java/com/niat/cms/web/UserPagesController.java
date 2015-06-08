@@ -44,14 +44,38 @@ public class UserPagesController {
     @RequestMapping(value = "/material/{matId}")
     public String materialPage(Model model, @PathVariable Long matId, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(matId);
-        if (material == null || (material.getStatus() == Material.Status.DRAFT && !material.getAuthor().equals(currentUser))
-                || (material.getStatus() == Material.Status.UNDER_MODERATION && !material.getModerator().equals(currentUser))
-                || (material.getStatus() == Material.Status.MODERATION_TASK
-                    && (currentUser.getRole() != User.Role.CORRECTOR || currentUser.getRole() != User.Role.ADMIN
-                        || currentUser.getRole() != User.Role.EDITOR)))
+//        if (material == null || (material.getStatus() == Material.Status.DRAFT && !material.getAuthor().equals(currentUser))
+//                || (material.getStatus() == Material.Status.UNDER_MODERATION && !material.getModerator().equals(currentUser))
+//                || (material.getStatus() == Material.Status.MODERATION_TASK
+//                    && (currentUser.getRole() != User.Role.CORRECTOR || currentUser.getRole() != User.Role.ADMIN
+//                        || currentUser.getRole() != User.Role.EDITOR)))
+//            throw new MaterialNotFoundException();
+        if(!canSee(material, currentUser)) {
             throw new MaterialNotFoundException();
+        }
         model.addAttribute("material", material);
         return "material_page";
+    }
+
+    private boolean canSee(Material material, User currentUser) {
+        if(material == null) {
+            return false;
+        }
+        switch (material.getStatus()) {
+            case DRAFT:
+                return currentUser != null && material.getAuthor().equals(currentUser);
+            case UNDER_MODERATION:
+                return currentUser != null && material.getModerator().equals(currentUser);
+            case MAIN:
+            case ARCHIVE:
+                return true;
+            case MODERATION_TASK:
+                return currentUser != null && (currentUser.getRole() == User.Role.ADMIN ||
+                                               currentUser.getRole() == User.Role.EDITOR ||
+                                               currentUser.getRole() == User.Role.CORRECTOR);
+            default:
+                return false;
+        }
     }
 
     @RequestMapping(value = "/tag/{tagText}")

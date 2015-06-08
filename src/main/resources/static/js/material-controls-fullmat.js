@@ -17,7 +17,7 @@ function takeTask(matId) {
         type: "GET",
         url : "/material/" + matId + "/taketask",
         success : function() {
-            $("#taketask_" + userId).addClass("disabled");
+            $("#taketask_" + matId).addClass("disabled");
         },
         error : function() {
             $.snackbar({
@@ -33,8 +33,8 @@ function accept(matId) {
         type: "GET",
         url : "/material/" + matId + "/accept",
         success : function() {
-            $("#accept_" + userId).addClass("disabled");
-            $("#decline_" + userId).addClass("disabled");
+            $("#accept_" + matId).addClass("disabled");
+            $("#decline_" + matId).addClass("disabled");
         },
         error : function() {
             $.snackbar({
@@ -50,8 +50,8 @@ function decline(matId) {
         type: "GET",
         url : "/material/" + matId + "/decline",
         success : function() {
-            $("#accept_" + userId).addClass("disabled");
-            $("#decline_" + userId).addClass("disabled");
+            $("#accept_" + matId).addClass("disabled");
+            $("#decline_" + matId).addClass("disabled");
         },
         error : function() {
             $.snackbar({
@@ -67,7 +67,7 @@ function toMain(matId) {
         type: "GET",
         url : "/material/" + matId + "/tomain",
         success : function() {
-            $("#taomain_" + userId).addClass("disabled");
+            $("#taomain_" + matId).addClass("disabled");
         },
         error : function() {
             $.snackbar({
@@ -83,7 +83,7 @@ function toArchive(matId) {
         type: "GET",
         url : "/material/" + matId + "/toarchive",
         success : function() {
-            $("#toarchive_" + userId).addClass("disabled");
+            $("#toarchive_" + matId).addClass("disabled");
         },
         error : function() {
             $.snackbar({
