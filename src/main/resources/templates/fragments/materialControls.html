@@ -65,59 +65,91 @@
     <div th:if="${material.status == T(com.niat.cms.domain.User$Role).DRAFT}">
         <a class="btn btn-sm btn-material-indigo" th:href="@{/material/} + ${material.id} + '/edit'">Редактировать</a>
     </div>
+
     <div th:if="${material.status == T(com.niat.cms.domain.User$Role).MODERATION_TASK}">
-        <a class="btn btn-sm btn-material-indigo" th:href="@{/material/} + ${material.id} + '/taketask'">Взять в работу</a>
+        <a class="btn btn-sm btn-material-indigo"
+           th:id="'taketask_' + ${material.id}"
+           th:onclick="'takeTask(' + ${material.id} + ')'">Взять в работу</a>
     </div>
+
     <div th:if="${material.status == T(com.niat.cms.domain.User$Role).UNDER_MODERATION}">
         <a class="btn btn-sm btn-material-indigo" th:href="@{/material/} + ${material.id} + '/edit'">Редактировать</a>
-        <a class="btn btn-sm btn-success" th:href="@{/material/} + ${material.id} + '/accept'">Одобрить</a>
-        <a class="btn btn-sm btn-danger" th:href="@{/material/} + ${material.id} + '/decline'">Отклонить</a>
+
+        <a class="btn btn-sm btn-success"
+           th:id="'accept_' + ${material.id}"
+           th:onclick="'accept(' + ${material.id} + ')'">Одобрить</a>
+
+        <a class="btn btn-sm btn-danger"
+           th:id="'decline_' + ${material.id}"
+           th:onclick="'decline(' + ${material.id} + ')'">Отклонить</a>
     </div>
+
     <div th:if="${material.status == T(com.niat.cms.domain.User$Role).ARCHIVE}">
         <a class="btn btn-sm btn-material-indigo"
            th:href="@{/material/} + ${material.id} + '/edit'"
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">Редактировать</a>
-        <a class="btn btn-sm btn-danger"
-           th:href="@{/material/} + ${material.id} + '/delete'"
+
+        <a class="btn btn-sm btn-danger disabled"
+           th:id="'delete_' + ${material.id}"
+           th:onclick="'delete(' + ${material.id} + ')'"
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">Удалить</a>
+
         <a class="btn btn-sm btn-material-indigo"
-           th:href="@{/material/} + ${material.id} + '/tomain'"
+           th:id="'tomain_' + ${material.id}"
+           th:onclick="'tomain(' + ${material.id} + ')'"
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">На главную</a>
-        <a class="btn btn-sm btn-material-indigo"
-           th:href="@{/material/} + ${material.id} + '/fav'"
-           sec:authorize="isAuthenticated()"
-           th:if="${!#lists.contains(currentUser.favourites, material)}">В избранное</a>
-        <a class="btn btn-sm btn-material-indigo"
-           th:href="@{/material/} + ${material.id} + '/unfav'"
-           sec:authorize="isAuthenticated()"
-           th:if="${#lists.contains(currentUser.favourites, material)}">Из избранного</a>
+
+        <!--<a class="btn btn-sm btn-material-indigo"-->
+           <!--th:id="'fav_' + ${material.id}"-->
+           <!--th:onclick="'fav(' + ${material.id} + ')'"-->
+           <!--sec:authorize="isAuthenticated()"-->
+           <!--th:if="${!#lists.contains(currentUser.favourites, material)}">В избранное</a>-->
+    <!---->
+        <!--<a class="btn btn-sm btn-material-indigo"-->
+           <!--th:id="'unfav_' + ${material.id}"-->
+           <!--th:onclick="'unfav(' + ${material.id} + ')'"-->
+           <!--sec:authorize="isAuthenticated()"-->
+           <!--th:if="${#lists.contains(currentUser.favourites, material)}">Из избранного</a>-->
     </div>
+
     <div th:if="${material.status == T(com.niat.cms.domain.User$Role).MAIN}">
         <a class="btn btn-sm btn-material-indigo"
            th:href="@{/material/} + ${material.id} + '/edit'"
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">Редактировать</a>
-        <a class="btn btn-sm btn-danger"
-           th:href="@{/material/} + ${material.id} + '/delete'"
+
+        <a class="btn btn-sm btn-danger disabled"
+           th:id="'delete_' + ${material.id}"
+           th:onclick="'delete(' + ${material.id} + ')'"
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">Удалить</a>
+
         <a class="btn btn-sm btn-material-indigo"
-           th:href="@{/material/} + ${material.id} + '/toarchive'"
+           th:id="'toArchive_' + ${material.id}"
+           th:onclick="'toArchive(' + ${material.id} + ')'"
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">В архив</a>
-        <a class="btn btn-sm btn-material-indigo"
-           th:href="@{/material/} + ${material.id} + '/feature'"
-           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"
-                th:if="${!material.featured}">Зафичерить</a>
-        <a class="btn btn-sm btn-material-indigo"
-           th:href="@{/material/} + ${material.id} + '/unfeature'"
-           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"
-           th:if="${material.featured}">Расфичерить</a>
-        <a class="btn btn-sm btn-material-indigo"
-           th:href="@{/material/} + ${material.id} + '/fav'"
-           sec:authorize="isAuthenticated()"
-           th:if="${!#lists.contains(currentUser.favourites, material)}">В избранное</a>
-        <a class="btn btn-sm btn-material-indigo"
-           th:href="@{/material/} + ${material.id} + '/unfav'"
-           sec:authorize="isAuthenticated()"
-           th:if="${#lists.contains(currentUser.favourites, material)}">Из избранного</a>
+
+        <!--<a class="btn btn-sm btn-material-indigo"-->
+           <!--th:id="'feature_' + ${material.id}"-->
+           <!--th:onclick="'feature(' + ${material.id} + ')'"-->
+           <!--sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"-->
+           <!--th:if="${!material.featured}">Зафичерить</a>-->
+    <!---->
+        <!--<a class="btn btn-sm btn-material-indigo"-->
+           <!--th:id="'unfeature_' + ${material.id}"-->
+           <!--th:onclick="'unfeature(' + ${material.id} + ')'"-->
+           <!--sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"-->
+           <!--th:if="${material.featured}">Расфичерить</a>-->
+    <!---->
+        <!--<a class="btn btn-sm btn-material-indigo"-->
+           <!--th:id="'fav_' + ${material.id}"-->
+           <!--th:onclick="'fav(' + ${material.id} + ')'"-->
+           <!--sec:authorize="isAuthenticated()"-->
+           <!--th:if="${!#lists.contains(currentUser.favourites, material)}">В избранное</a>-->
+    <!---->
+        <!--<a class="btn btn-sm btn-material-indigo"-->
+           <!--th:id="'unfav_' + ${material.id}"-->
+           <!--th:onclick="'unfav(' + ${material.id} + ')'"-->
+           <!--sec:authorize="isAuthenticated()"-->
+           <!--th:if="${#lists.contains(currentUser.favourites, material)}">Из избранного</a>-->
     </div>
 </div>
 
