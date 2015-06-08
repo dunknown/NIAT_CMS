@@ -36,6 +36,7 @@ public class Material {
     @ManyToOne
     private User author;
 
+    @ManyToOne
     private User moderator;
 
     @Column(nullable = false)
