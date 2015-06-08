@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      layout:decorator="layouts/layout">
+<head>
+    <title>Модерировать</title>
+</head>
+<body>
+<div class="navbar navbar-material-indigo ">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">NiatCMS</a>
+    </div>
+    <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+            <li id="nav_item_main" sec:authorize-url="/"><a th:href="@{/}">Главная</a></li>
+            <li id="nav_item_archive" sec:authorize-url="/archive"><a th:href="@{/archive}">Архив</a></li>
+        </ul>
+        <ul class="nav navbar-nav">
+            <li id="nav_item_editmain" sec:authorize-url="/editmain"><a th:href="@{/editmain}">Редактировать главную</a></li>
+            <li class="dropdown" id="nav_item_dropdown" sec:authorize-url="/dropdown">
+                <a href="#" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Добавить материал<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li id="nav_item_addmaterial" sec:authorize-url="/addmaterial"><a th:href="@{/addmaterial}">Новый материал</a></li>
+                    <li id="nav_item_drafts" sec:authorize-url="/drafts"><a th:href="@{/drafts}">Черновики</a></li>
+                </ul>
+            </li>
+            <li class="dropdown" id="nav_item_dropdown" sec:authorize-url="/dropdown">
+                <a href="#" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Модерация<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li id="nav_item_moderate" sec:authorize-url="/moderate"><a th:href="@{/moderate}">Модерировать</a></li>
+                    <li id="nav_item_modertasks" sec:authorize-url="/modertasks"><a th:href="@{/modertasks}">Ожидают модерации</a></li>
+                </ul>
+            </li>
+            <li id="nav_item_users" sec:authorize-url="/users"><a th:href="@{/users}">Пользователи</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li th:if="${#authorization.expression('!isAuthenticated()')}">
+                <a th:href="@{/login}">Войти</a>
+            </li>
+            <li th:if="${#authorization.expression('isAuthenticated()')}">
+                <a th:href="@{/logout}">Выйти</a>
+            </li>
+        </ul>
+        <form class="navbar-form navbar-right form-group-white">
+            <input type="text" class="form-control col-lg-8" placeholder="Поиск"/>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <div layout:fragment="content">
+        <script type="text/javascript">
+            $("#nav_item_main").addClass("active");
+            $("#nav_item_moderate").addClass("active");
+            $("#nav_item_dropdown").addClass("active");
+        </script>
+        <div th:replace="fragments/materialList :: materialList(${materials})"/>
+    </div>
+</div>
+
+<script>
+    $.material.init();
+</script>
+
+</body>
+</html>
