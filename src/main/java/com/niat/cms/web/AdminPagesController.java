@@ -157,7 +157,7 @@ public class AdminPagesController {
         if(material.getMainText() == null) {
             form.setText(material.getShortText());
         } else {
-            form.setText(material.getShortText() + "<cut>" + material.getMainText());
+            form.setText(material.getShortText() + "&lt;cut&gt;" + material.getMainText());
         }
         StringBuilder tags = new StringBuilder();
         for (Tag t : material.getTags()) {
