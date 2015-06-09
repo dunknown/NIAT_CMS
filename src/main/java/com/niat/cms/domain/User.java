@@ -60,7 +60,7 @@ public class User implements UserDetails {
     @JoinTable(name = "user_fav",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "material_id")})
-    private Set<Material> favs;
+    private Set<Material> favourites;
 
     public User() {
     }
@@ -112,12 +112,12 @@ public class User implements UserDetails {
         this.materials = materials;
     }
 
-    public Set<Material> getFavs() {
-        return favs;
+    public Set<Material> getFavourites() {
+        return favourites;
     }
 
-    public void setFavs(Set<Material> favs) {
-        this.favs = favs;
+    public void setFavourites(Set<Material> favourites) {
+        this.favourites = favourites;
     }
 
     @Override
