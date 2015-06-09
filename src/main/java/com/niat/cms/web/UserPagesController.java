@@ -30,14 +30,16 @@ public class UserPagesController {
     private TagService tagService;
 
     @RequestMapping(value = "/")
-    public String mainPage(Model model) {
+    public String mainPage(Model model, @AuthenticationPrincipal User currentUser) {
         model.addAttribute("materials", materialService.findMaterialsOnMain());
+        model.addAttribute("currentUser", currentUser);
         return "main";
     }
 
     @RequestMapping(value = "/archive")
-    public String archivePage(Model model) {
+    public String archivePage(Model model, @AuthenticationPrincipal User currentUser) {
         model.addAttribute("materials", materialService.findMaterialsInArchive());
+        model.addAttribute("currentUser", currentUser);
         return "archive";
     }
 
@@ -48,6 +50,7 @@ public class UserPagesController {
             throw new MaterialNotFoundException();
         }
         model.addAttribute("material", material);
+        model.addAttribute("currentUser", currentUser);
         return "material_page";
     }
 
@@ -86,5 +89,11 @@ public class UserPagesController {
     public String drafts(Model model, @AuthenticationPrincipal User currentUser) {
         model.addAttribute("materials", materialService.findUserDrafts(currentUser));
         return "drafts";
+    }
+
+    @RequestMapping(value = "/favourites")
+    public String favourites(Model model, @AuthenticationPrincipal User currentUser) {
+        model.addAttribute("materials", currentUser.getFavs());
+        return "favourites";
     }
 }
