@@ -234,48 +234,43 @@ public class AdminPagesController {
     }
 
     @RequestMapping(value = "/material/{id}/delete", method = RequestMethod.GET)
-    public String deleteMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+    public @ResponseBody void deleteMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
         if (material == null) {
             throw new UnauthorisedMEditException();
         }
-        return "";
     }
 
     @RequestMapping(value = "/material/{id}/tomain", method = RequestMethod.GET)
-    public String toMainMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+    public @ResponseBody void toMainMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
         if (material == null) {
             throw new UnauthorisedMEditException();
         }
-        return "";
     }
 
     @RequestMapping(value = "/material/{id}/toarchive", method = RequestMethod.GET)
-    public String toArchiveMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+    public @ResponseBody void toArchiveMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
         if (material == null) {
             throw new UnauthorisedMEditException();
         }
-        return "";
     }
 
     @RequestMapping(value = "/material/{id}/feature", method = RequestMethod.GET)
-    public String featureMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+    public @ResponseBody void featureMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
         if (material == null) {
             throw new UnauthorisedMEditException();
         }
-        return "";
     }
 
     @RequestMapping(value = "/material/{id}/unfeature", method = RequestMethod.GET)
-    public String unfeatureMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+    public @ResponseBody void unfeatureMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
         if (material == null) {
             throw new UnauthorisedMEditException();
         }
-        return "";
     }
 
 }
