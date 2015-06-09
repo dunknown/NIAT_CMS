@@ -236,9 +236,11 @@ public class AdminPagesController {
     @RequestMapping(value = "/material/{id}/delete", method = RequestMethod.GET)
     public @ResponseBody void deleteMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
-        if (material == null) {
+        if (material == null || (material.getStatus() == Material.Status.DRAFT && !material.getAuthor().equals(currentUser))
+                || currentUser.getRole() != User.Role.ADMIN || currentUser.getRole() != User.Role.EDITOR) {
             throw new UnauthorisedMEditException();
         }
+        materialService.delete(id);
     }
 
     @RequestMapping(value = "/material/{id}/tomain", method = RequestMethod.GET)
@@ -247,6 +249,7 @@ public class AdminPagesController {
         if (material == null) {
             throw new UnauthorisedMEditException();
         }
+        materialService.setMaterialStatus(id, Material.Status.MAIN);
     }
 
     @RequestMapping(value = "/material/{id}/toarchive", method = RequestMethod.GET)
@@ -255,6 +258,7 @@ public class AdminPagesController {
         if (material == null) {
             throw new UnauthorisedMEditException();
         }
+        materialService.setMaterialStatus(id, Material.Status.ARCHIVE);
     }
 
     @RequestMapping(value = "/material/{id}/feature", method = RequestMethod.GET)
@@ -263,6 +267,7 @@ public class AdminPagesController {
         if (material == null) {
             throw new UnauthorisedMEditException();
         }
+        materialService.setMaterialFeatured(id, true);
     }
 
     @RequestMapping(value = "/material/{id}/unfeature", method = RequestMethod.GET)
@@ -271,6 +276,7 @@ public class AdminPagesController {
         if (material == null) {
             throw new UnauthorisedMEditException();
         }
+        materialService.setMaterialFeatured(id, false);
     }
 
 }

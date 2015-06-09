@@ -97,4 +97,11 @@ public class MaterialService {
             m.setMainText(mainText);
         }
     }
+
+    public void setMaterialFeatured(long id, boolean featured) {
+        Material m = materialRepository.findById(id);
+        if(m != null) {
+            m.setFeatured(featured);
+        }
+    }
 }
