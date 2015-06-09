@@ -50,8 +50,7 @@
 <div class="container">
     <div layout:fragment="content">
         <script type="text/javascript">
-            $("#nav_item_main").addClass("active");
-            $("#nav_item_favorites").addClass("active");
+            $("#nav_item_favourites").addClass("active");
         </script>
         <div th:replace="fragments/materialList :: materialList(${materials})"/>
     </div>
