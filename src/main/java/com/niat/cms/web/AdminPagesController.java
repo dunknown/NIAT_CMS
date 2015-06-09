@@ -233,4 +233,49 @@ public class AdminPagesController {
         return tagsSet;
     }
 
+    @RequestMapping(value = "/material/{id}/delete", method = RequestMethod.GET)
+    public String deleteMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        Material material = materialService.findById(id);
+        if (material == null) {
+            throw new UnauthorisedMEditException();
+        }
+        return "";
+    }
+
+    @RequestMapping(value = "/material/{id}/tomain", method = RequestMethod.GET)
+    public String toMainMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        Material material = materialService.findById(id);
+        if (material == null) {
+            throw new UnauthorisedMEditException();
+        }
+        return "";
+    }
+
+    @RequestMapping(value = "/material/{id}/toarchive", method = RequestMethod.GET)
+    public String toArchiveMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        Material material = materialService.findById(id);
+        if (material == null) {
+            throw new UnauthorisedMEditException();
+        }
+        return "";
+    }
+
+    @RequestMapping(value = "/material/{id}/feature", method = RequestMethod.GET)
+    public String featureMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        Material material = materialService.findById(id);
+        if (material == null) {
+            throw new UnauthorisedMEditException();
+        }
+        return "";
+    }
+
+    @RequestMapping(value = "/material/{id}/unfeature", method = RequestMethod.GET)
+    public String unfeatureMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        Material material = materialService.findById(id);
+        if (material == null) {
+            throw new UnauthorisedMEditException();
+        }
+        return "";
+    }
+
 }
