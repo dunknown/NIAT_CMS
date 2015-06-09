@@ -96,4 +96,6 @@ public class UserPagesController {
         model.addAttribute("materials", currentUser.getFavourites());
         return "favourites";
     }
+
+
 }

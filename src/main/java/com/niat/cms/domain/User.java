@@ -120,6 +120,14 @@ public class User implements UserDetails {
         this.favourites = favourites;
     }
 
+    public void addToFavourites(Material material) {
+        favourites.add(material);
+    }
+
+    public void removeFromFavourites(Material material) {
+        favourites.remove(material);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.asList(new SimpleGrantedAuthority(role.getRoleName()));

@@ -1,5 +1,6 @@
 package com.niat.cms.service;
 
+import com.niat.cms.domain.Material;
 import com.niat.cms.domain.User;
 import com.niat.cms.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,19 @@ public class UserService {
 
     public void setRole(long id, User.Role role) {
         userRepository.findOne(id).setRole(role);
+    }
+
+    public void addToFavourites(long id, Material material) {
+        User user = userRepository.findOne(id);
+        if (user == null)
+            return;
+        user.addToFavourites(material);
+    }
+
+    public void removeFromFavourites(long id, Material material) {
+        User user = userRepository.findOne(id);
+        if (user == null)
+            return;
+        user.removeFromFavourites(material);
     }
 }
