@@ -99,6 +99,7 @@ public class UserPagesController {
     @RequestMapping(value = "/favourites")
     public String favourites(Model model, @AuthenticationPrincipal User currentUser) {
         model.addAttribute("materials", userService.findByUsername(currentUser.getUsername()).getFavourites());
+        model.addAttribute("currentUser", currentUser);
         return "favourites";
     }
 
