@@ -56,6 +56,12 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Material> materials;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_fav",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "material_id")})
+    private Set<Material> favs;
+
     public User() {
     }
 
@@ -104,6 +110,14 @@ public class User implements UserDetails {
 
     public void setMaterials(Set<Material> materials) {
         this.materials = materials;
+    }
+
+    public Set<Material> getFavs() {
+        return favs;
+    }
+
+    public void setFavs(Set<Material> favs) {
+        this.favs = favs;
     }
 
     @Override
