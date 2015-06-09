@@ -131,12 +131,19 @@ function toArchive(matId) {
 }
 
 function fav(matId) {
+    $("#fav_" + matId).addClass("disabled");
+
     $.ajax({
         type: "GET",
-        url : "/material/" + matId + "/fav",
+        url : "/material/" + matId + "/addtofavs",
         success : function() {
+            $("#fav_" + matId).hide('medium');
+            $("#unfav_" + matId).show('medium');
+            $("#unfav_" + matId).removeClass("disabled");
+            $("#unfav_" + matId).show('medium');
         },
         error : function() {
+            $("#fav_" + matId).removeClass("disabled");
             $.snackbar({
                 content: "Не удалось добавить материал в избранное",
                 style: "toast",
@@ -147,10 +154,16 @@ function fav(matId) {
 }
 
 function unfav(matId) {
+    $("#unfav_" + matId).addClass("disabled");
+
     $.ajax({
         type: "GET",
         url : "/material/" + matId + "/unfav",
         success : function() {
+            $("#unfav_" + matId).hide('medium');
+            $("#fav_" + matId).show('medium');
+            $("#fav_" + matId).removeClass("disabled");
+            $("#fav_" + matId).show('medium');
         },
         error : function() {
             $.snackbar({

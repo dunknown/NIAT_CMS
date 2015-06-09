@@ -7,12 +7,14 @@ import com.niat.cms.exceptions.MaterialNotFoundException;
 import com.niat.cms.exceptions.TagNotFoundException;
 import com.niat.cms.service.MaterialService;
 import com.niat.cms.service.TagService;
+import com.niat.cms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -27,17 +29,22 @@ public class UserPagesController {
     private MaterialService materialService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private TagService tagService;
 
     @RequestMapping(value = "/")
-    public String mainPage(Model model) {
+    public String mainPage(Model model, @AuthenticationPrincipal User currentUser) {
         model.addAttribute("materials", materialService.findMaterialsOnMain());
+        model.addAttribute("currentUser", currentUser);
         return "main";
     }
 
     @RequestMapping(value = "/archive")
-    public String archivePage(Model model) {
+    public String archivePage(Model model, @AuthenticationPrincipal User currentUser) {
         model.addAttribute("materials", materialService.findMaterialsInArchive());
+        model.addAttribute("currentUser", currentUser);
         return "archive";
     }
 
@@ -48,6 +55,7 @@ public class UserPagesController {
             throw new MaterialNotFoundException();
         }
         model.addAttribute("material", material);
+        model.addAttribute("currentUser", currentUser);
         return "material_page";
     }
 
@@ -87,4 +95,22 @@ public class UserPagesController {
         model.addAttribute("materials", materialService.findUserDrafts(currentUser));
         return "drafts";
     }
+
+    @RequestMapping(value = "/favourites")
+    public String favourites(Model model, @AuthenticationPrincipal User currentUser) {
+        model.addAttribute("materials", userService.findByUsername(currentUser.getUsername()).getFavourites());
+        model.addAttribute("currentUser", currentUser);
+        return "favourites";
+    }
+
+    @RequestMapping(value = "/material/{matId}/addtofavs")
+    public @ResponseBody void addToFavs(@PathVariable Long matId, @AuthenticationPrincipal User currentUser) {
+        userService.addToFavourites(currentUser.getId(), materialService.findById(matId));
+    }
+
+    @RequestMapping(value = "/material/{matId}/unfav")
+    public @ResponseBody void unFav(@PathVariable Long matId, @AuthenticationPrincipal User currentUser) {
+        userService.removeFromFavourites(currentUser.getId(), materialService.findById(matId));
+    }
+
 }
