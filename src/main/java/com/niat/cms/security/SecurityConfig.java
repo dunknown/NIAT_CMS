@@ -58,6 +58,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/drafts").hasAnyRole("ADMIN", "EDITOR", "AUTHOR")
                 .antMatchers("/modertasks").hasAnyRole("ADMIN", "EDITOR", "CORRECTOR")
                 .antMatchers("/moderate").hasAnyRole("ADMIN", "EDITOR", "CORRECTOR")
+                .antMatchers("/favourites").authenticated()
+                .antMatchers("/material/*/addtofavs").authenticated()
+                .antMatchers("/material/*/unfav").authenticated()
                 .anyRequest().permitAll();
     }
 }
