@@ -7,12 +7,14 @@ import com.niat.cms.exceptions.MaterialNotFoundException;
 import com.niat.cms.exceptions.TagNotFoundException;
 import com.niat.cms.service.MaterialService;
 import com.niat.cms.service.TagService;
+import com.niat.cms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -25,6 +27,9 @@ public class UserPagesController {
 
     @Autowired
     private MaterialService materialService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private TagService tagService;
@@ -97,5 +102,14 @@ public class UserPagesController {
         return "favourites";
     }
 
+    @RequestMapping(value = "/material/{matId}/addtofavs")
+    public @ResponseBody void addToFavs(@PathVariable Long matId, @AuthenticationPrincipal User currentUser) {
+        userService.addToFavourites(currentUser.getId(), materialService.findById(matId));
+    }
+
+    @RequestMapping(value = "/material/{matId}/unfav")
+    public @ResponseBody void unFav(@PathVariable Long matId, @AuthenticationPrincipal User currentUser) {
+        userService.removeFromFavourites(currentUser.getId(), materialService.findById(matId));
+    }
 
 }
