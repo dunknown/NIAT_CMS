@@ -42,7 +42,7 @@ public class UserPagesController {
             favs = new LinkedList<>(currentUser.getFavourites());
         else
             favs = new LinkedList<>();
-        Collections.sort(favs);
+        Collections.sort(favs, Collections.reverseOrder());
         return favs;
     }
 
@@ -111,7 +111,6 @@ public class UserPagesController {
 
     @RequestMapping(value = "/favourites")
     public String favourites(Model model, @AuthenticationPrincipal User currentUser) {
-        model.addAttribute("materials", userService.findByUsername(currentUser.getUsername()).getFavourites());
         model.addAttribute("favourites", getFavourites(currentUser));
         return "favourites";
     }

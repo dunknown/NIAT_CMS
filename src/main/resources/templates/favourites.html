@@ -5,7 +5,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       layout:decorator="layouts/layout">
 <head>
-    <title>Добавить материал</title>
+    <title>Избранное</title>
 </head>
 <body>
 <div class="navbar navbar-material-indigo ">
@@ -52,7 +52,7 @@
         <script type="text/javascript">
             $("#nav_item_favourites").addClass("active");
         </script>
-        <div th:replace="fragments/materialList :: materialList(${materials})"/>
+        <div th:replace="fragments/materialList :: materialList(${favourites})"/>
     </div>
 </div>
 
