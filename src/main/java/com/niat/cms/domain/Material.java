@@ -47,6 +47,9 @@ public class Material implements Comparable<Material>{
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Column
+    private boolean featured;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "material_tag",
                joinColumns = {@JoinColumn(name = "material_id")},
@@ -64,6 +67,7 @@ public class Material implements Comparable<Material>{
         this.status = status;
         this.date = new Date();
         this.tags = new HashSet<Tag>();
+        this.featured = false;
     }
 
     public long getId() {
@@ -128,6 +132,14 @@ public class Material implements Comparable<Material>{
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public boolean isFeatured() {
+        return featured;
+    }
+
+    public void setFeatured(boolean featured) {
+        this.featured = featured;
     }
 
     public Set<Tag> getTags() {

@@ -32,6 +32,10 @@ a, a:focus, a:hover {
     color: #3f51b5;
 }
 
+a.text-warning, a.text-warning:focus, a.text-warning:hover {
+    color: #ff5722;
+}
+
 .material-text img {
     max-width: 100%;
 }

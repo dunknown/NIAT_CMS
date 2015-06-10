@@ -233,4 +233,66 @@ public class AdminPagesController {
         return tagsSet;
     }
 
+
+    private boolean canDelete(Material material, User currentUser) {
+        if(material == null || currentUser == null) {
+            return false;
+        }
+        switch (material.getStatus()) {
+            case DRAFT:
+                return material.getAuthor().equals(currentUser);
+            case MAIN:
+            case ARCHIVE:
+                return currentUser.getRole() == User.Role.ADMIN ||
+                        currentUser.getRole() == User.Role.EDITOR;
+            default:
+                return false;
+        }
+    }
+
+    @RequestMapping(value = "/material/{id}/delete", method = RequestMethod.GET)
+    public @ResponseBody void deleteMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        Material material = materialService.findById(id);
+        if (!canDelete(material, currentUser)) {
+            throw new UnauthorisedMEditException();
+        }
+        materialService.delete(id);
+    }
+
+    @RequestMapping(value = "/material/{id}/tomain", method = RequestMethod.GET)
+    public @ResponseBody void toMainMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        Material material = materialService.findById(id);
+        if (material == null || material.getStatus() != Material.Status.ARCHIVE) {
+            throw new UnauthorisedMEditException();
+        }
+        materialService.setMaterialStatus(id, Material.Status.MAIN);
+    }
+
+    @RequestMapping(value = "/material/{id}/toarchive", method = RequestMethod.GET)
+    public @ResponseBody void toArchiveMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        Material material = materialService.findById(id);
+        if (material == null || material.getStatus() != Material.Status.MAIN) {
+            throw new UnauthorisedMEditException();
+        }
+        materialService.setMaterialStatus(id, Material.Status.ARCHIVE);
+    }
+
+    @RequestMapping(value = "/material/{id}/feature", method = RequestMethod.GET)
+    public @ResponseBody void featureMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        Material material = materialService.findById(id);
+        if (material == null || material.getStatus() != Material.Status.MAIN) {
+            throw new UnauthorisedMEditException();
+        }
+        materialService.setMaterialFeatured(id, true);
+    }
+
+    @RequestMapping(value = "/material/{id}/unfeature", method = RequestMethod.GET)
+    public @ResponseBody void unfeatureMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        Material material = materialService.findById(id);
+        if (material == null || material.getStatus() != Material.Status.MAIN) {
+            throw new UnauthorisedMEditException();
+        }
+        materialService.setMaterialFeatured(id, false);
+    }
+
 }

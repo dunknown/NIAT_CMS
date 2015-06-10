@@ -1,14 +1,56 @@
 function deleteMat(matId) {
-    $.ajax({
-        type: "GET",
-        url : "/material/" + matId + "/delete",
-        async: false,
-        error : function() {
-            $.snackbar({
-                content: "Не удалось удалить материал",
-                style: "toast",
-                timeout: 3000
-            });
+    bootbox.dialog({
+        title: "Подтвердите действие",
+        message: "Вы действительно хотите удалить материал?",
+        buttons: {
+            success: {
+                label: "Да",
+                className: "btn-success",
+                callback: function() {
+                    $("#delete_" + matId).addClass("disabled");
+                    $("#edit_" + matId).addClass("disabled");
+                    $("#toArchive_" + matId).addClass("disabled");
+                    $("#toMain_" + matId).addClass("disabled");
+                    $("#feature_" + matId).addClass("disabled");
+                    $("#unfeature_" + matId).addClass("disabled");
+                    $("#fav_" + matId).addClass("disabled");
+                    $("#unfav_" + matId).addClass("disabled");
+
+                    $.ajax({
+                        type: "GET",
+                        url : "/material/" + matId + "/delete",
+                        success : function() {
+                            $.snackbar({
+                                content: "Материал удален",
+                                style: "toast",
+                                timeout: 3000
+                            });
+
+                            window.location.href = "/";
+                        },
+                        error : function() {
+                            $("#delete_" + matId).removeClass("disabled");
+                            $("#edit_" + matId).removeClass("disabled");
+                            $("#toArchive_" + matId).removeClass("disabled");
+                            $("#toMain_" + matId).removeClass("disabled");
+                            $("#feature_" + matId).removeClass("disabled");
+                            $("#unfeature_" + matId).removeClass("disabled");
+                            $("#fav_" + matId).removeClass("disabled");
+                            $("#unfav_" + matId).removeClass("disabled");
+
+                            $.snackbar({
+                                content: "Не удалось удалить материал",
+                                style: "toast",
+                                timeout: 3000
+                            });
+                        }
+                    });
+                }
+            },
+            danger: {
+                label: "Отмена",
+                className: "btn-danger"
+            }
         }
     });
 }
@@ -97,13 +139,19 @@ function decline(matId) {
 }
 
 function toMain(matId) {
+    $("#toMain_" + matId).addClass("disabled");
+
     $.ajax({
         type: "GET",
         url : "/material/" + matId + "/tomain",
         success : function() {
-            $("#taomain_" + matId).addClass("disabled");
+            $('#toMain_' + matId).hide('medium');
+            $('#toArchive_' + matId).removeClass('disabled');
+            $('#toArchive_' + matId).show('medium');
         },
         error : function() {
+            $("#toMain_" + matId).removeClass("disabled");
+
             $.snackbar({
                 content: "Не удалось отправить материал на главную",
                 style: "toast",
@@ -114,13 +162,19 @@ function toMain(matId) {
 }
 
 function toArchive(matId) {
+    $("#toArchive_" + matId).addClass("disabled");
+
     $.ajax({
         type: "GET",
         url : "/material/" + matId + "/toarchive",
         success : function() {
-            $("#toarchive_" + matId).addClass("disabled");
+            $('#toArchive_' + matId).hide('medium');
+            $('#toMain_' + matId).removeClass('disabled');
+            $('#toMain_' + matId).show('medium');
         },
         error : function() {
+            $("#toArchive_" + matId).removeClass("disabled");
+
             $.snackbar({
                 content: "Не удалось отправить материал в архив",
                 style: "toast",
@@ -176,12 +230,22 @@ function unfav(matId) {
 }
 
 function feature(matId) {
+    $("#feature_" + matId).addClass("disabled");
+
     $.ajax({
         type: "GET",
         url : "/material/" + matId + "/feature",
         success : function() {
+            $("#mat_title_" + matId).addClass("text-warning");
+            $("#mat_title_" + matId).removeClass("text-indigo");
+
+            $("#feature_" + matId).hide('medium');
+            $("#unfeature_" + matId).removeClass("disabled");
+            $("#unfeature_" + matId).show('medium');
         },
         error : function() {
+            $("#feature_" + matId).removeClass("disabled");
+
             $.snackbar({
                 content: "Не удалось зафичерить материал",
                 style: "toast",
@@ -192,12 +256,22 @@ function feature(matId) {
 }
 
 function unfeature(matId) {
+    $("#unfeature_" + matId).addClass("disabled");
+
     $.ajax({
         type: "GET",
         url : "/material/" + matId + "/unfeature",
         success : function() {
+            $("#mat_title_" + matId).addClass("text-indigo");
+            $("#mat_title_" + matId).removeClass("text-warning");
+
+            $("#unfeature_" + matId).hide('medium');
+            $("#feature_" + matId).removeClass("disabled");
+            $("#feature_" + matId).show('medium');
         },
         error : function() {
+            $("#unfeature_" + matId).removeClass("disabled");
+
             $.snackbar({
                 content: "Не удалось расфичерить материал",
                 style: "toast",
