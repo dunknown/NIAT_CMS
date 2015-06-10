@@ -212,12 +212,22 @@ function unfav(matId) {
 }
 
 function feature(matId) {
+    $("#feature_" + matId).addClass("disabled");
+
     $.ajax({
         type: "GET",
         url : "/material/" + matId + "/feature",
         success : function() {
+            $("#mat_title_" + matId).addClass("text-warning");
+            $("#mat_title_" + matId).removeClass("text-indigo");
+
+            $("#feature_" + matId).hide('medium');
+            $("#unfeature_" + matId).removeClass("disabled");
+            $("#unfeature_" + matId).show('medium');
         },
         error : function() {
+            $("#feature_" + matId).removeClass("disabled");
+
             $.snackbar({
                 content: "Не удалось зафичерить материал",
                 style: "toast",
@@ -228,12 +238,22 @@ function feature(matId) {
 }
 
 function unfeature(matId) {
+    $("#unfeature_" + matId).addClass("disabled");
+
     $.ajax({
         type: "GET",
         url : "/material/" + matId + "/unfeature",
         success : function() {
+            $("#mat_title_" + matId).addClass("text-indigo");
+            $("#mat_title_" + matId).removeClass("text-warning");
+
+            $("#unfeature_" + matId).hide('medium');
+            $("#feature_" + matId).removeClass("disabled");
+            $("#feature_" + matId).show('medium');
         },
         error : function() {
+            $("#unfeature_" + matId).removeClass("disabled");
+
             $.snackbar({
                 content: "Не удалось расфичерить материал",
                 style: "toast",

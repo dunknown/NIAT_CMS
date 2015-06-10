@@ -146,18 +146,6 @@
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">В архив</a>
 
         <a class="btn btn-sm btn-material-indigo"
-           th:id="'feature_' + ${material.id}"
-           th:onclick="'feature(' + ${material.id} + ')'"
-           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"
-           th:if="${!material.featured}">Зафичерить</a>
-
-        <a class="btn btn-sm btn-material-indigo"
-           th:id="'unfeature_' + ${material.id}"
-           th:onclick="'unfeature(' + ${material.id} + ')'"
-           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"
-           th:if="${material.featured}">Расфичерить</a>
-
-        <a class="btn btn-sm btn-material-indigo"
            th:id="'fav_' + ${material.id}"
            th:onclick="'fav(' + ${material.id} + ')'"
            sec:authorize="isAuthenticated()"
@@ -168,6 +156,18 @@
            th:onclick="'unfav(' + ${material.id} + ')'"
            sec:authorize="isAuthenticated()"
            th:style="${!#lists.contains(currentUser.favourites, material)} ? 'display : none'">Из избранного</a>
+
+        <a class="btn btn-sm btn-warning"
+           th:id="'feature_' + ${material.id}"
+           th:onclick="'feature(' + ${material.id} + ')'"
+           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"
+           th:style="${material.featured} ? 'display : none'">Зафичерить</a>
+
+        <a class="btn btn-sm btn-warning"
+           th:id="'unfeature_' + ${material.id}"
+           th:onclick="'unfeature(' + ${material.id} + ')'"
+           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"
+           th:style="${!material.featured} ? 'display : none'">Расфичерить</a>
     </div>
 </div>
 
