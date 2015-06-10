@@ -233,11 +233,27 @@ public class AdminPagesController {
         return tagsSet;
     }
 
+
+    private boolean canDelete(Material material, User currentUser) {
+        if(material == null || currentUser == null) {
+            return false;
+        }
+        switch (material.getStatus()) {
+            case DRAFT:
+                return material.getAuthor().equals(currentUser);
+            case MAIN:
+            case ARCHIVE:
+                return currentUser.getRole() == User.Role.ADMIN ||
+                        currentUser.getRole() == User.Role.EDITOR;
+            default:
+                return false;
+        }
+    }
+
     @RequestMapping(value = "/material/{id}/delete", method = RequestMethod.GET)
     public @ResponseBody void deleteMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
-        if (material == null || (material.getStatus() == Material.Status.DRAFT && !material.getAuthor().equals(currentUser))
-                || currentUser.getRole() != User.Role.ADMIN || currentUser.getRole() != User.Role.EDITOR) {
+        if (canDelete(material, currentUser)) {
             throw new UnauthorisedMEditException();
         }
         materialService.delete(id);
