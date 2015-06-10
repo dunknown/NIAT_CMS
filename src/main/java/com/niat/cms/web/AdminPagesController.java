@@ -246,7 +246,7 @@ public class AdminPagesController {
     @RequestMapping(value = "/material/{id}/tomain", method = RequestMethod.GET)
     public @ResponseBody void toMainMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
-        if (material == null) {
+        if (material == null || material.getStatus() != Material.Status.ARCHIVE) {
             throw new UnauthorisedMEditException();
         }
         materialService.setMaterialStatus(id, Material.Status.MAIN);
@@ -255,7 +255,7 @@ public class AdminPagesController {
     @RequestMapping(value = "/material/{id}/toarchive", method = RequestMethod.GET)
     public @ResponseBody void toArchiveMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
-        if (material == null) {
+        if (material == null || material.getStatus() != Material.Status.MAIN) {
             throw new UnauthorisedMEditException();
         }
         materialService.setMaterialStatus(id, Material.Status.ARCHIVE);
@@ -264,7 +264,7 @@ public class AdminPagesController {
     @RequestMapping(value = "/material/{id}/feature", method = RequestMethod.GET)
     public @ResponseBody void featureMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
-        if (material == null) {
+        if (material == null || material.getStatus() != Material.Status.MAIN) {
             throw new UnauthorisedMEditException();
         }
         materialService.setMaterialFeatured(id, true);
@@ -273,7 +273,7 @@ public class AdminPagesController {
     @RequestMapping(value = "/material/{id}/unfeature", method = RequestMethod.GET)
     public @ResponseBody void unfeatureMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
-        if (material == null) {
+        if (material == null || material.getStatus() != Material.Status.MAIN) {
             throw new UnauthorisedMEditException();
         }
         materialService.setMaterialFeatured(id, false);
