@@ -9,7 +9,7 @@ import java.util.Set;
  * @author dunknown
  */
 @Entity
-public class Material {
+public class Material implements Comparable<Material>{
 
     public static enum Status {
         DRAFT,
@@ -166,4 +166,10 @@ public class Material {
     public int hashCode() {
         return (int) (id ^ (id >>> 32));
     }
+
+    @Override
+    public int compareTo(Material o) {
+        return this.date.compareTo(o.date);
+    }
+
 }
