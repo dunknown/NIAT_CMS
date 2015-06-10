@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -34,17 +36,27 @@ public class UserPagesController {
     @Autowired
     private TagService tagService;
 
+    private List<Material> getFavourites(User currentUser) {
+        List<Material> favs;
+        if (currentUser != null)
+            favs = new LinkedList<>(currentUser.getFavourites());
+        else
+            favs = new LinkedList<>();
+        Collections.sort(favs);
+        return favs;
+    }
+
     @RequestMapping(value = "/")
     public String mainPage(Model model, @AuthenticationPrincipal User currentUser) {
         model.addAttribute("materials", materialService.findMaterialsOnMain());
-        model.addAttribute("currentUser", userService.findByUsername(currentUser.getUsername()));
+        model.addAttribute("favourites", getFavourites(currentUser));
         return "main";
     }
 
     @RequestMapping(value = "/archive")
     public String archivePage(Model model, @AuthenticationPrincipal User currentUser) {
         model.addAttribute("materials", materialService.findMaterialsInArchive());
-        model.addAttribute("currentUser", userService.findByUsername(currentUser.getUsername()));
+        model.addAttribute("favourites", getFavourites(currentUser));
         return "archive";
     }
 
@@ -55,7 +67,7 @@ public class UserPagesController {
             throw new MaterialNotFoundException();
         }
         model.addAttribute("material", material);
-        model.addAttribute("currentUser", userService.findByUsername(currentUser.getUsername()));
+        model.addAttribute("favourites", getFavourites(currentUser));
         return "material_page";
     }
 
@@ -87,7 +99,7 @@ public class UserPagesController {
             throw new TagNotFoundException();
         List<Material> materials = materialService.findMaterialsWithTag(tag);
         model.addAttribute("materialswithtag", materials);
-        model.addAttribute("currentUser", userService.findByUsername(currentUser.getUsername()));
+        model.addAttribute("favourites", getFavourites(currentUser));
         return "tag_page";
     }
 
@@ -100,7 +112,7 @@ public class UserPagesController {
     @RequestMapping(value = "/favourites")
     public String favourites(Model model, @AuthenticationPrincipal User currentUser) {
         model.addAttribute("materials", userService.findByUsername(currentUser.getUsername()).getFavourites());
-        model.addAttribute("currentUser", userService.findByUsername(currentUser.getUsername()));
+        model.addAttribute("favourites", getFavourites(currentUser));
         return "favourites";
     }
 
