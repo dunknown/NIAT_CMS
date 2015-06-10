@@ -1,38 +1,56 @@
 function deleteMat(matId) {
-    $("#delete_" + matId).addClass("disabled");
-    $("#edit_" + matId).addClass("disabled");
-    $("#toArchive_" + matId).addClass("disabled");
-    $("#toMain_" + matId).addClass("disabled");
-    $("#feature_" + matId).addClass("disabled");
-    $("#unfeature_" + matId).addClass("disabled");
-    $("#fav_" + matId).addClass("disabled");
-    $("#unfav_" + matId).addClass("disabled");
+    bootbox.dialog({
+        title: "Подтвердите действие",
+        message: "Вы действительно хотите удалить материал?",
+        buttons: {
+            success: {
+                label: "Да",
+                className: "btn-success",
+                callback: function() {
+                    $("#delete_" + matId).addClass("disabled");
+                    $("#edit_" + matId).addClass("disabled");
+                    $("#toArchive_" + matId).addClass("disabled");
+                    $("#toMain_" + matId).addClass("disabled");
+                    $("#feature_" + matId).addClass("disabled");
+                    $("#unfeature_" + matId).addClass("disabled");
+                    $("#fav_" + matId).addClass("disabled");
+                    $("#unfav_" + matId).addClass("disabled");
 
-    $.ajax({
-        type: "GET",
-        url : "/material/" + matId + "/delete",
-        success : function() {
-            $.snackbar({
-                content: "Материал удален",
-                style: "toast",
-                timeout: 3000
-            });
-        },
-        error : function() {
-            $("#delete_" + matId).removeClass("disabled");
-            $("#edit_" + matId).removeClass("disabled");
-            $("#toArchive_" + matId).removeClass("disabled");
-            $("#toMain_" + matId).removeClass("disabled");
-            $("#feature_" + matId).removeClass("disabled");
-            $("#unfeature_" + matId).removeClass("disabled");
-            $("#fav_" + matId).removeClass("disabled");
-            $("#unfav_" + matId).removeClass("disabled");
+                    $.ajax({
+                        type: "GET",
+                        url : "/material/" + matId + "/delete",
+                        success : function() {
+                            $.snackbar({
+                                content: "Материал удален",
+                                style: "toast",
+                                timeout: 3000
+                            });
 
-            $.snackbar({
-                content: "Не удалось удалить материал",
-                style: "toast",
-                timeout: 3000
-            });
+                            window.location.href = "/";
+                        },
+                        error : function() {
+                            $("#delete_" + matId).removeClass("disabled");
+                            $("#edit_" + matId).removeClass("disabled");
+                            $("#toArchive_" + matId).removeClass("disabled");
+                            $("#toMain_" + matId).removeClass("disabled");
+                            $("#feature_" + matId).removeClass("disabled");
+                            $("#unfeature_" + matId).removeClass("disabled");
+                            $("#fav_" + matId).removeClass("disabled");
+                            $("#unfav_" + matId).removeClass("disabled");
+
+                            $.snackbar({
+                                content: "Не удалось удалить материал",
+                                style: "toast",
+                                timeout: 3000
+                            });
+                        }
+                    });
+                }
+            },
+            danger: {
+                label: "Отмена",
+                className: "btn-danger"
+            }
         }
     });
 }
