@@ -37,14 +37,14 @@ public class UserPagesController {
     @RequestMapping(value = "/")
     public String mainPage(Model model, @AuthenticationPrincipal User currentUser) {
         model.addAttribute("materials", materialService.findMaterialsOnMain());
-        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("currentUser", userService.findByUsername(currentUser.getUsername()));
         return "main";
     }
 
     @RequestMapping(value = "/archive")
     public String archivePage(Model model, @AuthenticationPrincipal User currentUser) {
         model.addAttribute("materials", materialService.findMaterialsInArchive());
-        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("currentUser", userService.findByUsername(currentUser.getUsername()));
         return "archive";
     }
 
@@ -55,7 +55,7 @@ public class UserPagesController {
             throw new MaterialNotFoundException();
         }
         model.addAttribute("material", material);
-        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("currentUser", userService.findByUsername(currentUser.getUsername()));
         return "material_page";
     }
 
@@ -81,12 +81,13 @@ public class UserPagesController {
     }
 
     @RequestMapping(value = "/tag/{tagText}")
-    public String materialsWithTagPage(Model model, @PathVariable String tagText) {
+    public String materialsWithTagPage(Model model, @PathVariable String tagText, @AuthenticationPrincipal User currentUser) {
         Tag tag = tagService.findByText(tagText);
         if (tag == null)
             throw new TagNotFoundException();
         List<Material> materials = materialService.findMaterialsWithTag(tag);
         model.addAttribute("materialswithtag", materials);
+        model.addAttribute("currentUser", userService.findByUsername(currentUser.getUsername()));
         return "tag_page";
     }
 
