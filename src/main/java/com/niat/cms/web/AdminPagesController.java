@@ -253,7 +253,7 @@ public class AdminPagesController {
     @RequestMapping(value = "/material/{id}/delete", method = RequestMethod.GET)
     public @ResponseBody void deleteMaterial(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         Material material = materialService.findById(id);
-        if (canDelete(material, currentUser)) {
+        if (!canDelete(material, currentUser)) {
             throw new UnauthorisedMEditException();
         }
         materialService.delete(id);

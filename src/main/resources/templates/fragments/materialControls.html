@@ -94,15 +94,21 @@
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"
            th:id="'edit_' + ${material.id}">Редактировать</a>
 
-        <a class="btn btn-sm btn-danger disabled"
+        <a class="btn btn-sm btn-danger"
            th:id="'delete_' + ${material.id}"
-           th:onclick="'delete(' + ${material.id} + ')'"
+           th:onclick="'deleteMat(' + ${material.id} + ')'"
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">Удалить</a>
 
-        <a class="btn btn-sm btn-material-indigo disabled"
-           th:id="'tomain_' + ${material.id}"
-           th:onclick="'tomain(' + ${material.id} + ')'"
+        <a class="btn btn-sm btn-material-indigo"
+           th:id="'toMain_' + ${material.id}"
+           th:onclick="'toMain(' + ${material.id} + ')'"
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">На главную</a>
+
+        <a style="display : none"
+           class="btn btn-sm btn-material-indigo"
+           th:id="'toArchive_' + ${material.id}"
+           th:onclick="'toArchive(' + ${material.id} + ')'"
+           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">В архив</a>
 
         <a class="btn btn-sm btn-material-indigo"
            th:id="'fav_' + ${material.id}"
@@ -123,27 +129,33 @@
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"
            th:id="'edit_' + ${material.id}">Редактировать</a>
 
-        <a class="btn btn-sm btn-danger disabled"
+        <a class="btn btn-sm btn-danger"
            th:id="'delete_' + ${material.id}"
-           th:onclick="'delete(' + ${material.id} + ')'"
+           th:onclick="'deleteMat(' + ${material.id} + ')'"
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">Удалить</a>
 
-        <a class="btn btn-sm btn-material-indigo disabled"
+        <a style="display: none"
+           class="btn btn-sm btn-material-indigo"
+           th:id="'toMain_' + ${material.id}"
+           th:onclick="'toMain(' + ${material.id} + ')'"
+           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">На главную</a>
+
+        <a class="btn btn-sm btn-material-indigo"
            th:id="'toArchive_' + ${material.id}"
            th:onclick="'toArchive(' + ${material.id} + ')'"
            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">В архив</a>
 
-        <!--<a class="btn btn-sm btn-material-indigo"-->
-           <!--th:id="'feature_' + ${material.id}"-->
-           <!--th:onclick="'feature(' + ${material.id} + ')'"-->
-           <!--sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"-->
-           <!--th:if="${!material.featured}">Зафичерить</a>-->
-    <!---->
-        <!--<a class="btn btn-sm btn-material-indigo"-->
-           <!--th:id="'unfeature_' + ${material.id}"-->
-           <!--th:onclick="'unfeature(' + ${material.id} + ')'"-->
-           <!--sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"-->
-           <!--th:if="${material.featured}">Расфичерить</a>-->
+        <a class="btn btn-sm btn-material-indigo"
+           th:id="'feature_' + ${material.id}"
+           th:onclick="'feature(' + ${material.id} + ')'"
+           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"
+           th:if="${!material.featured}">Зафичерить</a>
+
+        <a class="btn btn-sm btn-material-indigo"
+           th:id="'unfeature_' + ${material.id}"
+           th:onclick="'unfeature(' + ${material.id} + ')'"
+           sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"
+           th:if="${material.featured}">Расфичерить</a>
 
         <a class="btn btn-sm btn-material-indigo"
            th:id="'fav_' + ${material.id}"

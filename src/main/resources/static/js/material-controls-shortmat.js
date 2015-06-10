@@ -1,4 +1,13 @@
 function deleteMat(matId) {
+    $("#delete_" + matId).addClass("disabled");
+    $("#edit_" + matId).addClass("disabled");
+    $("#toArchive_" + matId).addClass("disabled");
+    $("#toMain_" + matId).addClass("disabled");
+    $("#feature_" + matId).addClass("disabled");
+    $("#unfeature_" + matId).addClass("disabled");
+    $("#fav_" + matId).addClass("disabled");
+    $("#unfav_" + matId).addClass("disabled");
+
     $.ajax({
         type: "GET",
         url : "/material/" + matId + "/delete",
@@ -6,6 +15,15 @@ function deleteMat(matId) {
             $('#material_' + matId).hide('slow', function(){ $(this).remove(); });
         },
         error : function() {
+            $("#delete_" + matId).removeClass("disabled");
+            $("#edit_" + matId).removeClass("disabled");
+            $("#toArchive_" + matId).removeClass("disabled");
+            $("#toMain_" + matId).removeClass("disabled");
+            $("#feature_" + matId).removeClass("disabled");
+            $("#unfeature_" + matId).removeClass("disabled");
+            $("#fav_" + matId).removeClass("disabled");
+            $("#unfav_" + matId).removeClass("disabled");
+
             $.snackbar({
                 content: "Не удалось удалить материал",
                 style: "toast",
@@ -105,6 +123,8 @@ function decline(matId) {
 }
 
 function toMain(matId) {
+    $("#toMain_" + matId).addClass("disabled");
+
     $.ajax({
         type: "GET",
         url : "/material/" + matId + "/tomain",
@@ -112,6 +132,8 @@ function toMain(matId) {
             $('#material_' + matId).hide('slow', function(){ $(this).remove(); });
         },
         error : function() {
+            $("#toMain_" + matId).removeClass("disabled");
+
             $.snackbar({
                 content: "Не удалось отправить материал на главную",
                 style: "toast",
@@ -122,6 +144,8 @@ function toMain(matId) {
 }
 
 function toArchive(matId) {
+    $("#toArchive_" + matId).addClass("disabled");
+
     $.ajax({
         type: "GET",
         url : "/material/" + matId + "/toarchive",
@@ -129,6 +153,8 @@ function toArchive(matId) {
             $('#material_' + matId).hide('slow', function(){ $(this).remove(); });
         },
         error : function() {
+            $("#toArchive_" + matId).removeClass("disabled");
+
             $.snackbar({
                 content: "Не удалось отправить материал в архив",
                 style: "toast",
