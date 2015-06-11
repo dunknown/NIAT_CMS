@@ -128,6 +128,10 @@ public class User implements UserDetails {
         favourites.remove(material);
     }
 
+    public boolean isInFavourites(Material material) {
+        return favourites.contains(material);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.asList(new SimpleGrantedAuthority(role.getRoleName()));
