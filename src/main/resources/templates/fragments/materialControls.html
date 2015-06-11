@@ -114,13 +114,13 @@
            th:id="'fav_' + ${material.id}"
            th:onclick="'fav(' + ${material.id} + ')'"
            sec:authorize="isAuthenticated()"
-           th:style="${#lists.contains(favourites, material)} ? 'display : none'">В избранное</a>
+           th:style="${currentUser != null and currentUser.isInFavourites(material)} ? 'display : none'">В избранное</a>
 
         <a class="btn btn-sm btn-material-indigo"
            th:id="'unfav_' + ${material.id}"
            th:onclick="'unfav(' + ${material.id} + ')'"
            sec:authorize="isAuthenticated()"
-           th:style="${!#lists.contains(favourites, material)} ? 'display : none'">Из избранного</a>
+           th:style="${currentUser != null and !currentUser.isInFavourites(material)} ? 'display : none'">Из избранного</a>
     </div>
 
     <div th:if="${material.status == T(com.niat.cms.domain.Material$Status).MAIN}">
@@ -149,13 +149,13 @@
            th:id="'fav_' + ${material.id}"
            th:onclick="'fav(' + ${material.id} + ')'"
            sec:authorize="isAuthenticated()"
-           th:style="${#lists.contains(favourites, material)} ? 'display : none'">В избранное</a>
+           th:style="${currentUser != null and currentUser.isInFavourites(material)} ? 'display : none'">В избранное</a>
 
         <a class="btn btn-sm btn-material-indigo"
            th:id="'unfav_' + ${material.id}"
            th:onclick="'unfav(' + ${material.id} + ')'"
            sec:authorize="isAuthenticated()"
-           th:style="${!#lists.contains(favourites, material)} ? 'display : none'">Из избранного</a>
+           th:style="${currentUser != null and !currentUser.isInFavourites(material)} ? 'display : none'">Из избранного</a>
 
         <a class="btn btn-sm btn-warning"
            th:id="'feature_' + ${material.id}"
