@@ -95,8 +95,37 @@
         </div>
     </div>
 
+    <!-- To top button -->
+    <a href="#"
+       id="to_top"
+       class="btn btn-fab btn-raised btn-material-indigo"
+       data-toggle="tooltip" data-placement="top" title="" data-original-title="Наверх">
+        <i class="mdi-navigation-expand-less"></i>
+    </a>
+
     <script>
         $.material.init();
+        $('[data-toggle="tooltip"]').tooltip();
+    </script>
+
+    <!-- To top button script -->
+    <script>
+        jQuery(document).ready(function() {
+            var offset = 100;
+            jQuery(window).scroll(function() {
+                if (jQuery(this).scrollTop() > offset) {
+                    jQuery('#to_top').fadeIn('medium');
+                } else {
+                    jQuery('#to_top').fadeOut('medium');
+                }
+            });
+
+            jQuery('#to_top').click(function(event) {
+                event.preventDefault();
+                jQuery('html, body').animate({scrollTop: 0}, 'medium');
+                return false;
+            })
+        });
     </script>
 </body>
 </html>
