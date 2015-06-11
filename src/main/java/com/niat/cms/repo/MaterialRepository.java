@@ -3,6 +3,7 @@ package com.niat.cms.repo;
 import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,16 +22,16 @@ public interface MaterialRepository extends JpaRepository<Material, Long> {
     Material findById(long id);
 
     List<Material> findByStatusOrderByDateDesc(Material.Status status);
-    List<Material> findByStatusOrderByDateDesc(Material.Status status, Pageable pageable);
+    Page<Material> findByStatusOrderByDateDesc(Material.Status status, Pageable pageable);
 
     List<Material> findByStatusAndAuthorOrderByDateDesc(Material.Status status, User author);
-    List<Material> findByStatusAndAuthorOrderByDateDesc(Material.Status status, User author, Pageable pageable);
+    Page<Material> findByStatusAndAuthorOrderByDateDesc(Material.Status status, User author, Pageable pageable);
 
     List<Material> findByStatusAndModeratorOrderByDateDesc(Material.Status status, User moderator);
-    List<Material> findByStatusAndModeratorOrderByDateDesc(Material.Status status, User moderator, Pageable pageable);
+    Page<Material> findByStatusAndModeratorOrderByDateDesc(Material.Status status, User moderator, Pageable pageable);
 
     @Query("select m from Material m where :tag member m.tags order by m.date desc")
     List<Material> findByTagOrderByDateDesc(@Param("tag") Tag tag);
     @Query("select m from Material m where :tag member m.tags order by m.date desc")
-    List<Material> findByTagOrderByDateDesc(@Param("tag") Tag tag, Pageable pageable);
+    Page<Material> findByTagOrderByDateDesc(@Param("tag") Tag tag, Pageable pageable);
 }
