@@ -46,17 +46,21 @@ public class UserPagesController {
         return favs;
     }
 
+    private User getCurrentUser(String username) {
+        return userService.findByUsername(username);
+    }
+
     @RequestMapping(value = "/")
     public String mainPage(Model model, @AuthenticationPrincipal User currentUser) {
         model.addAttribute("materials", materialService.findMaterialsOnMain());
-        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("currentUser", getCurrentUser(currentUser.getUsername()));
         return "main";
     }
 
     @RequestMapping(value = "/archive")
     public String archivePage(Model model, @AuthenticationPrincipal User currentUser) {
         model.addAttribute("materials", materialService.findMaterialsInArchive());
-        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("currentUser", getCurrentUser(currentUser.getUsername()));
         return "archive";
     }
 
@@ -67,7 +71,7 @@ public class UserPagesController {
             throw new MaterialNotFoundException();
         }
         model.addAttribute("material", material);
-        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("currentUser", getCurrentUser(currentUser.getUsername()));
         return "material_page";
     }
 
@@ -99,7 +103,7 @@ public class UserPagesController {
             throw new TagNotFoundException();
         List<Material> materials = materialService.findMaterialsWithTag(tag);
         model.addAttribute("materialswithtag", materials);
-        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("currentUser", getCurrentUser(currentUser.getUsername()));
         return "tag_page";
     }
 
@@ -111,8 +115,9 @@ public class UserPagesController {
 
     @RequestMapping(value = "/favourites")
     public String favourites(Model model, @AuthenticationPrincipal User currentUser) {
-        model.addAttribute("favourites", getFavourites(currentUser));
-        model.addAttribute("currentUser", currentUser);
+        User cur = getCurrentUser(currentUser.getUsername());
+        model.addAttribute("favourites", getFavourites(cur));
+        model.addAttribute("currentUser", cur);
         return "favourites";
     }
 
