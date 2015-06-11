@@ -46,21 +46,24 @@ public class UserPagesController {
         return favs;
     }
 
-    private User getCurrentUser(String username) {
-        return userService.findByUsername(username);
+    private User getCurrentUser(User user) {
+        if(user == null) {
+            return null;
+        }
+        return userService.findByUsername(user.getUsername());
     }
 
     @RequestMapping(value = "/")
     public String mainPage(Model model, @AuthenticationPrincipal User currentUser) {
         model.addAttribute("materials", materialService.findMaterialsOnMain());
-        model.addAttribute("currentUser", getCurrentUser(currentUser.getUsername()));
+        model.addAttribute("currentUser", getCurrentUser(currentUser));
         return "main";
     }
 
     @RequestMapping(value = "/archive")
     public String archivePage(Model model, @AuthenticationPrincipal User currentUser) {
         model.addAttribute("materials", materialService.findMaterialsInArchive());
-        model.addAttribute("currentUser", getCurrentUser(currentUser.getUsername()));
+        model.addAttribute("currentUser", getCurrentUser(currentUser));
         return "archive";
     }
 
@@ -71,7 +74,7 @@ public class UserPagesController {
             throw new MaterialNotFoundException();
         }
         model.addAttribute("material", material);
-        model.addAttribute("currentUser", getCurrentUser(currentUser.getUsername()));
+        model.addAttribute("currentUser", getCurrentUser(currentUser));
         return "material_page";
     }
 
@@ -103,7 +106,7 @@ public class UserPagesController {
             throw new TagNotFoundException();
         List<Material> materials = materialService.findMaterialsWithTag(tag);
         model.addAttribute("materialswithtag", materials);
-        model.addAttribute("currentUser", getCurrentUser(currentUser.getUsername()));
+        model.addAttribute("currentUser", getCurrentUser(currentUser));
         return "tag_page";
     }
 
@@ -115,7 +118,7 @@ public class UserPagesController {
 
     @RequestMapping(value = "/favourites")
     public String favourites(Model model, @AuthenticationPrincipal User currentUser) {
-        User cur = getCurrentUser(currentUser.getUsername());
+        User cur = getCurrentUser(currentUser);
         model.addAttribute("favourites", getFavourites(cur));
         model.addAttribute("currentUser", cur);
         return "favourites";
