@@ -52,7 +52,7 @@
         <script type="text/javascript">
             $("#nav_item_favourites").addClass("active");
         </script>
-        <div th:replace="fragments/materialList :: materialList(${favourites})"/>
+        <div th:replace="fragments/materialListPageable :: materialListPageable(${favourites})"/>
     </div>
 </div>
 
