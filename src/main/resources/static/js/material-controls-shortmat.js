@@ -214,6 +214,8 @@ function unfav(matId) {
             $("#fav_" + matId).show('medium');
         },
         error : function() {
+            $("#unfav_" + matId).removeClass("disabled");
+
             $.snackbar({
                 content: "Не удалось убрать материал из избранного",
                 style: "toast",
