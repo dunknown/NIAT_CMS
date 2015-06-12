@@ -62,3 +62,7 @@ a.text-warning, a.text-warning:focus, a.text-warning:hover {
     width: 46px;
     height: 29px;
 }
+
+.material-text blockquote, #editor blockquote {
+    font-size: inherit;
+}
