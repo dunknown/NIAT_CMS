@@ -66,3 +66,7 @@ a.text-warning, a.text-warning:focus, a.text-warning:hover {
 .material-text blockquote, #editor blockquote {
     font-size: inherit;
 }
+
+.mat_title {
+    word-wrap: break-word;
+}
