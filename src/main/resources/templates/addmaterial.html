@@ -169,7 +169,7 @@
                             <a class="btn btn-xs btn-material-indigo" id="pictureBtn" rel="tooltip" data-placement="top" title="" data-original-title="Вставить изображение">
                                 <i class="mdi-editor-insert-photo"></i>
                             </a>
-                            <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage"/>
+                            <input class="hidden_img_input" type="file" data-target="#pictureBtn" data-edit="insertImage"/>
                         </div>
 
                         <div class="btn-group">
@@ -222,14 +222,14 @@
             $('[rel="tooltip"]').tooltip();
 
             //hide file input in "insert image"
-            $('[data-role=magic-overlay]').each(function () {
-                var overlay = $(this), target = $(overlay.data('target'));
-                overlay.css('opacity', 0)
-                       .css('position', 'absolute')
-                       .offset(target.offset())
-                       .width(target.outerWidth())
-                       .height(target.outerHeight());
-            });
+//            $('[data-role=magic-overlay]').each(function () {
+//                var overlay = $(this), target = $(overlay.data('target'));
+//                overlay.css('opacity', 0)
+//                       .css('position', 'absolute')
+//                       .offset(target.offset())
+//                       .width(target.outerWidth())
+//                       .height(target.outerHeight());
+//            });
 
             //put text from wysiwyg to hidden textarea for submitting in the form
             $(function() {
