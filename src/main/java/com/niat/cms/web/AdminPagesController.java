@@ -103,7 +103,12 @@ public class AdminPagesController {
 
         material.setTags(tagsSet);
         materialService.save(material);
-        return "redirect:/material/" + material.getId();
+
+        if(currentUser.getRole() == User.Role.AUTHOR) {
+            return "redirect:/";
+        } else {
+            return "redirect:/material/" + material.getId();
+        }
     }
 
     @RequestMapping(value = "/todrafts", method = RequestMethod.POST)
@@ -126,6 +131,7 @@ public class AdminPagesController {
 
         material.setTags(tagsSet);
         materialService.save(material);
+
         return "redirect:/material/" + material.getId();
     }
 
@@ -186,11 +192,7 @@ public class AdminPagesController {
         materialService.setMaterialMainText(id, mainText);
         materialService.setMaterialTags(id, getTagsFromString(materialForm.getTags()));
 
-        if(canEdit(material, currentUser)) {
-            return "redirect:/material/" + id;
-        } else {
-            return "redirect:/";
-        }
+        return "redirect:/material/" + id;
     }
 
     @RequestMapping(value = "/material/{id}/tomoderation", method = RequestMethod.POST)
