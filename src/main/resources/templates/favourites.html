@@ -53,6 +53,30 @@
             $("#nav_item_favourites").addClass("active");
         </script>
         <div th:replace="fragments/materialList :: materialList(${favourites})"/>
+
+        <!-- Override unFav for removing unfaved material from DOM -->
+        <script>
+            function unfav(matId) {
+                $("#unfav_" + matId).addClass("disabled");
+
+                $.ajax({
+                    type: "GET",
+                    url : "/material/" + matId + "/unfav",
+                    success : function() {
+                        $('#material_' + matId).hide('slow', function(){ $(this).remove(); });
+                    },
+                    error : function() {
+                        $("#unfav_" + matId).removeClass("disabled");
+
+                        $.snackbar({
+                            content: "Не удалось убрать материал из избранного",
+                            style: "toast",
+                            timeout: 3000
+                        });
+                    }
+                });
+            }
+        </script>
     </div>
 </div>
 
