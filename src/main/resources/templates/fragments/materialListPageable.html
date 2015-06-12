@@ -13,7 +13,7 @@
 
     <!-- Custom styles for this tаemplate -->
     <link rel="stylesheet" th:href="@{css/styles.css}" href="../static/css/styles.css"/>
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
@@ -67,24 +67,23 @@
         <div th:replace="fragments/shortMaterial :: shortMaterial(${material})"/>
     </div>
     <h3 th:if="${#lists.isEmpty(materialList)}">Здесь пока нет материалов</h3>
-    <script th:src="@{/js/material-controls-shortmat.js}" src="../static/js/material-controls-shortmat.js"></script>
-</div>
 
     <div id="pagination">
         <script th:inline="javascript">
             /*<![CDATA[*/
-            var options = /*[[${currentPage.totalPages.url}]]*/{
-                currentPage: 3,
-                totalPages: 10,
+            var options = {
+                currentPage: /*[[${currentPage}]]*/,
+                totalPages: /*[[${totalPages}]]*/,
                 url: function(type, page, current){
-                    return "http://example.com/list/page/"+page;
+                    return /*[[${url}]]*/+page;
                 }
             }
             $('#pagination').bootstrapPaginator(options);
             /*]]>*/
-
         </script>
     </div>
+    <script th:src="@{/js/material-controls-shortmat.js}" src="../static/js/material-controls-shortmat.js"></script>
+</div>
 
 <script>
     $.material.init();
