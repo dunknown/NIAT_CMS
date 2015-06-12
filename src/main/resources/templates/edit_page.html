@@ -229,9 +229,18 @@
 //                       .height(target.outerHeight());
 //            });
 
-            //put text from wysiwyg to hidden textarea for submitting in the form
+            //leave confirmation
+            $(document).ready( function(){
+                $(window).bind('beforeunload', function(){
+                    return "Изменения не будут сохранены.";
+                });
+            });
+
+            //put text from wysiwyg to hidden textarea for submitting in the form, remove leave confirmation
             $(function() {
                 $('#mat_form').submit(function() {
+                    $(window).unbind("beforeunload");
+
                     $('#text').val($('#editor').cleanHtml());
                     return true;
                 });
