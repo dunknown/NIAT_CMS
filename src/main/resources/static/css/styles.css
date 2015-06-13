@@ -70,3 +70,19 @@ a.text-warning, a.text-warning:focus, a.text-warning:hover {
 .mat_title {
     word-wrap: break-word;
 }
+
+th.sort_header {
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center right;
+}
+
+th.sort_header_asc {
+    background-image: url(../img/sort_asc.png);
+    background-color: #ddd;
+}
+
+th.sort_header_desc {
+    background-image: url(../img/sort_desc.png);
+    background-color: #ddd;
+}

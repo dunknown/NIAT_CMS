@@ -40,7 +40,7 @@
             </script>
 
             <div class="well">
-                <table class="table table-striped table-hover form-group-material-indigo">
+                <table id="usr_tbl" class="table table-striped table-hover form-group-material-indigo">
                     <thead>
                     <tr>
                         <th>id</th>
@@ -54,6 +54,7 @@
                         <td th:text="${user.id}">1</td>
                         <td th:text="${user.username}">username</td>
                         <td>
+                            <span th:text="${user.role.roleText}" style="display: none"></span>
                             <select th:id="'select_' + ${user.id}" class="form-control">
                                 <option th:each="role : ${T(com.niat.cms.domain.User$Role).values()}" th:value="${role.roleName}" th:text="${role.roleText}" th:selected="${role == user.role}">Автор</option>
                             </select>
@@ -64,6 +65,21 @@
                 </table>
             </div>
 
+            <script>
+                $(document).ready(function() {
+                    $("#usr_tbl").tablesorter({
+                        headers: {
+                            3: {
+                                sorter: false
+                            }
+                        },
+                        sortList: [[1,0]],
+                        cssHeader: 'sort_header',
+                        cssAsc: 'sort_header_asc',
+                        cssDesc: 'sort_header_desc'
+                    } );
+                });
+            </script>
             <script>
                 $("select").change(function() {
                     var id = '#save_' + $(this).attr('id').substring(7);

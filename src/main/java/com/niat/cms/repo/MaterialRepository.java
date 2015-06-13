@@ -22,6 +22,10 @@ public interface MaterialRepository extends JpaRepository<Material, Long> {
     List<Material> findByStatusAndAuthorOrderByDateDesc(Material.Status status, User author);
     List<Material> findByStatusAndModeratorOrderByDateDesc(Material.Status status, User moderator);
 
-    @Query("select m from Material m where :tag member m.tags order by m.date desc")
+    @Query("select m from Material m " +
+                "where :tag member m.tags and " +
+                      "(m.status = com.niat.cms.domain.Material$Status.MAIN or " +
+                      "m.status = com.niat.cms.domain.Material$Status.ARCHIVE) " +
+                "order by m.date desc")
     List<Material> findByTagOrderByDateDesc(@Param("tag") Tag tag);
 }

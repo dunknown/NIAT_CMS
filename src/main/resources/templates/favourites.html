@@ -54,7 +54,7 @@
         </script>
         <div th:replace="fragments/materialList :: materialList(${favourites})"/>
 
-        <!-- Override unFav for removing unfaved material from DOM -->
+        <!-- Override unFav for removing unfaved material from DOM, toArchive/toMain for keeping material in DOM -->
         <script>
             function unfav(matId) {
                 $("#unfav_" + matId).addClass("disabled");
@@ -70,6 +70,52 @@
 
                         $.snackbar({
                             content: "Не удалось убрать материал из избранного",
+                            style: "toast",
+                            timeout: 3000
+                        });
+                    }
+                });
+            }
+
+            function toMain(matId) {
+                $("#toMain_" + matId).addClass("disabled");
+
+                $.ajax({
+                    type: "GET",
+                    url : "/material/" + matId + "/tomain",
+                    success : function() {
+                        $('#toMain_' + matId).hide('medium');
+                        $('#toArchive_' + matId).removeClass('disabled');
+                        $('#toArchive_' + matId).show('medium');
+                    },
+                    error : function() {
+                        $("#toMain_" + matId).removeClass("disabled");
+
+                        $.snackbar({
+                            content: "Не удалось отправить материал на главную",
+                            style: "toast",
+                            timeout: 3000
+                        });
+                    }
+                });
+            }
+
+            function toArchive(matId) {
+                $("#toArchive_" + matId).addClass("disabled");
+
+                $.ajax({
+                    type: "GET",
+                    url : "/material/" + matId + "/toarchive",
+                    success : function() {
+                        $('#toArchive_' + matId).hide('medium');
+                        $('#toMain_' + matId).removeClass('disabled');
+                        $('#toMain_' + matId).show('medium');
+                    },
+                    error : function() {
+                        $("#toArchive_" + matId).removeClass("disabled");
+
+                        $.snackbar({
+                            content: "Не удалось отправить материал в архив",
                             style: "toast",
                             timeout: 3000
                         });
