@@ -86,3 +86,13 @@ th.sort_header_desc {
     background-image: url(../img/sort_desc.png);
     background-color: #ddd;
 }
+
+ul.sortable_mat_list {
+    list-style: none;
+}
+
+.sort_placeholder {
+    border: dashed 2px #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
