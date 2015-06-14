@@ -160,7 +160,7 @@ public class AdminPagesController {
             throw new UnauthorisedMEditException();
         MaterialForm form = new MaterialForm();
         form.setTitle(material.getTitle());
-        if(material.getMainText() == null) {
+        if(material.getMainText() == null || material.getMainText().equals("")) {
             form.setText(material.getShortText());
         } else {
             form.setText(material.getShortText() + "&lt;cut&gt;" + material.getMainText());
