@@ -96,3 +96,7 @@ ul.sortable_mat_list {
     border-radius: 5px;
     margin-bottom: 20px;
 }
+
+.mat_drag_handle {
+    cursor: default;
+}
