@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Collections;
@@ -61,6 +62,11 @@ public class UserPagesController {
         return "main";
     }
 
+    @RequestMapping(value = "/archive", method = RequestMethod.GET)
+    public String archivePageRedirect() {
+        return "redirect:/archive/page1";
+    }
+
     @RequestMapping(value = "/archive/page{num}")
     public String archivePage(Model model, @AuthenticationPrincipal User currentUser, @PathVariable Integer num) {
         Page page = materialService.findMaterialsInArchive(num);
@@ -104,6 +110,11 @@ public class UserPagesController {
         }
     }
 
+    @RequestMapping(value = "/tag/{tagText}", method = RequestMethod.GET)
+    public String materialsWithTagPageRedirect(@PathVariable String tagText) {
+        return "redirect:/tag/" + tagText + "/page1";
+    }
+
     @RequestMapping(value = "/tag/{tagText}/page{num}")
     public String materialsWithTagPage(Model model, @PathVariable String tagText, @AuthenticationPrincipal User currentUser, @PathVariable Integer num) {
         Tag tag = tagService.findByText(tagText);
@@ -118,6 +129,11 @@ public class UserPagesController {
         return "tag_page";
     }
 
+    @RequestMapping(value = "/drafts", method = RequestMethod.GET)
+    public String draftsRedirect() {
+        return "redirect:/drafts/page1";
+    }
+
     @RequestMapping(value = "/drafts/page{num}")
     public String drafts(Model model, @AuthenticationPrincipal User currentUser, @PathVariable Integer num) {
         Page page = materialService.findUserDrafts(currentUser, num);
@@ -126,6 +142,11 @@ public class UserPagesController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("url", "/drafts/page");
         return "drafts";
+    }
+
+    @RequestMapping(value = "/favourites", method = RequestMethod.GET)
+    public String favouritesRedirect() {
+        return "redirect:/favourites/page1";
     }
 
     @RequestMapping(value = "/favourites/page{num}")

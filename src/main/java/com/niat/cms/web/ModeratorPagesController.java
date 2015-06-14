@@ -32,6 +32,11 @@ public class ModeratorPagesController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping(value = "/modertasks", method = RequestMethod.GET)
+    public String waitingForModerationRedirect() {
+        return "redirect:/modertasks/page1";
+    }
+
     @RequestMapping(value = "/modertasks/page{num}", method = RequestMethod.GET)
     public String waitingForModeration(Model model, @PathVariable Integer num) {
         Page page = materialService.findModerationTasks(num);
@@ -52,6 +57,11 @@ public class ModeratorPagesController {
         }
         else
             throw new NotModeratorTaskException();
+    }
+
+    @RequestMapping(value = "/moderate", method = RequestMethod.GET)
+    public String moderateRedirect() {
+        return "redirect:/moderate/page1";
     }
 
     @RequestMapping(value = "/moderate/page{num}", method = RequestMethod.GET)
