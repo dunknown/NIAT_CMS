@@ -81,6 +81,13 @@ public class MaterialService {
         return materialRepository.findByTagOrderByDateDesc(tag, new PageRequest(page, PAGE_SIZE));
     }
 
+    public List<Material> findUserFavourites(User user) {
+        return materialRepository.findUserFavouritesOrderByDateDesc(user);
+    }
+    public Page<Material> findUserFavourites(User user, int page) {
+        return materialRepository.findUserFavouritesOrderByDateDesc(user, new PageRequest(page, PAGE_SIZE));
+    }
+
     public void setMaterialStatus(long id, Material.Status status) {
         Material m = materialRepository.findById(id);
         if(m != null) {

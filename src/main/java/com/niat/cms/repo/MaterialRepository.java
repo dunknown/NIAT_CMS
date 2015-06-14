@@ -30,6 +30,11 @@ public interface MaterialRepository extends JpaRepository<Material, Long> {
     List<Material> findByStatusAndModeratorOrderByDateDesc(Material.Status status, User moderator);
     Page<Material> findByStatusAndModeratorOrderByDateDesc(Material.Status status, User moderator, Pageable pageable);
 
+    @Query("select m from Material m where :user member m.favedUsers order by m.date desc")
+    List<Material> findUserFavouritesOrderByDateDesc(@Param("user") User user);
+    @Query("select m from Material m where :user member m.favedUsers order by m.date desc")
+    Page<Material> findUserFavouritesOrderByDateDesc(@Param("user") User user, Pageable pageable);
+
     @Query("select m from Material m where :tag member m.tags order by m.date desc")
     List<Material> findByTagOrderByDateDesc(@Param("tag") Tag tag);
     @Query("select m from Material m where :tag member m.tags order by m.date desc")
