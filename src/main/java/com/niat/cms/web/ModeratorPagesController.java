@@ -7,6 +7,7 @@ import com.niat.cms.service.MaterialService;
 import com.niat.cms.service.TagService;
 import com.niat.cms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,9 +32,13 @@ public class ModeratorPagesController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/modertasks", method = RequestMethod.GET)
-    public String waitingForModeration(Model model) {
-        model.addAttribute("materials", materialService.findModerationTasks());
+    @RequestMapping(value = "/modertasks/page{num}", method = RequestMethod.GET)
+    public String waitingForModeration(Model model, @PathVariable Integer num) {
+        Page page = materialService.findModerationTasks(num);
+        model.addAttribute("materials", page.getContent());
+        model.addAttribute("currentPage", page.getNumber());
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("url", "/modertasks/page");
         return ("modertasks");
     }
 
@@ -49,9 +54,13 @@ public class ModeratorPagesController {
             throw new NotModeratorTaskException();
     }
 
-    @RequestMapping(value = "/moderate", method = RequestMethod.GET)
-    public String moderate(Model model, @AuthenticationPrincipal User currentUser) {
-        model.addAttribute("materials", materialService.findUserModerationTasks(currentUser));
+    @RequestMapping(value = "/moderate/page{num}", method = RequestMethod.GET)
+    public String moderate(Model model, @AuthenticationPrincipal User currentUser, @PathVariable Integer num) {
+        Page page = materialService.findUserModerationTasks(currentUser, num);
+        model.addAttribute("materials", page.getContent());
+        model.addAttribute("currentPage", page.getNumber());
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("url", "/moderate/page");
         return "moderate";
     }
 

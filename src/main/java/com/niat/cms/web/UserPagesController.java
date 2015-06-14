@@ -9,6 +9,7 @@ import com.niat.cms.service.MaterialService;
 import com.niat.cms.service.TagService;
 import com.niat.cms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,9 +61,13 @@ public class UserPagesController {
         return "main";
     }
 
-    @RequestMapping(value = "/archive")
-    public String archivePage(Model model, @AuthenticationPrincipal User currentUser) {
-        model.addAttribute("materials", materialService.findMaterialsInArchive());
+    @RequestMapping(value = "/archive/page{num}")
+    public String archivePage(Model model, @AuthenticationPrincipal User currentUser, @PathVariable Integer num) {
+        Page page = materialService.findMaterialsInArchive(num);
+        model.addAttribute("materials", page.getContent());
+        model.addAttribute("currentPage", page.getNumber());
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("url", "/archive/page");
         model.addAttribute("currentUser", getCurrentUser(currentUser));
         return "archive";
     }
@@ -99,27 +104,38 @@ public class UserPagesController {
         }
     }
 
-    @RequestMapping(value = "/tag/{tagText}")
-    public String materialsWithTagPage(Model model, @PathVariable String tagText, @AuthenticationPrincipal User currentUser) {
+    @RequestMapping(value = "/tag/{tagText}/page{num}")
+    public String materialsWithTagPage(Model model, @PathVariable String tagText, @AuthenticationPrincipal User currentUser, @PathVariable Integer num) {
         Tag tag = tagService.findByText(tagText);
         if (tag == null)
             throw new TagNotFoundException();
-        List<Material> materials = materialService.findMaterialsWithTag(tag);
-        model.addAttribute("materialswithtag", materials);
+        Page page = materialService.findMaterialsWithTag(tag, num);
+        model.addAttribute("materialswithtag", page.getContent());
+        model.addAttribute("currentPage", page.getNumber());
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("url", "/tag/" + tag.getText() + "/page");
         model.addAttribute("currentUser", getCurrentUser(currentUser));
         return "tag_page";
     }
 
-    @RequestMapping(value = "/drafts")
-    public String drafts(Model model, @AuthenticationPrincipal User currentUser) {
-        model.addAttribute("materials", materialService.findUserDrafts(currentUser));
+    @RequestMapping(value = "/drafts/page{num}")
+    public String drafts(Model model, @AuthenticationPrincipal User currentUser, @PathVariable Integer num) {
+        Page page = materialService.findUserDrafts(currentUser, num);
+        model.addAttribute("materials", page.getContent());
+        model.addAttribute("currentPage", page.getNumber());
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("url", "/drafts/page");
         return "drafts";
     }
 
-    @RequestMapping(value = "/favourites")
-    public String favourites(Model model, @AuthenticationPrincipal User currentUser) {
+    @RequestMapping(value = "/favourites/page{num}")
+    public String favourites(Model model, @AuthenticationPrincipal User currentUser, @PathVariable Integer num) {
         User cur = getCurrentUser(currentUser);
-        model.addAttribute("favourites", getFavourites(cur));
+        Page page = materialService.findUserFavourites(currentUser, num);
+        model.addAttribute("favourites", page.getContent());
+        model.addAttribute("currentPage", page.getNumber());
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("url", "/favourites/page");
         model.addAttribute("currentUser", cur);
         return "favourites";
     }
