@@ -47,4 +47,9 @@ public interface MaterialRepository extends JpaRepository<Material, Long> {
             "m.status = com.niat.cms.domain.Material$Status.ARCHIVE) " +
             "order by m.date desc")
     Page<Material> findByTagOrderByDateDesc(@Param("tag") Tag tag, Pageable pageable);
+
+    @Query("select m from Material m" +
+                "where m.status = com.niat.cms.domain.Material$Status.MAIN" +
+                "order by m.mainindex asc")
+    List<Material> findOnMainOrderByMainIndexAsc();
 }

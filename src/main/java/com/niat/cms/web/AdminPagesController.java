@@ -3,6 +3,7 @@ package com.niat.cms.web;
 import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
+import com.niat.cms.exceptions.BadSortMainIndexException;
 import com.niat.cms.exceptions.NoSuchRoleException;
 import com.niat.cms.exceptions.UnauthorisedMEditException;
 import com.niat.cms.exceptions.UserChangedOwnRoleException;
@@ -16,13 +17,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -297,4 +296,22 @@ public class AdminPagesController {
         materialService.setMaterialFeatured(id, false);
     }
 
+    @RequestMapping(value = "/sortmain")
+    public @ResponseBody void sortMain(@RequestParam("oldindex") Integer oldIndex, @RequestParam("newindex") Integer newIndex) {
+        List<Material> onMain = materialService.findMaterialsOnMainForSorting();
+
+        if (oldIndex >= onMain.size() || newIndex >= onMain.size())
+            throw new BadSortMainIndexException();
+
+        Material draggedMaterial = onMain.get(oldIndex);
+        if (newIndex > oldIndex)
+            for (int i = oldIndex + 1; i <= newIndex; i++)
+                materialService.decMaterialMainIndex(onMain.get(i).getId());
+        else if (newIndex == oldIndex)
+            return;
+        else
+            for (int i = newIndex; i < oldIndex; i++)
+                materialService.incMaterialMainIndex(onMain.get(i).getId());
+        materialService.setMaterialMainIndex(draggedMaterial.getId(), newIndex);
+    }
 }

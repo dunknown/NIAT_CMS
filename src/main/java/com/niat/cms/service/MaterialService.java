@@ -7,7 +7,6 @@ import com.niat.cms.repo.MaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,7 +51,6 @@ public class MaterialService {
         return materialRepository.findByStatusOrderByDateDesc(Material.Status.ARCHIVE, new PageRequest(page, PAGE_SIZE));
     }
 
-
     public List<Material> findModerationTasks() {
         return materialRepository.findByStatusOrderByDateDesc(Material.Status.MODERATION_TASK);
     }
@@ -86,6 +84,10 @@ public class MaterialService {
     }
     public Page<Material> findUserFavourites(User user, int page) {
         return materialRepository.findUserFavouritesOrderByDateDesc(user, new PageRequest(page, PAGE_SIZE));
+    }
+
+    public List<Material> findMaterialsOnMainForSorting() {
+        return materialRepository.findOnMainOrderByMainIndexAsc();
     }
 
     public void setMaterialStatus(long id, Material.Status status) {
@@ -134,6 +136,27 @@ public class MaterialService {
         Material m = materialRepository.findById(id);
         if(m != null) {
             m.setFeatured(featured);
+        }
+    }
+
+    public void incMaterialMainIndex(long id) {
+        Material m = materialRepository.findById(id);
+        if(m != null) {
+            m.incMainIndex();
+        }
+    }
+
+    public void decMaterialMainIndex(long id) {
+        Material m = materialRepository.findById(id);
+        if(m != null) {
+            m.decMainIndex();
+        }
+    }
+
+    public void setMaterialMainIndex(long id, int newIndex) {
+        Material m = materialRepository.findById(id);
+        if(m != null) {
+            m.setMainIndex(newIndex);
         }
     }
 }
