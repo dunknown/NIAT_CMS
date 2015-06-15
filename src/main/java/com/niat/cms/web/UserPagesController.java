@@ -69,9 +69,9 @@ public class UserPagesController {
 
     @RequestMapping(value = "/archive/page{num}")
     public String archivePage(Model model, @AuthenticationPrincipal User currentUser, @PathVariable Integer num) {
-        Page page = materialService.findMaterialsInArchive(num);
+        Page page = materialService.findMaterialsInArchive(num - 1);
         model.addAttribute("materials", page.getContent());
-        model.addAttribute("currentPage", page.getNumber());
+        model.addAttribute("currentPage", page.getNumber() + 1);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("url", "/archive/page");
         model.addAttribute("currentUser", getCurrentUser(currentUser));
@@ -120,9 +120,9 @@ public class UserPagesController {
         Tag tag = tagService.findByText(tagText);
         if (tag == null)
             throw new TagNotFoundException();
-        Page page = materialService.findMaterialsWithTag(tag, num);
+        Page page = materialService.findMaterialsWithTag(tag, num - 1);
         model.addAttribute("materialswithtag", page.getContent());
-        model.addAttribute("currentPage", page.getNumber());
+        model.addAttribute("currentPage", page.getNumber() + 1);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("url", "/tag/" + tag.getText() + "/page");
         model.addAttribute("currentUser", getCurrentUser(currentUser));
@@ -136,9 +136,9 @@ public class UserPagesController {
 
     @RequestMapping(value = "/drafts/page{num}")
     public String drafts(Model model, @AuthenticationPrincipal User currentUser, @PathVariable Integer num) {
-        Page page = materialService.findUserDrafts(currentUser, num);
+        Page page = materialService.findUserDrafts(currentUser, num - 1);
         model.addAttribute("materials", page.getContent());
-        model.addAttribute("currentPage", page.getNumber());
+        model.addAttribute("currentPage", page.getNumber() + 1);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("url", "/drafts/page");
         return "drafts";
@@ -152,9 +152,9 @@ public class UserPagesController {
     @RequestMapping(value = "/favourites/page{num}")
     public String favourites(Model model, @AuthenticationPrincipal User currentUser, @PathVariable Integer num) {
         User cur = getCurrentUser(currentUser);
-        Page page = materialService.findUserFavourites(currentUser, num);
+        Page page = materialService.findUserFavourites(currentUser, num - 1);
         model.addAttribute("favourites", page.getContent());
-        model.addAttribute("currentPage", page.getNumber());
+        model.addAttribute("currentPage", page.getNumber() + 1);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("url", "/favourites/page");
         model.addAttribute("currentUser", cur);

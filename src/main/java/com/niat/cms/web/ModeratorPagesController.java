@@ -39,9 +39,9 @@ public class ModeratorPagesController {
 
     @RequestMapping(value = "/modertasks/page{num}", method = RequestMethod.GET)
     public String waitingForModeration(Model model, @PathVariable Integer num) {
-        Page page = materialService.findModerationTasks(num);
+        Page page = materialService.findModerationTasks(num - 1);
         model.addAttribute("materials", page.getContent());
-        model.addAttribute("currentPage", page.getNumber());
+        model.addAttribute("currentPage", page.getNumber() + 1);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("url", "/modertasks/page");
         return ("modertasks");
@@ -66,9 +66,9 @@ public class ModeratorPagesController {
 
     @RequestMapping(value = "/moderate/page{num}", method = RequestMethod.GET)
     public String moderate(Model model, @AuthenticationPrincipal User currentUser, @PathVariable Integer num) {
-        Page page = materialService.findUserModerationTasks(currentUser, num);
+        Page page = materialService.findUserModerationTasks(currentUser, num - 1);
         model.addAttribute("materials", page.getContent());
-        model.addAttribute("currentPage", page.getNumber());
+        model.addAttribute("currentPage", page.getNumber() + 1);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("url", "/moderate/page");
         return "moderate";
