@@ -153,10 +153,18 @@ public class MaterialService {
         }
     }
 
-    public void setMaterialMainIndex(long id, int newIndex) {
+    public void setMaterialMainIndex(long id, Integer newIndex) {
         Material m = materialRepository.findById(id);
         if(m != null) {
             m.setMainIndex(newIndex);
         }
+    }
+
+    public Integer getMaterialMainIndex(long id) {
+        Material m = materialRepository.findById(id);
+        if(m != null) {
+            return m.getMainIndex();
+        }
+        return null;
     }
 }

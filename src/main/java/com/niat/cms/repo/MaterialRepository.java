@@ -50,6 +50,6 @@ public interface MaterialRepository extends JpaRepository<Material, Long> {
 
     @Query("select m from Material m" +
                 "where m.status = com.niat.cms.domain.Material$Status.MAIN" +
-                "order by m.mainindex asc")
+                "order by m.mainIndex asc")
     List<Material> findOnMainOrderByMainIndexAsc();
 }

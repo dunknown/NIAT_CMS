@@ -257,7 +257,14 @@ public class AdminPagesController {
         if (!canDelete(material, currentUser)) {
             throw new UnauthorisedMEditException();
         }
+        int startIndex = materialService.getMaterialMainIndex(id);
+        Material.Status status = material.getStatus();
         materialService.delete(id);
+        if (status == Material.Status.MAIN) {
+            List<Material> onMain = materialService.findMaterialsOnMainForSorting();
+            for (int i = startIndex + 1; i < onMain.size(); i++)
+                materialService.decMaterialMainIndex(onMain.get(i).getId());
+        }
     }
 
     @RequestMapping(value = "/material/{id}/tomain", method = RequestMethod.GET)
@@ -266,6 +273,10 @@ public class AdminPagesController {
         if (material == null || material.getStatus() != Material.Status.ARCHIVE) {
             throw new UnauthorisedMEditException();
         }
+        List<Material> onMain = materialService.findMaterialsOnMainForSorting();
+        for (int i = 0; i < onMain.size(); i++)
+            materialService.incMaterialMainIndex(onMain.get(i).getId());
+        materialService.setMaterialMainIndex(id, 0);
         materialService.setMaterialStatus(id, Material.Status.MAIN);
     }
 
@@ -275,7 +286,15 @@ public class AdminPagesController {
         if (material == null || material.getStatus() != Material.Status.MAIN) {
             throw new UnauthorisedMEditException();
         }
+        Integer startIndex = materialService.getMaterialMainIndex(id);
+        Material.Status status = material.getStatus();
+        materialService.setMaterialMainIndex(id, null);
         materialService.setMaterialStatus(id, Material.Status.ARCHIVE);
+        if (status == Material.Status.MAIN) {
+            List<Material> onMain = materialService.findMaterialsOnMainForSorting();
+            for (int i = startIndex + 1; i < onMain.size(); i++)
+                materialService.decMaterialMainIndex(onMain.get(i).getId());
+        }
     }
 
     @RequestMapping(value = "/material/{id}/feature", method = RequestMethod.GET)
