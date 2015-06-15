@@ -163,7 +163,7 @@ public class Material implements Comparable<Material>{
     }
 
     public void decMainIndex() {
-        mainIndex--;
+        mainIndex++;
     }
 
     public Set<Tag> getTags() {
