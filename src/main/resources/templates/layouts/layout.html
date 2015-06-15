@@ -40,6 +40,9 @@
     <!-- Bootstrap modal -->
     <script th:src="@{/js/bootbox.min.js}" src="../static/js/bootbox.min.js"></script>
 
+    <!-- Bootstrap paginator -->
+    <script th:src="@{/js/jquery.bootpag.min.js}" src="../../static/js/jquery.bootpag.min.js"></script>
+
     <!-- Tablesorter -->
     <script th:src="@{/js/jquery.tablesorter.js}" src="../static/js/jquery.tablesorter.js"></script>
 
@@ -54,7 +57,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" th:href="@{/}">NiatCMS</a>
+            <a class="navbar-brand" th:href="@{/}">
+                <img class="logo" src="../../static/img/logo.png" th:src="@{/img/logo.png}"/>
+            </a>
         </div>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">

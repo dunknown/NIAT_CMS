@@ -52,7 +52,8 @@
         <script type="text/javascript">
             $("#nav_item_favourites").addClass("active");
         </script>
-        <div th:replace="fragments/materialList :: materialList(${favourites})"/>
+
+        <div th:replace="fragments/materialListPageable :: materialListPageable(${favourites})"/>
 
         <!-- Override unFav for removing unfaved material from DOM, toArchive/toMain for keeping material in DOM -->
         <script>

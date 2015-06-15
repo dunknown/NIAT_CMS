@@ -9,16 +9,18 @@ import com.niat.cms.service.MaterialService;
 import com.niat.cms.service.TagService;
 import com.niat.cms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.*;
 
 /**
  * @author gtament
@@ -55,14 +57,23 @@ public class UserPagesController {
 
     @RequestMapping(value = "/")
     public String mainPage(Model model, @AuthenticationPrincipal User currentUser) {
-        model.addAttribute("materials", materialService.findMaterialsOnMain());
+        model.addAttribute("materials", materialService.findMaterialsOnMainForSorting());
         model.addAttribute("currentUser", getCurrentUser(currentUser));
         return "main";
     }
 
-    @RequestMapping(value = "/archive")
-    public String archivePage(Model model, @AuthenticationPrincipal User currentUser) {
-        model.addAttribute("materials", materialService.findMaterialsInArchive());
+    @RequestMapping(value = "/archive", method = RequestMethod.GET)
+    public String archivePageRedirect() {
+        return "redirect:/archive/page1";
+    }
+
+    @RequestMapping(value = "/archive/page{num}")
+    public String archivePage(Model model, @AuthenticationPrincipal User currentUser, @PathVariable Integer num) {
+        Page page = materialService.findMaterialsInArchive(num - 1);
+        model.addAttribute("materials", page.getContent());
+        model.addAttribute("currentPage", page.getNumber() + 1);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("url", "/archive/page");
         model.addAttribute("currentUser", getCurrentUser(currentUser));
         return "archive";
     }
@@ -99,27 +110,85 @@ public class UserPagesController {
         }
     }
 
-    @RequestMapping(value = "/tag/{tagText}")
-    public String materialsWithTagPage(Model model, @PathVariable String tagText, @AuthenticationPrincipal User currentUser) {
+    @RequestMapping(value = "/tag/{tagText}", method = RequestMethod.GET)
+    public String materialsWithTagPageRedirect(@PathVariable String tagText) throws UnsupportedEncodingException {
+        String tag = URLEncoder.encode(tagText, "UTF-8");
+        return "redirect:/tag/" + tag +"/page1";
+    }
+
+    @RequestMapping(value = "/tag/{tagText}/page{num}")
+    public String materialsWithTagPage(Model model, @PathVariable String tagText, @AuthenticationPrincipal User currentUser, @PathVariable Integer num) {
         Tag tag = tagService.findByText(tagText);
         if (tag == null)
             throw new TagNotFoundException();
-        List<Material> materials = materialService.findMaterialsWithTag(tag);
-        model.addAttribute("materialswithtag", materials);
+        Page page = materialService.findMaterialsWithTag(tag, num - 1);
+        model.addAttribute("materialswithtag", page.getContent());
+        model.addAttribute("currentPage", page.getNumber() + 1);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("url", "/tag/" + tag.getText() + "/page");
         model.addAttribute("currentUser", getCurrentUser(currentUser));
+        model.addAttribute("tag", tag);
+        model.addAttribute("topTags", getSuggestedTags(tag));
+
         return "tag_page";
     }
 
-    @RequestMapping(value = "/drafts")
-    public String drafts(Model model, @AuthenticationPrincipal User currentUser) {
-        model.addAttribute("materials", materialService.findUserDrafts(currentUser));
+    private List<Tag> getSuggestedTags(Tag tag) {
+        List<Material> allMaterials = materialService.findMaterialsWithTag(tag);
+        final Map<Tag, Integer> allTags = new HashMap<>();
+        for(Material m : allMaterials) {
+            for(Tag t : m.getTags()) {
+                if(allTags.containsKey(t)) {
+                    allTags.put(t, allTags.get(t) + 1);
+                } else {
+                    allTags.put(t, 1);
+                }
+            }
+        }
+        allTags.remove(tag);
+
+        List<Tag> topTags = new ArrayList<>(allTags.keySet());
+        Collections.sort(topTags, new Comparator<Tag>() {
+            @Override
+            public int compare(Tag o1, Tag o2) {
+                return Integer.compare(allTags.get(o2), allTags.get(o1));
+            }
+        });
+
+        int topCount = Math.min(3, topTags.size());
+        topTags = topTags.subList(0, topCount);
+
+        return topTags;
+    }
+
+    @RequestMapping(value = "/drafts", method = RequestMethod.GET)
+    public String draftsRedirect() {
+        return "redirect:/drafts/page1";
+    }
+
+    @RequestMapping(value = "/drafts/page{num}")
+    public String drafts(Model model, @AuthenticationPrincipal User currentUser, @PathVariable Integer num) {
+        Page page = materialService.findUserDrafts(currentUser, num - 1);
+        model.addAttribute("materials", page.getContent());
+        model.addAttribute("currentPage", page.getNumber() + 1);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("url", "/drafts/page");
         return "drafts";
     }
 
-    @RequestMapping(value = "/favourites")
-    public String favourites(Model model, @AuthenticationPrincipal User currentUser) {
+    @RequestMapping(value = "/favourites", method = RequestMethod.GET)
+    public String favouritesRedirect() {
+        return "redirect:/favourites/page1";
+    }
+
+    @RequestMapping(value = "/favourites/page{num}")
+    public String favourites(Model model, @AuthenticationPrincipal User currentUser, @PathVariable Integer num) {
         User cur = getCurrentUser(currentUser);
-        model.addAttribute("favourites", getFavourites(cur));
+        Page page = materialService.findUserFavourites(currentUser, num - 1);
+        model.addAttribute("favourites", page.getContent());
+        model.addAttribute("currentPage", page.getNumber() + 1);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("url", "/favourites/page");
         model.addAttribute("currentUser", cur);
         return "favourites";
     }

@@ -55,6 +55,37 @@ a.text-warning, a.text-warning:focus, a.text-warning:hover {
     display: none;
 }
 
+.pagination>li>a, .pagination>li>span {
+    color: #3f51b5;
+    border-color: #d7dbef;
+}
+.pagination>li>a:hover, .pagination>li>span:hover {
+    color: #3f51b5;
+    background-color: #d7dbef;
+    border-color: #d7dbef;
+}
+.pagination>.disabled>a,
+.pagination>.disabled>a:focus,
+.pagination>.disabled>a:hover,
+.pagination>.disabled>span,
+.pagination>.disabled>span:focus,
+.pagination>.disabled>span:hover {
+    color: #3f51b5;
+    border-color: #d7dbef;
+}
+.pagination>.active>a,
+.pagination>.active>a:focus,
+.pagination>.active>a:hover,
+.pagination>.active>span,
+.pagination>.active>span:focus,
+.pagination>.active>span:hover {
+    background-color: #3f51b5;
+    border-color: #3f51b5;
+}
+#pagination {
+    text-align: center;
+}
+
 .hidden_img_input {
     opacity: 0;
     position: absolute;
@@ -99,4 +130,8 @@ ul.sortable_mat_list {
 
 .mat_drag_handle {
     cursor: default;
+}
+
+.logo {
+    max-height: 30px;
 }

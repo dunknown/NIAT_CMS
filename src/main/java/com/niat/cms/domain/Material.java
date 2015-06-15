@@ -50,11 +50,17 @@ public class Material implements Comparable<Material>{
     @Column
     private boolean featured;
 
+    @Column
+    private Integer mainIndex;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "material_tag",
                joinColumns = {@JoinColumn(name = "material_id")},
                inverseJoinColumns = {@JoinColumn(name = "tag_id")})
     private Set<Tag> tags;
+
+    @ManyToMany(mappedBy = "favourites")
+    private Set<User> favedUsers;
 
     public Material() {
     }
@@ -66,8 +72,10 @@ public class Material implements Comparable<Material>{
         this.author = author;
         this.status = status;
         this.date = new Date();
-        this.tags = new HashSet<Tag>();
+        this.tags = new HashSet<>();
         this.featured = false;
+        this.mainIndex = null;
+        this.favedUsers = new HashSet<>();
     }
 
     public long getId() {
@@ -142,12 +150,36 @@ public class Material implements Comparable<Material>{
         this.featured = featured;
     }
 
+    public int getMainIndex() {
+        return mainIndex;
+    }
+
+    public void setMainIndex(Integer mainIndex) {
+        this.mainIndex = mainIndex;
+    }
+
+    public void incMainIndex() {
+        mainIndex++;
+    }
+
+    public void decMainIndex() {
+        mainIndex--;
+    }
+
     public Set<Tag> getTags() {
         return tags;
     }
 
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
+    }
+
+    public Set<User> getFavedUsers() {
+        return favedUsers;
+    }
+
+    public void setFavedUsers(Set<User> favedUsers) {
+        this.favedUsers = favedUsers;
     }
 
     @Override

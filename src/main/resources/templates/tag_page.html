@@ -5,7 +5,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       layout:decorator="layouts/layout">
 <head>
-    <title>Поиск по тегу</title>
+    <title th:inline="text">Поиск по тегу "[[${tag.text}]]"</title>
 </head>
 <body>
     <div class="navbar navbar-material-indigo ">
@@ -35,7 +35,15 @@
 
     <div class="container">
         <div layout:fragment="content">
-            <div th:replace="fragments/materialList :: materialList(${materialswithtag})"/>
+            <h2 class="text-indigo" th:inline="text">Поиск по тегу "[[${tag.text}]]"</h2>
+            <h4>
+                С этим тегом часто встречаются: <a th:each="tag : ${topTags}"
+                                                   class="btn btn-sm btn-material-indigo"
+                                                   th:href="@{/tag/} + ${tag.text}"
+                                                   th:text="${tag.text}">Tag is here</a>
+            </h4>
+
+            <div th:replace="fragments/materialListPageable :: materialListPageable(${materialswithtag})"/>
 
             <!-- Override toArchive/toMain for keeping material in DOM -->
             <script>
