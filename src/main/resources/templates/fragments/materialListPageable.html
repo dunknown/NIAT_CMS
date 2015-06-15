@@ -73,14 +73,17 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         var options = {
-            currentPage: /*[[${currentPage}]]*/,
-            totalPages: /*[[${totalPages}]]*/,
-            pageUrl: function(type, page, current){
-                var link = /*[[${url}]]*/;
-                return link + page;
-            }
+            page: /*[[${currentPage}]]*/,
+            total: /*[[${totalPages}]]*/,
+            href: "page{{number}}",
+            firstLastUse: true,
+            next: '>',
+            prev: '<',
+            last: '>>',
+            first: '<<',
+            leaps: false
         };
-        $('#pagination').bootstrapPaginator(options);
+        $('#pagination').bootpag(options);
 
         $('#pagination ul').addClass('pagination');
         /*]]>*/
