@@ -35,7 +35,8 @@
 
     <div class="container">
         <div layout:fragment="content">
-            <div th:replace="fragments/materialList :: materialList(${materialswithtag})"/>
+
+            <div th:replace="fragments/materialListPageable :: materialListPageable(${materialswithtag})"/>
 
             <!-- Override toArchive/toMain for keeping material in DOM -->
             <script>

@@ -56,6 +56,9 @@ public class Material implements Comparable<Material>{
                inverseJoinColumns = {@JoinColumn(name = "tag_id")})
     private Set<Tag> tags;
 
+    @ManyToMany(mappedBy = "favourites")
+    private Set<User> favedUsers;
+
     public Material() {
     }
 
@@ -66,8 +69,9 @@ public class Material implements Comparable<Material>{
         this.author = author;
         this.status = status;
         this.date = new Date();
-        this.tags = new HashSet<Tag>();
+        this.tags = new HashSet<>();
         this.featured = false;
+        this.favedUsers = new HashSet<>();
     }
 
     public long getId() {
@@ -148,6 +152,14 @@ public class Material implements Comparable<Material>{
 
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
+    }
+
+    public Set<User> getFavedUsers() {
+        return favedUsers;
+    }
+
+    public void setFavedUsers(Set<User> favedUsers) {
+        this.favedUsers = favedUsers;
     }
 
     @Override
