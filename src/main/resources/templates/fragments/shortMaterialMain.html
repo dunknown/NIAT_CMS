@@ -65,7 +65,7 @@
     <div class="panel shadow-z-2" th:id="'material_' + ${material.id}">
         <div class="panel-body">
             <div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')">
-                <i class="mat_drag_handle mdi-action-open-with"></i>
+                <i class="mat_drag_handle mdi-action-open-with mdi-material-indigo"></i>
             </div>
             <small>
                 <span style="float:left" class="text-muted">Автор: <span th:text="${material.author.username}">имя_автора</span></span>
