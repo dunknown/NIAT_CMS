@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author gtament
@@ -129,7 +127,38 @@ public class UserPagesController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("url", "/tag/" + tag.getText() + "/page");
         model.addAttribute("currentUser", getCurrentUser(currentUser));
+        model.addAttribute("tag", tag);
+        model.addAttribute("topTags", getSuggestedTags(tag));
+
         return "tag_page";
+    }
+
+    private List<Tag> getSuggestedTags(Tag tag) {
+        List<Material> allMaterials = materialService.findMaterialsWithTag(tag);
+        final Map<Tag, Integer> allTags = new HashMap<>();
+        for(Material m : allMaterials) {
+            for(Tag t : m.getTags()) {
+                if(allTags.containsKey(t)) {
+                    allTags.put(t, allTags.get(t) + 1);
+                } else {
+                    allTags.put(t, 1);
+                }
+            }
+        }
+        allTags.remove(tag);
+
+        List<Tag> topTags = new ArrayList<>(allTags.keySet());
+        Collections.sort(topTags, new Comparator<Tag>() {
+            @Override
+            public int compare(Tag o1, Tag o2) {
+                return Integer.compare(allTags.get(o2), allTags.get(o1));
+            }
+        });
+
+        int topCount = Math.min(3, topTags.size());
+        topTags = topTags.subList(0, topCount);
+
+        return topTags;
     }
 
     @RequestMapping(value = "/drafts", method = RequestMethod.GET)
