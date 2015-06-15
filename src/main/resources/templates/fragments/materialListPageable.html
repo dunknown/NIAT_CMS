@@ -13,7 +13,7 @@
 
     <!-- Custom styles for this tаemplate -->
     <link rel="stylesheet" th:href="@{css/styles.css}" href="../static/css/styles.css"/>
-        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <!--<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">-->
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
@@ -62,26 +62,29 @@
     </div>
 </div>
 
-<div th:fragment="materialList(materialList)">
+<div th:fragment="materialListPageable(materialList)">
     <div th:each="material : ${materialList}">
         <div th:replace="fragments/shortMaterial :: shortMaterial(${material})"/>
     </div>
     <h3 th:if="${#lists.isEmpty(materialList)}">Здесь пока нет материалов</h3>
 
-    <div id="pagination">
-        <script th:inline="javascript">
-            /*<![CDATA[*/
-            var options = {
-                currentPage: /*[[${currentPage}]]*/,
-                totalPages: /*[[${totalPages}]]*/,
-                url: function(type, page, current){
-                    return /*[[${url}]]*/+page;
-                }
+    <div id="pagination"></div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var options = {
+            currentPage: /*[[${currentPage}]]*/,
+            totalPages: /*[[${totalPages}]]*/,
+            pageUrl: function(type, page, current){
+                var link = /*[[${url}]]*/;
+                return link + page;
             }
-            $('#pagination').bootstrapPaginator(options);
-            /*]]>*/
-        </script>
-    </div>
+        };
+        $('#pagination').bootstrapPaginator(options);
+
+        $('#pagination ul').addClass('pagination');
+        /*]]>*/
+    </script>
     <script th:src="@{/js/material-controls-shortmat.js}" src="../static/js/material-controls-shortmat.js"></script>
 </div>
 
