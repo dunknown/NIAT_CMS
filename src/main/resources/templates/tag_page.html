@@ -35,7 +35,57 @@
 
     <div class="container">
         <div layout:fragment="content">
+
             <div th:replace="fragments/materialListPageable :: materialListPageable(${materialswithtag})"/>
+
+            <!-- Override toArchive/toMain for keeping material in DOM -->
+            <script>
+                function toMain(matId) {
+                    $("#toMain_" + matId).addClass("disabled");
+
+                    $.ajax({
+                        type: "GET",
+                        url : "/material/" + matId + "/tomain",
+                        success : function() {
+                            $('#toMain_' + matId).hide('medium');
+                            $('#toArchive_' + matId).removeClass('disabled');
+                            $('#toArchive_' + matId).show('medium');
+                        },
+                        error : function() {
+                            $("#toMain_" + matId).removeClass("disabled");
+
+                            $.snackbar({
+                                content: "Не удалось отправить материал на главную",
+                                style: "toast",
+                                timeout: 3000
+                            });
+                        }
+                    });
+                }
+
+                function toArchive(matId) {
+                    $("#toArchive_" + matId).addClass("disabled");
+
+                    $.ajax({
+                        type: "GET",
+                        url : "/material/" + matId + "/toarchive",
+                        success : function() {
+                            $('#toArchive_' + matId).hide('medium');
+                            $('#toMain_' + matId).removeClass('disabled');
+                            $('#toMain_' + matId).show('medium');
+                        },
+                        error : function() {
+                            $("#toArchive_" + matId).removeClass("disabled");
+
+                            $.snackbar({
+                                content: "Не удалось отправить материал в архив",
+                                style: "toast",
+                                timeout: 3000
+                            });
+                        }
+                    });
+                }
+            </script>
         </div>
     </div>
 

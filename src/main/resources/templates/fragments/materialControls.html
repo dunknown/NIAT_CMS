@@ -66,6 +66,10 @@
         <a class="btn btn-sm btn-material-indigo"
            th:href="@{/material/} + ${material.id} + '/edit'"
            th:id="'edit_' + ${material.id}">Редактировать</a>
+
+        <a class="btn btn-sm btn-danger"
+           th:id="'delete_' + ${material.id}"
+           th:onclick="'deleteMat(' + ${material.id} + ')'">Удалить</a>
     </div>
 
     <div th:if="${material.status == T(com.niat.cms.domain.Material$Status).MODERATION_TASK}">

@@ -82,7 +82,42 @@ a.text-warning, a.text-warning:focus, a.text-warning:hover {
     background-color: #3f51b5;
     border-color: #3f51b5;
 }
-
 #pagination {
     text-align: center;
+}
+
+.hidden_img_input {
+    opacity: 0;
+    position: absolute;
+    top: 0px; left: 0px;
+    width: 46px;
+    height: 29px;
+}
+
+.material-text blockquote, #editor blockquote {
+    font-size: inherit;
+}
+
+.mat_title {
+    word-wrap: break-word;
+}
+
+th.sort_header {
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center right;
+}
+
+th.sort_header_asc {
+    background-image: url(../img/sort_asc.png);
+    background-color: #ddd;
+}
+
+th.sort_header_desc {
+    background-image: url(../img/sort_desc.png);
+    background-color: #ddd;
+}
+
+.logo {
+    max-height: 30px;
 }

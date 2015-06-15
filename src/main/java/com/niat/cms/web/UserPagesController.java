@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -111,8 +113,9 @@ public class UserPagesController {
     }
 
     @RequestMapping(value = "/tag/{tagText}", method = RequestMethod.GET)
-    public String materialsWithTagPageRedirect(@PathVariable String tagText) {
-        return "redirect:/tag/" + tagText + "/page1";
+    public String materialsWithTagPageRedirect(@PathVariable String tagText) throws UnsupportedEncodingException {
+        String tag = URLEncoder.encode(tagText, "UTF-8");
+        return "redirect:/tag/" + tag +"/page1";
     }
 
     @RequestMapping(value = "/tag/{tagText}/page{num}")
