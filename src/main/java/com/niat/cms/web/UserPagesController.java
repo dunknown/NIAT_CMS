@@ -127,7 +127,7 @@ public class UserPagesController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("url", "/tag/" + tag.getText() + "/page");
         model.addAttribute("currentUser", getCurrentUser(currentUser));
-
+        model.addAttribute("tag", tag);
         model.addAttribute("topTags", getSuggestedTags(tag));
 
         return "tag_page";
