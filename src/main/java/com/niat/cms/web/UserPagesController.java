@@ -213,4 +213,22 @@ public class UserPagesController {
 
         return "search_page";
     }
+
+    @RequestMapping("/author/{username}")
+    public String authorPageRedirect(@PathVariable String username) throws UnsupportedEncodingException {
+        String author = URLEncoder.encode(username, "UTF-8");
+        return "redirect:/author/" + author +"/page1";
+    }
+
+    @RequestMapping("/author/{username}/page{num}")
+    public String authorPage(Model model, @PathVariable String username, @PathVariable Integer num) {
+        User author = userService.findByUsername(username);
+        Page page = materialService.findAuthorMaterials(author, num - 1);
+        model.addAttribute("materials", page.getContent());
+        model.addAttribute("currentPage", page.getNumber() + 1);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("url", "/author/" + username + "/page");
+        model.addAttribute("author", author);
+        return "author_page";
+    }
 }

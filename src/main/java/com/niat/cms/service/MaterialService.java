@@ -8,7 +8,6 @@ import com.niat.cms.repo.MaterialSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,6 +89,13 @@ public class MaterialService {
     }
     public Page<Material> findUserFavourites(User user, int page) {
         return materialRepository.findUserFavouritesOrderByDateDesc(user, new PageRequest(page, PAGE_SIZE));
+    }
+
+    public List<Material> findAuthorMaterials(User author) {
+        return materialRepository.findByAuthorOrderByDateDesc(author);
+    }
+    public Page<Material> findAuthorMaterials(User author, int page) {
+        return materialRepository.findByAuthorOrderByDateDesc(author, new PageRequest(page, PAGE_SIZE));
     }
 
     public void setMaterialStatus(long id, Material.Status status) {
