@@ -201,7 +201,7 @@ public class UserPagesController {
     }
 
     @RequestMapping("/search")
-    public String search(@RequestParam("q") String query, Model model, @AuthenticationPrincipal User currentUser) {
+    public String search(@RequestParam(value = "q",required = false) String query, Model model, @AuthenticationPrincipal User currentUser) {
         if(query == null || query.equals("")) {
             model.addAttribute("materials", new ArrayList<Material>());
             model.addAttribute("query", "");
