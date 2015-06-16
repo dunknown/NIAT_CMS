@@ -18,9 +18,17 @@ public class MaterialSearch {
     private EntityManager entityManager;
 
     public List<Material> search(String searchQuery) {
+
         FullTextEntityManager fullTextEntityManager =
                 org.hibernate.search.jpa.Search.
                         getFullTextEntityManager(entityManager);
+
+        //build index
+        try {
+            fullTextEntityManager.createIndexer().startAndWait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         QueryBuilder queryBuilder =
                 fullTextEntityManager.getSearchFactory()
