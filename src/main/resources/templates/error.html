@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      layout:decorator="layouts/layout">
+<head>
+    <title th:inline="text">Ошибка [[${status}]]</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="well">
+            <h2 class="text-indigo text-center" th:inline="text">Ошибка [[${status}]] - [[${error}]]</h2>
+            <h3 class="text-center" th:text="${message}"></h3>
+            <div class="error_img_wrapper"><img th:src="@{/img/error.png}"/></div>
+        </div>
+    </div>
+
+    <script>
+        $.material.init();
+    </script>
+
+</body>
+</html>
