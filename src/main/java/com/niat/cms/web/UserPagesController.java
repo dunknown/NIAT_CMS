@@ -13,10 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -203,4 +200,15 @@ public class UserPagesController {
         userService.removeFromFavourites(currentUser.getId(), materialService.findById(matId));
     }
 
+    @RequestMapping("/search")
+    public String search(@RequestParam("q") String query, Model model, @AuthenticationPrincipal User currentUser) {
+        if(query == null || query.equals("")) {
+            model.addAttribute("materials", new ArrayList<Material>());
+        } else {
+            model.addAttribute("materials", materialService.search(query));
+        }
+        model.addAttribute("currentUser", currentUser);
+
+        return "search_page";
+    }
 }
