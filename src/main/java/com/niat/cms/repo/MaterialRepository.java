@@ -52,4 +52,17 @@ public interface MaterialRepository extends JpaRepository<Material, Long> {
                 "where m.status = com.niat.cms.domain.Material$Status.MAIN " +
                 "order by m.mainIndex asc")
     List<Material> findOnMainOrderByMainIndexAsc();
+
+    @Query("select m from Material m " +
+            "where m.author = :user and " +
+            "(m.status = com.niat.cms.domain.Material$Status.MAIN or " +
+            "m.status = com.niat.cms.domain.Material$Status.ARCHIVE) " +
+            "order by m.date desc")
+    List<Material> findByAuthorOrderByDateDesc(@Param("user") User user);
+    @Query("select m from Material m " +
+            "where m.author = :user and " +
+            "(m.status = com.niat.cms.domain.Material$Status.MAIN or " +
+            "m.status = com.niat.cms.domain.Material$Status.ARCHIVE) " +
+            "order by m.date desc")
+    Page<Material> findByAuthorOrderByDateDesc(@Param("user") User user, Pageable pageable);
 }

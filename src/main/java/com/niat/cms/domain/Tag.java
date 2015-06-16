@@ -1,5 +1,8 @@
 package com.niat.cms.domain;
 
+import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.Field;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,9 +15,11 @@ public class Tag {
     @Id @GeneratedValue
     private long id;
 
+    @Field
     @Column(nullable = false, unique = true)
     private String text;
 
+    @ContainedIn
     @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
     private Set<Material> materials;
 
@@ -57,6 +62,10 @@ public class Tag {
 
         Tag tag = (Tag) o;
 
+        if(text == null || tag.text == null) {
+            return false;
+        }
+
         if (!text.equals(tag.text)) return false;
 
         return true;
@@ -64,6 +73,9 @@ public class Tag {
 
     @Override
     public int hashCode() {
+        if(text == null) {
+            return 0;
+        }
         return text.hashCode();
     }
 }

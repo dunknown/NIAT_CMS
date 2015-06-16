@@ -1,5 +1,7 @@
 package com.niat.cms.domain;
 
+import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.Field;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,6 +45,7 @@ public class User implements UserDetails {
     @Id @GeneratedValue
     private long id;
 
+    @Field
     @Column(nullable = false)
     private String username;
 
@@ -53,6 +56,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @ContainedIn
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Material> materials;
 

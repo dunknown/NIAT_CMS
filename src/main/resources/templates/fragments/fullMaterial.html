@@ -65,7 +65,7 @@
     <div class="panel shadow-z-2" th:id="'material_' + ${material.id}">
         <div class="panel-body">
             <small>
-                <span style="float:left" class="text-muted">Автор: <span th:text="${material.author.username}">имя_автора</span></span>
+                <span style="float:left" class="text-muted">Автор: <a th:href="@{/author/} + ${material.author.username}"><span th:text="${material.author.username}">имя_автора</span></a></span>
                 <span style="float:right" class="text-muted" th:text="${#dates.format(material.date, 'dd-MM-yyyy HH:mm')}">Дата</span>
             </small>
             <h2 class="mat_title"><a th:id="'mat_title_' + ${material.id}"

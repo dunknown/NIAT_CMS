@@ -13,10 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -203,4 +200,35 @@ public class UserPagesController {
         userService.removeFromFavourites(currentUser.getId(), materialService.findById(matId));
     }
 
+    @RequestMapping("/search")
+    public String search(@RequestParam(value = "q",required = false) String query, Model model, @AuthenticationPrincipal User currentUser) {
+        if(query == null || query.equals("")) {
+            model.addAttribute("materials", new ArrayList<Material>());
+            model.addAttribute("query", "");
+        } else {
+            model.addAttribute("materials", materialService.search(query));
+            model.addAttribute("query", query);
+        }
+        model.addAttribute("currentUser", currentUser);
+
+        return "search_page";
+    }
+
+    @RequestMapping("/author/{username}")
+    public String authorPageRedirect(@PathVariable String username) throws UnsupportedEncodingException {
+        String author = URLEncoder.encode(username, "UTF-8");
+        return "redirect:/author/" + author +"/page1";
+    }
+
+    @RequestMapping("/author/{username}/page{num}")
+    public String authorPage(Model model, @PathVariable String username, @PathVariable Integer num) {
+        User author = userService.findByUsername(username);
+        Page page = materialService.findAuthorMaterials(author, num - 1);
+        model.addAttribute("materials", page.getContent());
+        model.addAttribute("currentPage", page.getNumber() + 1);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("url", "/author/" + username + "/page");
+        model.addAttribute("author", author);
+        return "author_page";
+    }
 }

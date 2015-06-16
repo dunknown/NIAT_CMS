@@ -3,7 +3,6 @@ package com.niat.cms.web;
 import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
-import com.niat.cms.exceptions.BadSortMainIndexException;
 import com.niat.cms.exceptions.NoSuchRoleException;
 import com.niat.cms.exceptions.UnauthorisedMEditException;
 import com.niat.cms.exceptions.UserChangedOwnRoleException;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**

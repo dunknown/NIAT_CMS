@@ -6,7 +6,7 @@ package com.niat.cms.exceptions;
 /**
  * @author dunknown
  */
-@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "This material doesn't awaits for moderation")
+@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Этот материал не ожидает модерации")
 public class NotModeratorTaskException extends RuntimeException {
 }
 

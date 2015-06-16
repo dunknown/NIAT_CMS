@@ -1,5 +1,8 @@
 package com.niat.cms.domain;
 
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -9,6 +12,7 @@ import java.util.Set;
  * @author dunknown
  */
 @Entity
+@Indexed
 public class Material implements Comparable<Material>{
 
     public static enum Status {
@@ -22,17 +26,21 @@ public class Material implements Comparable<Material>{
     @Id @GeneratedValue
     private long id;
 
+    @Field
     @Column(nullable = false, length = 100)
     private String title;
 
+    @Field
     @Lob
     @Column(nullable = false)
     private String shortText;
 
+    @Field
     @Lob
     @Column
     private String mainText;
 
+    @IndexedEmbedded
     @ManyToOne
     private User author;
 
@@ -53,6 +61,7 @@ public class Material implements Comparable<Material>{
     @Column
     private Integer mainIndex;
 
+    @IndexedEmbedded
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "material_tag",
                joinColumns = {@JoinColumn(name = "material_id")},

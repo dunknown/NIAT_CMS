@@ -94,8 +94,8 @@
                     <a th:href="@{/logout}">Выйти</a>
                 </li>
             </ul>
-            <form class="navbar-form navbar-right form-group-white">
-                <input type="text" class="form-control col-lg-8" placeholder="Поиск"/>
+            <form th:action="@{/search}" method="get" class="navbar-form navbar-right form-group-white">
+                <input type="text" name="q" class="form-control col-lg-8" placeholder="Поиск"/>
             </form>
         </div>
     </div>

@@ -5,12 +5,14 @@ import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
 import com.niat.cms.exceptions.BadSortMainIndexException;
 import com.niat.cms.repo.MaterialRepository;
+import com.niat.cms.repo.MaterialSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -25,6 +27,8 @@ public class MaterialService {
 
     @Autowired
     private MaterialRepository materialRepository;
+    @Autowired
+    private MaterialSearch materialSearch;
 
     public void save(Material material) {
         materialRepository.save(material);
@@ -51,6 +55,7 @@ public class MaterialService {
     public Page<Material> findMaterialsInArchive(int page) {
         return materialRepository.findByStatusOrderByDateDesc(Material.Status.ARCHIVE, new PageRequest(page, PAGE_SIZE));
     }
+
 
     public List<Material> findModerationTasks() {
         return materialRepository.findByStatusOrderByDateDesc(Material.Status.MODERATION_TASK);
@@ -89,6 +94,13 @@ public class MaterialService {
 
     public List<Material> findMaterialsOnMainForSorting() {
         return materialRepository.findOnMainOrderByMainIndexAsc();
+    }
+
+    public List<Material> findAuthorMaterials(User author) {
+        return materialRepository.findByAuthorOrderByDateDesc(author);
+    }
+    public Page<Material> findAuthorMaterials(User author, int page) {
+        return materialRepository.findByAuthorOrderByDateDesc(author, new PageRequest(page, PAGE_SIZE));
     }
 
     public void setMaterialStatus(long id, Material.Status status) {
@@ -156,7 +168,7 @@ public class MaterialService {
 
     public void setMaterialMainIndex(long id, Integer newIndex) {
         Material m = materialRepository.findById(id);
-        if(m != null) {
+        if (m != null) {
             m.setMainIndex(newIndex);
         }
     }
@@ -210,5 +222,16 @@ public class MaterialService {
             onMain.get(i).incMainIndex();
         material.setMainIndex(0);
         material.setStatus(Material.Status.MAIN);
+    }
+
+    public List<Material> search(String query) {
+        List<Material> materials = materialSearch.search(query);
+        for (Iterator<Material> iter = materials.listIterator(); iter.hasNext(); ) {
+            Material m = iter.next();
+            if (m.getStatus() != Material.Status.MAIN && m.getStatus() != Material.Status.ARCHIVE) {
+                iter.remove();
+            }
+        }
+        return materials;
     }
 }

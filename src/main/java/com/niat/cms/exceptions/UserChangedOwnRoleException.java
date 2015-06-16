@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 /**
  * @author gtament
  */
-@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "User can't change own role")
+@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Пользователь не может изменить собственную роль")
 public class UserChangedOwnRoleException extends RuntimeException {
 }
