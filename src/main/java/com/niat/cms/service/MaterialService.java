@@ -4,6 +4,7 @@ import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
 import com.niat.cms.repo.MaterialRepository;
+import com.niat.cms.repo.MaterialSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -25,6 +27,8 @@ public class MaterialService {
 
     @Autowired
     private MaterialRepository materialRepository;
+    @Autowired
+    private MaterialSearch materialSearch;
 
     public void save(Material material) {
         materialRepository.save(material);
@@ -135,5 +139,16 @@ public class MaterialService {
         if(m != null) {
             m.setFeatured(featured);
         }
+    }
+
+    public List<Material> search(String query) {
+        List<Material> materials = materialSearch.search(query);
+        for (Iterator<Material> iter = materials.listIterator(); iter.hasNext(); ) {
+            Material m = iter.next();
+            if (m.getStatus() != Material.Status.MAIN && m.getStatus() != Material.Status.ARCHIVE) {
+                iter.remove();
+            }
+        }
+        return materials;
     }
 }
