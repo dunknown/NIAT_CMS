@@ -204,8 +204,10 @@ public class UserPagesController {
     public String search(@RequestParam("q") String query, Model model, @AuthenticationPrincipal User currentUser) {
         if(query == null || query.equals("")) {
             model.addAttribute("materials", new ArrayList<Material>());
+            model.addAttribute("query", "");
         } else {
             model.addAttribute("materials", materialService.search(query));
+            model.addAttribute("query", query);
         }
         model.addAttribute("currentUser", currentUser);
 
