@@ -58,6 +58,9 @@ public class Material implements Comparable<Material>{
     @Column
     private boolean featured;
 
+    @Column
+    private Integer mainIndex;
+
     @IndexedEmbedded
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "material_tag",
@@ -80,6 +83,7 @@ public class Material implements Comparable<Material>{
         this.date = new Date();
         this.tags = new HashSet<>();
         this.featured = false;
+        this.mainIndex = null;
         this.favedUsers = new HashSet<>();
     }
 
@@ -153,6 +157,22 @@ public class Material implements Comparable<Material>{
 
     public void setFeatured(boolean featured) {
         this.featured = featured;
+    }
+
+    public int getMainIndex() {
+        return mainIndex;
+    }
+
+    public void setMainIndex(Integer mainIndex) {
+        this.mainIndex = mainIndex;
+    }
+
+    public void incMainIndex() {
+        mainIndex++;
+    }
+
+    public void decMainIndex() {
+        mainIndex--;
     }
 
     public Set<Tag> getTags() {

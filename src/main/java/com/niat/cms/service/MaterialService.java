@@ -3,6 +3,7 @@ package com.niat.cms.service;
 import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
+import com.niat.cms.exceptions.BadSortMainIndexException;
 import com.niat.cms.repo.MaterialRepository;
 import com.niat.cms.repo.MaterialSearch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +92,10 @@ public class MaterialService {
         return materialRepository.findUserFavouritesOrderByDateDesc(user, new PageRequest(page, PAGE_SIZE));
     }
 
+    public List<Material> findMaterialsOnMainForSorting() {
+        return materialRepository.findOnMainOrderByMainIndexAsc();
+    }
+
     public List<Material> findAuthorMaterials(User author) {
         return materialRepository.findByAuthorOrderByDateDesc(author);
     }
@@ -145,6 +150,78 @@ public class MaterialService {
         if(m != null) {
             m.setFeatured(featured);
         }
+    }
+
+    public void incMaterialMainIndex(long id) {
+        Material m = materialRepository.findById(id);
+        if(m != null) {
+            m.incMainIndex();
+        }
+    }
+
+    public void decMaterialMainIndex(long id) {
+        Material m = materialRepository.findById(id);
+        if(m != null) {
+            m.decMainIndex();
+        }
+    }
+
+    public void setMaterialMainIndex(long id, Integer newIndex) {
+        Material m = materialRepository.findById(id);
+        if (m != null) {
+            m.setMainIndex(newIndex);
+        }
+    }
+
+    public Integer getMaterialMainIndex(long id) {
+        Material m = materialRepository.findById(id);
+        if(m != null) {
+            return m.getMainIndex();
+        }
+        return null;
+    }
+
+    public void sortMain(int oldIndex, int newIndex) {
+        List<Material> onMain = materialRepository.findOnMainOrderByMainIndexAsc();
+
+        if (oldIndex >= onMain.size() || newIndex >= onMain.size())
+            throw new BadSortMainIndexException();
+
+        Material draggedMaterial = onMain.get(oldIndex);
+        if (newIndex > oldIndex)
+            for (int i = oldIndex + 1; i <= newIndex; i++)
+                onMain.get(i).decMainIndex();
+        else if (newIndex == oldIndex)
+            return;
+        else
+            for (int i = newIndex; i < oldIndex; i++)
+                onMain.get(i).incMainIndex();
+        draggedMaterial.setMainIndex(newIndex);
+    }
+
+    public void excludeFromMain(long id, Material.Status newStatus) {
+        Material material = materialRepository.findById(id);
+        Integer startIndex = material.getMainIndex();
+        Material.Status oldStatus = material.getStatus();
+        material.setMainIndex(null);
+        if (newStatus == null)
+            materialRepository.delete(material);
+        else
+            material.setStatus(newStatus);
+        if (oldStatus == Material.Status.MAIN) {
+            List<Material> onMain = materialRepository.findOnMainOrderByMainIndexAsc();
+            for (int i = startIndex + 1; i < onMain.size(); i++)
+                onMain.get(i).decMainIndex();
+        }
+    }
+
+    public void insertToMain(long id) {
+        Material material = materialRepository.findById(id);
+        List<Material> onMain = materialRepository.findOnMainOrderByMainIndexAsc();
+        for (int i = 0; i < onMain.size(); i++)
+            onMain.get(i).incMainIndex();
+        material.setMainIndex(0);
+        material.setStatus(Material.Status.MAIN);
     }
 
     public List<Material> search(String query) {

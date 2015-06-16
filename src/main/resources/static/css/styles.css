@@ -118,6 +118,20 @@ th.sort_header_desc {
     background-color: #ddd;
 }
 
+ul.sortable_mat_list {
+    list-style: none;
+}
+
+.sort_placeholder {
+    border: dashed 2px #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.mat_drag_handle {
+    cursor: default;
+}
+
 .logo {
     max-height: 30px;
 }

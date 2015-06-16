@@ -45,6 +45,9 @@
 
     <!-- Tablesorter -->
     <script th:src="@{/js/jquery.tablesorter.js}" src="../static/js/jquery.tablesorter.js"></script>
+
+    <!-- Sortable list -->
+    <script th:src="@{/js/html.sortable.min.js}" src="../static/js/html.sortable.min.js"></script>
 </head>
 <body>
     <div class="navbar navbar-material-indigo ">
@@ -62,9 +65,10 @@
             <ul class="nav navbar-nav">
                 <li id="nav_item_main" sec:authorize-url="/"><a th:href="@{/}">Главная</a></li>
                 <li id="nav_item_archive" sec:authorize-url="/archive"><a th:href="@{/archive}">Архив</a></li>
+                <li id="nav_item_favourites" sec:authorize-url="/favourites"><a th:href="@{/favourites}">Избранное</a></li>
             </ul>
+
             <ul class="nav navbar-nav">
-                <li id="nav_item_editmain" sec:authorize-url="/editmain"><a th:href="@{/editmain}">Редактировать главную</a></li>
                 <li class="dropdown" id="nav_item_addmat_dropdown" sec:authorize-url="/addmaterial">
                     <a href="#" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Добавить материал<b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -80,7 +84,6 @@
                     </ul>
                 </li>
                 <li id="nav_item_users" sec:authorize-url="/users"><a th:href="@{/users}">Пользователи</a></li>
-                <li id="nav_item_favourites" sec:authorize-url="/favourites"><a th:href="@{/favourites}">Избранное</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

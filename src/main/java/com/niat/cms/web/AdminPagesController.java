@@ -16,10 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -258,7 +255,7 @@ public class AdminPagesController {
         if (!canDelete(material, currentUser)) {
             throw new UnauthorisedMEditException();
         }
-        materialService.delete(id);
+        materialService.excludeFromMain(id, null);
     }
 
     @RequestMapping(value = "/material/{id}/tomain", method = RequestMethod.GET)
@@ -267,7 +264,7 @@ public class AdminPagesController {
         if (material == null || material.getStatus() != Material.Status.ARCHIVE) {
             throw new UnauthorisedMEditException();
         }
-        materialService.setMaterialStatus(id, Material.Status.MAIN);
+        materialService.insertToMain(id);
     }
 
     @RequestMapping(value = "/material/{id}/toarchive", method = RequestMethod.GET)
@@ -276,7 +273,7 @@ public class AdminPagesController {
         if (material == null || material.getStatus() != Material.Status.MAIN) {
             throw new UnauthorisedMEditException();
         }
-        materialService.setMaterialStatus(id, Material.Status.ARCHIVE);
+        materialService.excludeFromMain(id, Material.Status.ARCHIVE);
     }
 
     @RequestMapping(value = "/material/{id}/feature", method = RequestMethod.GET)
@@ -297,4 +294,8 @@ public class AdminPagesController {
         materialService.setMaterialFeatured(id, false);
     }
 
+    @RequestMapping(value = "/sortmain")
+    public @ResponseBody void sortMain(@RequestParam("oldindex") Integer oldIndex, @RequestParam("newindex") Integer newIndex) {
+        materialService.sortMain(oldIndex, newIndex);
+    }
 }

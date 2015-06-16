@@ -54,7 +54,7 @@ public class UserPagesController {
 
     @RequestMapping(value = "/")
     public String mainPage(Model model, @AuthenticationPrincipal User currentUser) {
-        model.addAttribute("materials", materialService.findMaterialsOnMain());
+        model.addAttribute("materials", materialService.findMaterialsOnMainForSorting());
         model.addAttribute("currentUser", getCurrentUser(currentUser));
         return "main";
     }
