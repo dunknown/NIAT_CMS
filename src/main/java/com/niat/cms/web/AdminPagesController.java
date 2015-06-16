@@ -3,7 +3,6 @@ package com.niat.cms.web;
 import com.niat.cms.domain.Material;
 import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
-import com.niat.cms.exceptions.BadSortMainIndexException;
 import com.niat.cms.exceptions.NoSuchRoleException;
 import com.niat.cms.exceptions.UnauthorisedMEditException;
 import com.niat.cms.exceptions.UserChangedOwnRoleException;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -257,14 +255,7 @@ public class AdminPagesController {
         if (!canDelete(material, currentUser)) {
             throw new UnauthorisedMEditException();
         }
-        int startIndex = materialService.getMaterialMainIndex(id);
-        Material.Status status = material.getStatus();
-        materialService.delete(id);
-        if (status == Material.Status.MAIN) {
-            List<Material> onMain = materialService.findMaterialsOnMainForSorting();
-            for (int i = startIndex + 1; i < onMain.size(); i++)
-                materialService.decMaterialMainIndex(onMain.get(i).getId());
-        }
+        materialService.excludeFromMain(id, null);
     }
 
     @RequestMapping(value = "/material/{id}/tomain", method = RequestMethod.GET)
@@ -273,11 +264,7 @@ public class AdminPagesController {
         if (material == null || material.getStatus() != Material.Status.ARCHIVE) {
             throw new UnauthorisedMEditException();
         }
-        List<Material> onMain = materialService.findMaterialsOnMainForSorting();
-        for (int i = 0; i < onMain.size(); i++)
-            materialService.incMaterialMainIndex(onMain.get(i).getId());
-        materialService.setMaterialMainIndex(id, 0);
-        materialService.setMaterialStatus(id, Material.Status.MAIN);
+        materialService.insertToMain(id);
     }
 
     @RequestMapping(value = "/material/{id}/toarchive", method = RequestMethod.GET)
@@ -286,15 +273,7 @@ public class AdminPagesController {
         if (material == null || material.getStatus() != Material.Status.MAIN) {
             throw new UnauthorisedMEditException();
         }
-        Integer startIndex = materialService.getMaterialMainIndex(id);
-        Material.Status status = material.getStatus();
-        materialService.setMaterialMainIndex(id, null);
-        materialService.setMaterialStatus(id, Material.Status.ARCHIVE);
-        if (status == Material.Status.MAIN) {
-            List<Material> onMain = materialService.findMaterialsOnMainForSorting();
-            for (int i = startIndex + 1; i < onMain.size(); i++)
-                materialService.decMaterialMainIndex(onMain.get(i).getId());
-        }
+        materialService.excludeFromMain(id, Material.Status.ARCHIVE);
     }
 
     @RequestMapping(value = "/material/{id}/feature", method = RequestMethod.GET)
@@ -317,20 +296,6 @@ public class AdminPagesController {
 
     @RequestMapping(value = "/sortmain")
     public @ResponseBody void sortMain(@RequestParam("oldindex") Integer oldIndex, @RequestParam("newindex") Integer newIndex) {
-        List<Material> onMain = materialService.findMaterialsOnMainForSorting();
-
-        if (oldIndex >= onMain.size() || newIndex >= onMain.size())
-            throw new BadSortMainIndexException();
-
-        Material draggedMaterial = onMain.get(oldIndex);
-        if (newIndex > oldIndex)
-            for (int i = oldIndex + 1; i <= newIndex; i++)
-                materialService.decMaterialMainIndex(onMain.get(i).getId());
-        else if (newIndex == oldIndex)
-            return;
-        else
-            for (int i = newIndex; i < oldIndex; i++)
-                materialService.incMaterialMainIndex(onMain.get(i).getId());
-        materialService.setMaterialMainIndex(draggedMaterial.getId(), newIndex);
+        materialService.sortMain(oldIndex, newIndex);
     }
 }
