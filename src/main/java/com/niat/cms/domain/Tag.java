@@ -1,5 +1,8 @@
 package com.niat.cms.domain;
 
+import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.Field;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,9 +15,11 @@ public class Tag {
     @Id @GeneratedValue
     private long id;
 
+    @Field
     @Column(nullable = false, unique = true)
     private String text;
 
+    @ContainedIn
     @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
     private Set<Material> materials;
 
