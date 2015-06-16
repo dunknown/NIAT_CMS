@@ -37,7 +37,7 @@ public class MaterialSearch {
         org.apache.lucene.search.Query query =
                 queryBuilder
                         .keyword()
-                        .onFields("title", "shortText", "mainText", "author.username", "tag.text")
+                        .onFields("title", "shortText", "mainText", "author.username", "tags.text")
                         .matching(searchQuery)
                         .createQuery();
 
