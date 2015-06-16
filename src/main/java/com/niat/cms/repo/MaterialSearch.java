@@ -23,13 +23,6 @@ public class MaterialSearch {
                 org.hibernate.search.jpa.Search.
                         getFullTextEntityManager(entityManager);
 
-        //build index
-        try {
-            fullTextEntityManager.createIndexer().startAndWait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         QueryBuilder queryBuilder =
                 fullTextEntityManager.getSearchFactory()
                         .buildQueryBuilder().forEntity(Material.class).get();
