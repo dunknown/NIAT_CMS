@@ -62,6 +62,10 @@ public class Tag {
 
         Tag tag = (Tag) o;
 
+        if(text == null || tag.text == null) {
+            return false;
+        }
+
         if (!text.equals(tag.text)) return false;
 
         return true;
@@ -69,6 +73,9 @@ public class Tag {
 
     @Override
     public int hashCode() {
+        if(text == null) {
+            return 0;
+        }
         return text.hashCode();
     }
 }
