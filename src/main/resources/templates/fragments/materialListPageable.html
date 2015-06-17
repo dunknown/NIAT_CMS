@@ -68,7 +68,7 @@
     </div>
     <h3 th:if="${#lists.isEmpty(materialList)}">Здесь пока нет материалов</h3>
 
-    <div id="pagination" th:if="${!#lists.isEmpty(materialList)}"></div>
+    <div id="pagination" th:if="${!#lists.isEmpty(materialList) and totalPages gt 1}"></div>
     <script th:inline="javascript" th:if="${!#lists.isEmpty(materialList)}">
         /*<![CDATA[*/
         var options = {
