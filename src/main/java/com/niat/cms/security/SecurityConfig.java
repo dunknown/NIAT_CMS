@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
@@ -55,10 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/sortmain").hasAnyRole("ADMIN", "EDITOR")
                 .antMatchers("/addmaterial").hasAnyRole("ADMIN", "EDITOR", "AUTHOR")
                 .antMatchers("/todrafts").hasAnyRole("ADMIN", "EDITOR", "AUTHOR")
-                .antMatchers("/drafts").hasAnyRole("ADMIN", "EDITOR", "AUTHOR")
-                .antMatchers("/modertasks").hasAnyRole("ADMIN", "EDITOR", "CORRECTOR")
-                .antMatchers("/moderate").hasAnyRole("ADMIN", "EDITOR", "CORRECTOR")
-                .antMatchers("/favourites").authenticated()
+                .antMatchers("/drafts/**").hasAnyRole("ADMIN", "EDITOR", "AUTHOR")
+                .antMatchers("/modertasks/**").hasAnyRole("ADMIN", "EDITOR", "CORRECTOR")
+                .antMatchers("/moderate/**").hasAnyRole("ADMIN", "EDITOR", "CORRECTOR")
+                .antMatchers("/favourites/**").authenticated()
                 .antMatchers("/material/*/addtofavs").authenticated()
                 .antMatchers("/material/*/unfav").authenticated()
                 .anyRequest().permitAll();
