@@ -210,7 +210,7 @@ public class MaterialService {
             material.setStatus(newStatus);
         if (oldStatus == Material.Status.MAIN) {
             List<Material> onMain = materialRepository.findOnMainOrderByMainIndexAsc();
-            for (int i = startIndex + 1; i < onMain.size(); i++)
+            for (int i = startIndex; i < onMain.size(); i++)
                 onMain.get(i).decMainIndex();
         }
     }
