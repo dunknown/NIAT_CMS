@@ -255,7 +255,10 @@ public class AdminPagesController {
         if (!canDelete(material, currentUser)) {
             throw new UnauthorisedMEditException();
         }
-        materialService.excludeFromMain(id, null);
+        if(material.getStatus() == Material.Status.MAIN) {
+            materialService.excludeFromMain(id);
+        }
+        materialService.setMaterialStatus(id, Material.Status.DELETED);
     }
 
     @RequestMapping(value = "/material/{id}/tomain", method = RequestMethod.GET)
@@ -273,7 +276,8 @@ public class AdminPagesController {
         if (material == null || material.getStatus() != Material.Status.MAIN) {
             throw new UnauthorisedMEditException();
         }
-        materialService.excludeFromMain(id, Material.Status.ARCHIVE);
+        materialService.excludeFromMain(id);
+        materialService.setMaterialStatus(id, Material.Status.ARCHIVE);
     }
 
     @RequestMapping(value = "/material/{id}/feature", method = RequestMethod.GET)

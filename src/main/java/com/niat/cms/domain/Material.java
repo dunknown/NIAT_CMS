@@ -20,7 +20,8 @@ public class Material implements Comparable<Material>{
         MODERATION_TASK,
         UNDER_MODERATION,
         ARCHIVE,
-        MAIN
+        MAIN,
+        DELETED
     }
 
     @Id @GeneratedValue
