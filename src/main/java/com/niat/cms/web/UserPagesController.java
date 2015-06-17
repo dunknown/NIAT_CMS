@@ -5,6 +5,7 @@ import com.niat.cms.domain.Tag;
 import com.niat.cms.domain.User;
 import com.niat.cms.exceptions.MaterialNotFoundException;
 import com.niat.cms.exceptions.TagNotFoundException;
+import com.niat.cms.exceptions.UserNotFoundException;
 import com.niat.cms.service.MaterialService;
 import com.niat.cms.service.TagService;
 import com.niat.cms.service.UserService;
@@ -225,6 +226,8 @@ public class UserPagesController {
     @RequestMapping("/author/{username}/page{num}")
     public String authorPage(Model model, @PathVariable String username, @PathVariable Integer num) {
         User author = userService.findByUsername(username);
+        if (author == null)
+            throw new UserNotFoundException();
         Page page = materialService.findAuthorMaterials(author, num - 1);
         model.addAttribute("materials", page.getContent());
         model.addAttribute("currentPage", page.getNumber() + 1);
