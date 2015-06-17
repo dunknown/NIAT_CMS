@@ -103,6 +103,8 @@ public class UserPagesController {
                 return currentUser != null && (currentUser.getRole() == User.Role.ADMIN ||
                                                currentUser.getRole() == User.Role.EDITOR ||
                                                currentUser.getRole() == User.Role.CORRECTOR);
+            case DELETED:
+                return false;
             default:
                 return false;
         }
