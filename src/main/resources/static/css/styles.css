@@ -120,6 +120,7 @@ th.sort_header_desc {
 
 ul.sortable_mat_list {
     list-style: none;
+    padding: 0;
 }
 
 .sort_placeholder {
