@@ -233,6 +233,7 @@ public class UserPagesController {
         model.addAttribute("currentPage", page.getNumber() + 1);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("url", "/author/" + username + "/page");
+		model.addAttribute("author", author);
         model.addAttribute("currentUser", currentUser);
         return "author_page";
     }
