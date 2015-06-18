@@ -199,20 +199,17 @@ public class MaterialService {
         draggedMaterial.setMainIndex(newIndex);
     }
 
-    public void excludeFromMain(long id, Material.Status newStatus) {
+    public void excludeFromMain(long id) {
         Material material = materialRepository.findById(id);
         Integer startIndex = material.getMainIndex();
-        Material.Status oldStatus = material.getStatus();
-        material.setMainIndex(null);
-        if (newStatus == null)
-            materialRepository.delete(material);
-        else
-            material.setStatus(newStatus);
-        if (oldStatus == Material.Status.MAIN) {
-            List<Material> onMain = materialRepository.findOnMainOrderByMainIndexAsc();
-            for (int i = startIndex; i < onMain.size(); i++)
-                onMain.get(i).decMainIndex();
+
+        List<Material> onMain = materialRepository.findOnMainOrderByMainIndexAsc();
+
+        for (int i = startIndex + 1; i < onMain.size(); i++) {
+            onMain.get(i).decMainIndex();
         }
+
+        material.setMainIndex(null);
     }
 
     public void insertToMain(long id) {
