@@ -222,7 +222,7 @@ public class UserPagesController {
     }
 
     @RequestMapping("/author/{username}/page{num}")
-    public String authorPage(Model model, @PathVariable String username, @PathVariable Integer num) {
+    public String authorPage(Model model, @PathVariable String username, @PathVariable Integer num, @AuthenticationPrincipal User currentUser) {
         User author = userService.findByUsername(username);
         if (author == null)
             throw new UserNotFoundException();
@@ -231,7 +231,7 @@ public class UserPagesController {
         model.addAttribute("currentPage", page.getNumber() + 1);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("url", "/author/" + username + "/page");
-        model.addAttribute("author", author);
+        model.addAttribute("currentUser", currentUser);
         return "author_page";
     }
 }
