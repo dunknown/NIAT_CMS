@@ -72,7 +72,7 @@
                    th:text="${material.title}"
                    th:href="@{/material/} + ${material.id}"
                    th:class="${material.featured and material.status == T(com.niat.cms.domain.Material$Status).MAIN} ? 'text-warning' : 'text-indigo'">Заголовок</a></h2>
-            <p class="material-text" th:utext="${material.shortText}">Текст</p>
+            <div class="material-text" th:utext="${material.shortText}">Текст</div>
             <div>
                 <a th:href="@{/material/} + ${material.id}" class="btn btn-sm btn-material-indigo">Читать далее</a>
             </div>
